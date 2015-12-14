@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include "Transport.h"
 
-class SocketTransport : Transport {
+class SocketTransport : public Transport {
 
 public:
     SocketTransport(Serializer *serializer) : Transport(serializer) { }
@@ -24,13 +24,14 @@ public:
 
     virtual void initServ() override;
 
-    virtual void sendMessage(Message msg) override;
+    virtual void sendMessage(Message* msg) override;
 
     virtual void initClient() override;
 
 private:
     uint16_t portNumber = -1;
-
+    const int BUFFER_SIZE = 10 * 1024 * 1024;
+    void handle_connection(int connection_fd);
 };
 
 

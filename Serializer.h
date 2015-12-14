@@ -3,6 +3,9 @@
 //
 
 #include "Message.h"
+#include "FloatArrayData.h"
+#include <ostream>
+#include <istream>
 
 #ifndef MIMICCOMMLIB_SERIALIZER_H
 #define MIMICCOMMLIB_SERIALIZER_H
@@ -10,8 +13,8 @@
 class Serializer {
 
 public:
-    virtual char* serialize(Message msg) {}
-    virtual Message deserealize(char* data) {}
+    virtual void serialize(Message *msg, std::ostream *stream) {}
+    virtual Message * deserealize(std::istream *data) {}
 
 };
 #endif //MIMICCOMMLIB_SERIALIZER_H

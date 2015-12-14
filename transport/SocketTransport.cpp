@@ -8,26 +8,29 @@
 #include <sys/un.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <sstream>
 #include "SocketTransport.h"
 #define UNIX_PATH_MAX    108
 
 struct sockaddr_un address;
 int socket_fd, connection_fd;
 socklen_t address_length;
-char buffer[1024];
+char* buffer;
 
-int connection_handler(int connection_fd) {
+void SocketTransport::handle_connection(int connection_fd) {
     int nbytes;
-    char buffer[1024];
-
-    nbytes = read(connection_fd, buffer, 1024);
+    nbytes = read(connection_fd, buffer, BUFFER_SIZE);
     buffer[nbytes] = 0;
 
+    std::stringstream str;
+    str << buffer;
+    Message* msg = serializer->deserealize(&str);
+
     printf("MESSAGE FROM CLIENT: %s\n", buffer);
-    return 0;
 }
 
 void SocketTransport::initServ() {
+    buffer = new char[BUFFER_SIZE];
     socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if(socket_fd < 0)
     {
@@ -59,7 +62,7 @@ void SocketTransport::initServ() {
     connection_fd = accept(socket_fd,
                            (struct sockaddr *) &address,
                            &address_length);
-    connection_handler(connection_fd);
+    handle_connection(connection_fd);
     close(connection_fd);
     close(socket_fd);
     unlink("./demo_socket");
@@ -67,6 +70,7 @@ void SocketTransport::initServ() {
 
 
 void SocketTransport::initClient() {
+    buffer = new char[BUFFER_SIZE];
     socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if(socket_fd < 0)
     {
@@ -89,12 +93,17 @@ void SocketTransport::initClient() {
     }
 }
 
-void SocketTransport::sendMessage(Message msg) {
-    char *serialized_message = serializer->serialize(msg);
-    serialized_message = "1234567890";
+void SocketTransport::sendMessage(Message* msg) {
+    const char *serialized_message;
+//    serialized_message = "1234567890";
+    std::ostringstream str;
+    serializer->serialize(msg, &str);
+    serialized_message = str.str().c_str();
     int length = sizeof(serialized_message);
-    snprintf(buffer, 1024, serialized_message);
-    write(socket_fd, buffer, 1024);
+    snprintf(buffer, BUFFER_SIZE, serialized_message);
+    write(socket_fd, buffer, BUFFER_SIZE);
 
     close(socket_fd);
 }
+
+

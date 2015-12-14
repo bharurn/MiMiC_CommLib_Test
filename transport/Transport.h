@@ -18,7 +18,7 @@ public:
     Transport(Serializer *serializer) : serializer(serializer) { }
     virtual void initServ() {}
     virtual void initClient() {}
-    virtual void sendMessage(Message msg) {}
+    virtual void sendMessage(Message *msg) {}
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
