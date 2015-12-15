@@ -10,12 +10,13 @@
 #include <type_traits>
 #include "BaseMessageData.h"
 #include "FloatArrayData.h"
+#include "SystemData.h"
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/static_assert.hpp>
 
 class Message {
 public:
-    FloatArrayData* data;
+    SystemData* data;
     char* target; //perhaps not needed
 
     Message() : data(nullptr), target(nullptr) { }

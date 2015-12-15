@@ -11,17 +11,15 @@
 class SystemData : public BaseMessageData {
 
 public:
+    SystemData() : BaseMessageData() { }
+
     SystemData(int type, int entity_number) : BaseMessageData(type, entity_number) {
-        indices = new int[entity_number];
-        types = new char[entity_number];
-        coordinates = new double[3*entity_number];
-        masses = new double[entity_number];
     }
 
-    int* indices;
-    const char *types;
-    double* coordinates;
-    double* masses;
+    std::vector<int> indices;
+    std::vector<std::string> types;
+    std::vector<double> coordinates;
+    std::vector<double> masses;
     int multipole_order;
 };
 

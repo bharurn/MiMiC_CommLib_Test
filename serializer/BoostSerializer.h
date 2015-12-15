@@ -26,7 +26,7 @@ namespace boost {
             if (Archive::is_loading::value)
             {
                 assert(m.data == nullptr);
-                m.data = new FloatArrayData();
+                m.data = new SystemData();
             }
             archive & m.data;
 //            archive & make_array<float>(m.data, m.size);
@@ -52,21 +52,25 @@ namespace boost {
     template<class Archive>
     void serialize(Archive &archive, SystemData &m, const unsigned int version) {
         archive & boost::serialization::base_object<BaseMessageData>(m);
-        if (Archive::is_loading::value)
-        {
-            assert(m.indices == nullptr);
-            m.indices = new int[m.entity_number];
-            assert(m.types == nullptr);
-            m.types = new char[m.entity_number];
-            assert(m.coordinates == nullptr);
-            m.coordinates = new double[3*m.entity_number];
-            assert(m.masses == nullptr);
-            m.masses = new double[m.entity_number];
-        }
-        archive & boost::serialization::make_array<int>(m.indices, m.entity_number);
-        archive & boost::serialization::make_array<const char>(m.types, m.entity_number);
-        archive & boost::serialization::make_array<double>(m.coordinates, 3*m.entity_number);
-        archive & boost::serialization::make_array<double>(m.masses, m.entity_number);
+        archive & m.indices;
+        archive & m.types;
+        archive & m.coordinates;
+        archive & m.masses;
+//        if (Archive::is_loading::value)
+//        {
+//            assert(m.indices == nullptr);
+//            m.indices = new int[m.entity_number];
+//            assert(m.types == nullptr);
+//            m.types = new char[m.entity_number];
+//            assert(m.coordinates == nullptr);
+//            m.coordinates = new double[3*m.entity_number];
+//            assert(m.masses == nullptr);
+//            m.masses = new double[m.entity_number];
+//        }
+//        archive & boost::serialization::make_array<int>(m.indices, m.entity_number);
+//        archive & boost::serialization::make_array<const char>(m.types, m.entity_number);
+//        archive & boost::serialization::make_array<double>(m.coordinates, 3*m.entity_number);
+//        archive & boost::serialization::make_array<double>(m.masses, m.entity_number);
     }
 }
 

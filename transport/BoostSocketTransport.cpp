@@ -30,57 +30,30 @@ public:
         return socket_;
     }
 
-    void start()
+    char* start()
     {
-//        socket_.async_read_some(boost::asio::buffer(buffer),
-//                                boost::bind(&session::handle_read,
-//                                            shared_from_this(),
-//                                            boost::asio::placeholders::error,
-//                                            boost::asio::placeholders::bytes_transferred));
-        size_t num_bytes = 1;
+        //read header
+        size_t header_read = boost::asio::read(socket_, boost::asio::buffer(header_buffer));
+        if (header_read < 8) {
+
+        }
+
+        int data_size = atoi(header_buffer.data());
+        size_t bytes_read = 0;
         boost::system::error_code error;
-        while (num_bytes > 0) {
-            try {
-                num_bytes = boost::asio::read(socket_, boost::asio::buffer(buffer));
-//            num_bytes = socket_.read_some(boost::asio::buffer(buffer), error);
-                temp.push_back(buffer.data());
+        char* temp_array = new char[data_size + 1];
+        while (bytes_read < data_size) {
+//            size_t bytes_iter = boost::asio::read(socket_, boost::asio::buffer(buffer));
+            size_t bytes_iter = socket_.read_some(boost::asio::buffer(buffer));
+            for (int i = 0; i < bytes_iter; ++i) {
+                temp_array[i + bytes_read] = buffer[i];
             }
-            catch (boost::system::system_error& e) {
-                std::cerr << "Exception: " << e.what() << "\n";
-            }
+            bytes_read += bytes_iter;
         }
+        //FUCK YOU C++ WITH YOU FUCKING NULL DELIMETERS
+        temp_array[data_size] = '\0';
         socket_.close();
-
-//        boost::asio::async_write(socket_,
-//                                 boost::asio::buffer(buffer, 10),
-//                                 boost::bind(&session::handle_write,
-//                                             shared_from_this(),
-//                                             boost::asio::placeholders::error));
-    }
-
-    void handle_read(const boost::system::error_code& error,
-                     size_t bytes_transferred)
-    {
-        if (!error)
-        {
-            boost::asio::async_write(socket_,
-                                     boost::asio::buffer(buffer, bytes_transferred),
-                                     boost::bind(&session::handle_write,
-                                                 shared_from_this(),
-                                                 boost::asio::placeholders::error));
-        }
-    }
-
-    void handle_write(const boost::system::error_code& error)
-    {
-        if (!error)
-        {
-            socket_.async_read_some(boost::asio::buffer(buffer),
-                                    boost::bind(&session::handle_read,
-                                                shared_from_this(),
-                                                boost::asio::placeholders::error,
-                                                boost::asio::placeholders::bytes_transferred));
-        }
+        return temp_array;
     }
 
 private:
@@ -88,9 +61,10 @@ private:
     stream_protocol::socket socket_;
 
     // Buffer used to store data received from the client.
-    boost::array<char, 10> buffer;
+    boost::array<char, BoostSocketTransport::BUFFER_SIZE> buffer;
+    boost::array<char, 8> header_buffer;
     char* data;
-    std::vector<std::string> temp;
+    std::vector<std::string>* temp;
 };
 
 typedef boost::shared_ptr<session> session_ptr;
@@ -98,9 +72,10 @@ typedef boost::shared_ptr<session> session_ptr;
 class server
 {
 public:
-    server(boost::asio::io_service& io_service, const std::string& file)
+    server(boost::asio::io_service& io_service, const std::string& file, Serializer* serializer)
             : io_service_(io_service),
-              acceptor_(io_service, stream_protocol::endpoint(file))
+              acceptor_(io_service, stream_protocol::endpoint(file)),
+              serializer(serializer)
     {
         session_ptr new_session(new session(io_service_));
         acceptor_.async_accept(new_session->socket(),
@@ -113,7 +88,11 @@ public:
     {
         if (!error)
         {
-            new_session->start();
+            char* result = new_session->start();
+            std::stringstream str;
+            str << result;
+            Message* msg = serializer->deserealize(&str);
+            msg->data;
         }
 
         new_session.reset(new session(io_service_));
@@ -125,6 +104,7 @@ public:
 private:
     boost::asio::io_service& io_service_;
     stream_protocol::acceptor acceptor_;
+    Serializer* serializer;
 };
 
 
@@ -134,7 +114,7 @@ void BoostSocketTransport::initServ() {
         boost::asio::io_service io_service;
 
         std::remove("./demo_socket");
-        server s(io_service, "./demo_socket");
+        server s(io_service, "./demo_socket", serializer);
 
         io_service.run();
     }
@@ -153,36 +133,25 @@ void BoostSocketTransport::initClient() {
         std::string data = "1,2,3,4,5,6,7,8,9,10";
         char buffer[max_length];
         stream.connect(stream_protocol::endpoint("./demo_socket"));
-        std::ostringstream header_stream;
-        header_stream << std::setw(8)
-        << std::hex << data.size();
-        stream << header_stream.c_str
-        stream << data;
 
-//        stream.flush();
-        std::string line;
-        std::getline(stream, line);
-        std::cout << line << "\n";
-        stream.close();
-
-        boost::asio::io_service io_service;
-
-        stream_protocol::socket s(io_service);
-        s.connect(stream_protocol::endpoint("./demo_socket"));
-
-        using namespace std; // For strlen.
-        std::cout << "Enter message: ";
-        char request[max_length];
-        std::cin.getline(request, max_length);
-        size_t request_length = strlen(request);
-        boost::asio::write(s, boost::asio::buffer(request, request_length));
-
-        char reply[max_length];
-        size_t reply_length = boost::asio::read(s,
-                                                boost::asio::buffer(reply, request_length));
-        std::cout << "Reply is: ";
-        std::cout.write(reply, reply_length);
-        std::cout << "\n";
+//        boost::asio::io_service io_service;
+//
+//        stream_protocol::socket s(io_service);
+//        s.connect(stream_protocol::endpoint(argv[1]));
+//
+//        using namespace std; // For strlen.
+//        std::cout << "Enter message: ";
+//        char request[max_length];
+//        std::cin.getline(request, max_length);
+//        size_t request_length = strlen(request);
+//        boost::asio::write(s, boost::asio::buffer(request, request_length));
+//
+//        char reply[max_length];
+//        size_t reply_length = boost::asio::read(s,
+//                                                boost::asio::buffer(reply, request_length));
+//        std::cout << "Reply is: ";
+//        std::cout.write(reply, reply_length);
+//        std::cout << "\n";
     }
     catch (std::exception& e)
     {
@@ -191,6 +160,28 @@ void BoostSocketTransport::initClient() {
 }
 
 void BoostSocketTransport::sendMessage(Message *msg) {
+    std::ostringstream str;
+    serializer->serialize(msg, &str);
+//    str << '\0';
+    str.seekp(0, std::ios::end);
+    long size = str.tellp();
+    str.seekp(0, std::ios::beg);
+//    char* data = new char[size];
+//    data = (char *) str.str().c_str();
+//    std::string data = "1,2,3,4,5,6,7,8,9,10";
+
+    std::ostringstream header_stream;
+    header_stream << std::setw(8)
+    << std::hex << std::to_string(size).c_str();
+    stream << header_stream.str();
+    stream << str.str();
+//    stream << '\0';
+
+        stream.flush();
+    std::string line;
+    std::getline(stream, line);
+    std::cout << line << "\n";
+    stream.close();
 //    using namespace std; // For strlen.
 //    char* request[BUFFER_SIZE];
 //
