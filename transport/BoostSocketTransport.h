@@ -13,7 +13,7 @@ class BoostSocketTransport : public Transport {
 public:
     friend class session;
     BoostSocketTransport(Serializer *serializer) : Transport(serializer) { }
-    const static int BUFFER_SIZE = 1 * 1024 * 1024;
+    const static long BUFFER_SIZE = 1 * 1024 * 1024;
 
 private:
     virtual void initServ() override;

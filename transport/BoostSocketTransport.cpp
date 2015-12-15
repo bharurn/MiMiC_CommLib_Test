@@ -124,34 +124,14 @@ void BoostSocketTransport::initServ() {
     }
 }
 
-boost::asio::local::stream_protocol::iostream stream;
+stream_protocol::socket* s;
 void BoostSocketTransport::initClient() {
     try
     {
-        int max_length = 10;
-//        boost::asio::io_service io_service;
-        std::string data = "1,2,3,4,5,6,7,8,9,10";
-        char buffer[max_length];
-        stream.connect(stream_protocol::endpoint("./demo_socket"));
+        boost::asio::io_service io_service;
+        s = new stream_protocol::socket(io_service);
+        s->connect(stream_protocol::endpoint("./demo_socket"));
 
-//        boost::asio::io_service io_service;
-//
-//        stream_protocol::socket s(io_service);
-//        s.connect(stream_protocol::endpoint(argv[1]));
-//
-//        using namespace std; // For strlen.
-//        std::cout << "Enter message: ";
-//        char request[max_length];
-//        std::cin.getline(request, max_length);
-//        size_t request_length = strlen(request);
-//        boost::asio::write(s, boost::asio::buffer(request, request_length));
-//
-//        char reply[max_length];
-//        size_t reply_length = boost::asio::read(s,
-//                                                boost::asio::buffer(reply, request_length));
-//        std::cout << "Reply is: ";
-//        std::cout.write(reply, reply_length);
-//        std::cout << "\n";
     }
     catch (std::exception& e)
     {
@@ -160,28 +140,63 @@ void BoostSocketTransport::initClient() {
 }
 
 void BoostSocketTransport::sendMessage(Message *msg) {
-    std::ostringstream str;
+    std::stringstream str;
     serializer->serialize(msg, &str);
-//    str << '\0';
     str.seekp(0, std::ios::end);
     long size = str.tellp();
-    str.seekp(0, std::ios::beg);
-//    char* data = new char[size];
-//    data = (char *) str.str().c_str();
-//    std::string data = "1,2,3,4,5,6,7,8,9,10";
+//    str << '\0';
 
+    str.seekp(0, std::ios::beg);
     std::ostringstream header_stream;
     header_stream << std::setw(8)
     << std::hex << std::to_string(size).c_str();
-    stream << header_stream.str();
-    stream << str.str();
+
+    std::string size_str = std::to_string(size);
+    std::array<char, 8> head_buf;
+    std::copy(size_str.begin(), size_str.end(), head_buf.data());
+
+    int buffer_number = 1 + size / BUFFER_SIZE;
+
+    std::vector<boost::asio::const_buffer> buffers;
+    buffers.push_back(boost::asio::buffer(head_buf));
+    for (int i = 0; i < buffer_number; ++i) {
+        long temp_size = size - BUFFER_SIZE * i;
+        long temp = BUFFER_SIZE;
+        long buf_size = std::min(temp, temp_size);
+        char* temp_buffer = new char[buf_size];
+        std::vector<char> buffer;
+//        std::array chars = new std::array(temp_buffer);
+        str.read(temp_buffer, buf_size);
+        buffers.push_back(boost::asio::buffer(temp_buffer, buf_size));
+    }
+//    buffers.push_back(boost::asio::buffer(str, size));
+
+    size_t written = boost::asio::write(*s, buffers);
+    if (written < 8) {
+
+    }
+    size_t sent_bytes;
+//    do {
+//        sent_bytes = s->write_some(boost::asio::buffer(str, size));
+//    }
+//    while(sent_bytes < size);
+
+    //FIXME: THIS WORKS
+//    stream << header_stream.str();
+//    stream << str.str();
 //    stream << '\0';
 
-        stream.flush();
-    std::string line;
-    std::getline(stream, line);
-    std::cout << line << "\n";
-    stream.close();
+//        stream.flush();
+//    Message* mes = serializer->deserealize(&stream);
+//    std::string line;
+//    std::vector<std::string> lines;
+//    std::getline(stream, line);
+//    while (!line.empty()) {
+//        std::getline(stream, line);
+//        lines.push_back(line);
+//    }
+//    std::cout << line << "\n";
+//    stream.close();
 //    using namespace std; // For strlen.
 //    char* request[BUFFER_SIZE];
 //
