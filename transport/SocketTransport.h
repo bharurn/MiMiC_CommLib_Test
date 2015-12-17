@@ -9,6 +9,12 @@
 #include <stdint.h>
 #include "Transport.h"
 
+/**
+ * Transport implementation working on UNIX sockets (is unable to send large amount of data)
+ *
+ * CURRENTLY IS BROKEN!!!!
+ * FIXME: either delete this class or fix it
+ */
 class SocketTransport : public Transport {
 
 public:
@@ -30,7 +36,7 @@ public:
 
 private:
     uint16_t portNumber = -1;
-    const int BUFFER_SIZE = 10 * 1024 * 1024;
+    const int BUFFER_SIZE = 1 * 1024 * 1024;
     void handle_connection(int connection_fd);
 };
 

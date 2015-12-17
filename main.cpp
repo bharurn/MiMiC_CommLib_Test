@@ -32,7 +32,6 @@ int main() {
         transport->initClient();
         Message *message = new Message();
         message->sender_id = 1;
-        float* array = new float[size];
         std::vector<int> indices;
         std::vector<std::string> types;
         std::vector<double> coordinates;
@@ -48,7 +47,6 @@ int main() {
 //        std::copy(array.begin(), array.end(), message->data);
         SystemData* data = new SystemData(1, size);
         std::vector<double> vector1 = *new std::vector<double>(size);
-        vector1.assign(array, array+size);
         data->indices = indices;
         data->types = types;
         data->coordinates = coordinates;

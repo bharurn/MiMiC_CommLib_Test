@@ -8,6 +8,9 @@
 #ifndef MIMICCOMMLIB_SYSTEMDATA_H
 #define MIMICCOMMLIB_SYSTEMDATA_H
 
+/**
+ * Class encapsulatin the data about the system of the client code
+ */
 class SystemData : public BaseMessageData {
 
 public:
@@ -16,10 +19,29 @@ public:
     SystemData(int type, int entity_number) : BaseMessageData(type, entity_number) {
     }
 
+    /**
+     * Atom indices
+     */
     std::vector<int> indices;
+
+    /**
+     * Atom types
+     */
     std::vector<std::string> types;
+
+    /**
+     * Coordinates of items mapped onto 1D array
+     */
     std::vector<double> coordinates;
+
+    /**
+     * Atom masses
+     */
     std::vector<double> masses;
+
+    /**
+     * Maximum order of multipoles that is used by the code
+     */
     int multipole_order;
 };
 

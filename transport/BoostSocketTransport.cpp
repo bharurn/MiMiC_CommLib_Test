@@ -38,7 +38,7 @@ void BoostSocketTransport::initServ(int clients_number, const char* file, std::m
             std::stringstream str;
             str << data;
             Message* msg = serializer->deserealize(&str);
-            msg->data;
+            FloatArrayData* data1 = (FloatArrayData*) msg->data;
 
             sendMessageInternal(replies[msg->sender_id], s);
             s->close();

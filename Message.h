@@ -14,9 +14,19 @@
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/static_assert.hpp>
 
+/**
+ * A message class representing messages sent between processes.
+ */
 class Message {
 public:
+    /**
+     * Message data
+     */
     BaseMessageData* data;
+
+    /**
+     * Id of the process that sent a message
+     */
     int sender_id;
 
     Message() { }

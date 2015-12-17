@@ -9,10 +9,17 @@
 #include <boost/asio/local/stream_protocol.hpp>
 #include "Transport.h"
 
+/**
+ * Transport implementation using boost socket library to work with UNIX sockets
+ */
 class BoostSocketTransport : public Transport {
 
 public:
     BoostSocketTransport(Serializer *serializer) : Transport(serializer) { }
+
+    /**
+     * Size of the buffer to be initialized for data transfer
+     */
     const static long BUFFER_SIZE = 1 * 1024 * 1024;
 
 private:
@@ -22,8 +29,14 @@ private:
 
     virtual void sendMessage(Message *msg) override;
 
+    /**
+     * Internal routine used for sending messages through a socket
+     */
     void sendMessageInternal(Message* msg, boost::asio::local::stream_protocol::socket* socket);
 
+    /**
+     * Internal function to read raw data from the socket
+     */
     char* readData(boost::asio::local::stream_protocol::socket* socket_);
 
 };

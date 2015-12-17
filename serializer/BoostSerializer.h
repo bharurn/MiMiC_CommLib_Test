@@ -12,6 +12,9 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 
+/**
+ * Serializer implementation using boost serialization mechanism
+ */
 class BoostSerializer : public Serializer {
 
     virtual void serialize(Message *msg, std::ostream *stream) override;
@@ -40,10 +43,6 @@ namespace boost {
         template<class Archive>
         void serialize(Archive &archive, FloatArrayData &m, const unsigned int version) {
             archive & boost::serialization::base_object<BaseMessageData>(m);
-//            if (Archive::is_loading::value)
-//            {
-//                m.array = *new std::vector(m.entity_number);
-//            }
             archive & m.array;
         }
     }
@@ -56,21 +55,6 @@ namespace boost {
         archive & m.coordinates;
         archive & m.masses;
         archive & m.multipole_order;
-//        if (Archive::is_loading::value)
-//        {
-//            assert(m.indices == nullptr);
-//            m.indices = new int[m.entity_number];
-//            assert(m.types == nullptr);
-//            m.types = new char[m.entity_number];
-//            assert(m.coordinates == nullptr);
-//            m.coordinates = new double[3*m.entity_number];
-//            assert(m.masses == nullptr);
-//            m.masses = new double[m.entity_number];
-//        }
-//        archive & boost::serialization::make_array<int>(m.indices, m.entity_number);
-//        archive & boost::serialization::make_array<const char>(m.types, m.entity_number);
-//        archive & boost::serialization::make_array<double>(m.coordinates, 3*m.entity_number);
-//        archive & boost::serialization::make_array<double>(m.masses, m.entity_number);
     }
 }
 
