@@ -1,7 +1,7 @@
 #include <iostream>
 #include "transport/SocketTransport.h"
 #include "serializer/BoostSerializer.h"
-#include "FloatArrayData.h"
+#include "message/FloatArrayData.h"
 #include "transport/BoostSocketTransport.h"
 
 using namespace std;

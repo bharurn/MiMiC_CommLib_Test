@@ -6,8 +6,8 @@
 #define MIMICCOMMLIB_BOOSTSERIALIZER_H
 
 
-#include "../Serializer.h"
-#include "../SystemData.h"
+#include "Serializer.h"
+#include "../message/SystemData.h"
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
@@ -26,9 +26,6 @@ namespace boost {
     namespace serialization {
         template<class Archive>
         void serialize(Archive &archive, Message &m, const unsigned int version) {
-
-            archive.template register_type<SystemData>();
-            archive.template register_type<FloatArrayData>();
             archive & m.data;
             archive & m.sender_id;
 //            archive & make_array<float>(m.data, m.size);

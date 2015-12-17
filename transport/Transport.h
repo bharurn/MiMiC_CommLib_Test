@@ -3,8 +3,8 @@
 //
 
 #include <zconf.h>
-#include "../Message.h"
-#include "../Serializer.h"
+#include "../message/Message.h"
+#include "../serializer/Serializer.h"
 #include <map>
 
 #ifndef MIMICCOMMLIB_TRANSPORT_H

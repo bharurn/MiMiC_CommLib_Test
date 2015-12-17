@@ -2,8 +2,8 @@
 // Created by bolnykh on 12/7/15.
 //
 
-#include "Message.h"
-#include "FloatArrayData.h"
+#include "../message/Message.h"
+#include "../message/FloatArrayData.h"
 #include <ostream>
 #include <istream>
 
