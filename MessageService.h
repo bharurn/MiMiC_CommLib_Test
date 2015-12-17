@@ -8,6 +8,9 @@
 
 #include "transport/Transport.h"
 
+/**
+ * Singleton class representing messaging service used by the library (should be initialized)
+ */
 class MessageService {
 
 private:
