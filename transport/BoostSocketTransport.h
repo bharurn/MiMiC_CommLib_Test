@@ -8,6 +8,7 @@
 
 #include <boost/asio/local/stream_protocol.hpp>
 #include "Transport.h"
+#include "boost/asio/streambuf.hpp"
 
 /**
  * Transport implementation using boost socket library to work with UNIX sockets
@@ -37,7 +38,7 @@ private:
     /**
      * Internal function to read raw data from the socket
      */
-    char* readData(boost::asio::local::stream_protocol::socket* socket_);
+    void readData(boost::asio::local::stream_protocol::socket *socket_, boost::asio::streambuf *buf);
 
 };
 

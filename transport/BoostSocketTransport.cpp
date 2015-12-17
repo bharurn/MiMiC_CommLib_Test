@@ -7,6 +7,9 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <iomanip>
+#include "boost/iostreams/device/array.hpp"
+#include "boost/iostreams/stream.hpp"
+#include "omp.h"
 
 #if defined(BOOST_ASIO_HAS_LOCAL_SOCKETS)
 
@@ -30,11 +33,14 @@ void BoostSocketTransport::initServ(int clients_number, const char* file, std::m
         int requests_received = 0;
         while (requests_received < request_number) {
             acceptor_->accept(*s);
-            char* data = readData(s);
-            std::stringstream str;
-            str << data;
-            Message* msg = serializer->deserealize(&str);
 
+            boost::asio::streambuf sb;
+            readData(s, &sb);
+
+            std::istream is(&sb);
+            Message* msg = serializer->deserealize(&is);
+
+            //send reply
             sendMessageInternal(replies[msg->sender_id], s);
             s->close();
             requests_received++;
@@ -62,41 +68,40 @@ void BoostSocketTransport::initClient() {
     }
 }
 
-char* BoostSocketTransport::readData(stream_protocol::socket* socket_) {
+void BoostSocketTransport::readData(stream_protocol::socket *socket_, boost::asio::streambuf *buf) {
     // Buffer used to store data received from the client.
-    boost::array<char, BoostSocketTransport::BUFFER_SIZE> buffer;
-    boost::array<char, 8> header_buffer;
+    boost::array<char, 16> header_buffer;
 
     size_t header_read = boost::asio::read(*socket_, boost::asio::buffer(header_buffer));
-    if (header_read < 8) {
+    if (header_read < 16) {
 
     }
 
-    int data_size = atoi(header_buffer.data());
-    size_t bytes_read = 0;
-    char* temp_array = new char[data_size + 1];
-    while (bytes_read < data_size) {
-        size_t bytes_iter = socket_->read_some(boost::asio::buffer(buffer));
-        for (int i = 0; i < bytes_iter; ++i) {
-            temp_array[i + bytes_read] = buffer[i];
-        }
-        bytes_read += bytes_iter;
-    }
-    //FUCK YOU C++ WITH YOU FUCKING NULL DELIMETERS
-    temp_array[data_size] = '\0';
-    return temp_array;
+    long data_size = atol(header_buffer.data());
+    size_t bytes_read = boost::asio::read(*socket_, buf->prepare(data_size));
+    buf->commit(bytes_read);
 }
 
 void BoostSocketTransport::sendMessage(Message *msg) {
+    double start = omp_get_wtime();
     sendMessageInternal(msg, s);
-    char* data = readData(s);
-    std::stringstream str;
-    str << data;
-    Message* mess = serializer->deserealize(&str);
-    mess->data;
+
+    boost::asio::streambuf sb;
+    readData(s, &sb);
+    std::istream is(&sb);
+    Message* mess = serializer->deserealize(&is);
+
+    double end = omp_get_wtime();
+    double diff = end - start;
+
+    std::cout << diff;
 }
 
 void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::socket* socket) {
+    if (msg == nullptr) {
+        return;
+    }
+
     std::stringstream str;
     serializer->serialize(msg, &str);
     str.seekp(0, std::ios::end);
@@ -104,11 +109,11 @@ void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::so
 
     str.seekp(0, std::ios::beg);
     std::ostringstream header_stream;
-    header_stream << std::setw(8)
+    header_stream << std::setw(16)
     << std::hex << std::to_string(size).c_str();
 
     std::string size_str = std::to_string(size);
-    std::array<char, 8> head_buf;
+    std::array<char, 16> head_buf;
     std::copy(size_str.begin(), size_str.end(), head_buf.data());
 
     int buffer_number = 1 + size / BUFFER_SIZE;

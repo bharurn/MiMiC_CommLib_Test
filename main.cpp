@@ -10,7 +10,7 @@ int main() {
     char buffer[1024];
     fgets(buffer, 80, stdin);
     string str = buffer;
-    int size = 10;
+    int size = 200000;
     Transport *transport = new BoostSocketTransport(new BoostSerializer());
     if (str.compare("server\n") == 0) {
         std::map<int, Message*> reply_map;
