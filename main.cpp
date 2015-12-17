@@ -10,14 +10,28 @@ int main() {
     char buffer[1024];
     fgets(buffer, 80, stdin);
     string str = buffer;
-    int size = 100000;
+    int size = 10;
     Transport *transport = new BoostSocketTransport(new BoostSerializer());
     if (str.compare("server\n") == 0) {
-        transport->initServ();
+        std::map<int, Message*> reply_map;
+
+        Message *message = new Message();
+        std::vector<double> array(size);
+        for (int i = 0; i < size; ++i) {
+            array.push_back(i);
+        }
+        FloatArrayData* data = new FloatArrayData();
+        data->array = array;
+
+        reply_map[1] = message;
+        reply_map[2] = message;
+
+        transport->initServ(1, "./demo_socket", reply_map);
     }
     else {
         transport->initClient();
         Message *message = new Message();
+        message->sender_id = 1;
         float* array = new float[size];
         std::vector<int> indices;
         std::vector<std::string> types;
@@ -39,6 +53,7 @@ int main() {
         data->types = types;
         data->coordinates = coordinates;
         data->masses = masses;
+        data->multipole_order = 4;
 //        data->array = vector1;
         message->data = data;
 //        transport->initClient();

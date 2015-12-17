@@ -16,10 +16,10 @@
 
 class Message {
 public:
-    SystemData* data;
-    char* target; //perhaps not needed
+    BaseMessageData* data;
+    int sender_id;
 
-    Message() : data(nullptr), target(nullptr) { }
+    Message() { }
 
 };
 

@@ -3,9 +3,12 @@
 //
 
 #include <sstream>
+#include <boost/serialization/export.hpp>
 #include "BoostSerializer.h"
 
 
+BOOST_CLASS_EXPORT(SystemData)
+BOOST_CLASS_EXPORT(FloatArrayData)
 
 void BoostSerializer::serialize(Message *msg, std::ostream *stream) {
     boost::archive::text_oarchive oa(*stream);

@@ -5,6 +5,7 @@
 #include <zconf.h>
 #include "../Message.h"
 #include "../Serializer.h"
+#include <map>
 
 #ifndef MIMICCOMMLIB_TRANSPORT_H
 #define MIMICCOMMLIB_TRANSPORT_H
@@ -16,7 +17,7 @@ protected:
 
 public:
     Transport(Serializer *serializer) : serializer(serializer) { }
-    virtual void initServ() {}
+    virtual void initServ(int clients_number, const char* file, std::map<int, Message*> replies) {}
     virtual void initClient() {}
     virtual void sendMessage(Message *msg) {}
 

@@ -23,12 +23,11 @@ namespace boost {
     namespace serialization {
         template<class Archive>
         void serialize(Archive &archive, Message &m, const unsigned int version) {
-            if (Archive::is_loading::value)
-            {
-                assert(m.data == nullptr);
-                m.data = new SystemData();
-            }
+
+            archive.template register_type<SystemData>();
+            archive.template register_type<FloatArrayData>();
             archive & m.data;
+            archive & m.sender_id;
 //            archive & make_array<float>(m.data, m.size);
         }
 
@@ -56,6 +55,7 @@ namespace boost {
         archive & m.types;
         archive & m.coordinates;
         archive & m.masses;
+        archive & m.multipole_order;
 //        if (Archive::is_loading::value)
 //        {
 //            assert(m.indices == nullptr);
