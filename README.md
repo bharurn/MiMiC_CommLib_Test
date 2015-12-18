@@ -1,0 +1,1 @@
+Basic functionality of the communication library with a testing program
