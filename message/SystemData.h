@@ -43,6 +43,7 @@ public:
      * Maximum order of multipoles that is used by the code
      */
     int multipole_order;
+
 };
 
 #endif //MIMICCOMMLIB_SYSTEMDATA_H

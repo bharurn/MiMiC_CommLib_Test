@@ -47,5 +47,6 @@ public:
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
     }
+
 };
 #endif //MIMICCOMMLIB_TRANSPORT_H

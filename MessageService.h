@@ -18,6 +18,7 @@ private:
 
 public:
     void sendMessage(Message message);
+
 };
 
 

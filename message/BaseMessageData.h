@@ -25,9 +25,5 @@ public:
     BaseMessageData(int type, int entity_number) : type(type), entity_number(entity_number) { }
     virtual ~BaseMessageData(){};
 
-//    template<class Archive>
-//    virtual void serialize_private(Archive &archive, BaseMessageData &m, const unsigned int version) { }
-
-
 };
 #endif //MIMICCOMMLIB_MESSAGEDATA_H

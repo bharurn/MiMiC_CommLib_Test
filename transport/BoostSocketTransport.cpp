@@ -9,7 +9,6 @@
 #include <iomanip>
 #include "boost/iostreams/device/array.hpp"
 #include "boost/iostreams/stream.hpp"
-#include "omp.h"
 
 #if defined(BOOST_ASIO_HAS_LOCAL_SOCKETS)
 
@@ -48,6 +47,7 @@ void BoostSocketTransport::initServ(int clients_number, const char* file, std::m
         io_service_->stop();
 
     }
+    //TODO: Implement correct error handling
     catch (std::exception& e)
     {
         std::cerr << "Exception: " << e.what() << "\n";
@@ -62,6 +62,7 @@ void BoostSocketTransport::initClient() {
         s->connect(stream_protocol::endpoint("./demo_socket"));
 
     }
+    //TODO: Implement correct error handling
     catch (std::exception& e)
     {
         std::cerr << "Exception: " << e.what() << "\n";
@@ -70,10 +71,10 @@ void BoostSocketTransport::initClient() {
 
 void BoostSocketTransport::readData(stream_protocol::socket *socket_, boost::asio::streambuf *buf) {
     // Buffer used to store data received from the client.
-    boost::array<char, 16> header_buffer;
+    boost::array<char, HEADER_SIZE> header_buffer;
 
     size_t header_read = boost::asio::read(*socket_, boost::asio::buffer(header_buffer));
-    if (header_read < 16) {
+    if (header_read < HEADER_SIZE) {
 
     }
 
@@ -83,18 +84,13 @@ void BoostSocketTransport::readData(stream_protocol::socket *socket_, boost::asi
 }
 
 void BoostSocketTransport::sendMessage(Message *msg) {
-    double start = omp_get_wtime();
     sendMessageInternal(msg, s);
 
+    //just temporary thing
     boost::asio::streambuf sb;
     readData(s, &sb);
     std::istream is(&sb);
     Message* mess = serializer->deserealize(&is);
-
-    double end = omp_get_wtime();
-    double diff = end - start;
-
-    std::cout << diff;
 }
 
 void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::socket* socket) {
@@ -109,11 +105,11 @@ void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::so
 
     str.seekp(0, std::ios::beg);
     std::ostringstream header_stream;
-    header_stream << std::setw(16)
+    header_stream << std::setw(HEADER_SIZE)
     << std::hex << std::to_string(size).c_str();
 
     std::string size_str = std::to_string(size);
-    std::array<char, 16> head_buf;
+    std::array<char, HEADER_SIZE> head_buf;
     std::copy(size_str.begin(), size_str.end(), head_buf.data());
 
     int buffer_number = 1 + size / BUFFER_SIZE;

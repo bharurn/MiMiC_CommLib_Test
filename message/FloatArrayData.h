@@ -25,7 +25,5 @@ public:
     FloatArrayData(int type, int entity_number) : BaseMessageData(type, entity_number) {
     }
 
-
-
 };
 #endif //MIMICCOMMLIB_FLOATARRAYDATA_H

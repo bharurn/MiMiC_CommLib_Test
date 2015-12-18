@@ -53,6 +53,7 @@ namespace boost {
         archive & m.masses;
         archive & m.multipole_order;
     }
+
 }
 
 
