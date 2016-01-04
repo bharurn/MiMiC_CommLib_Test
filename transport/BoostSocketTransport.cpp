@@ -19,7 +19,7 @@ stream_protocol::acceptor* acceptor_;
 stream_protocol::socket* s;
 int request_number;
 
-void BoostSocketTransport::initServ(int clients_number, const char* file, std::map<int, Message*> replies) {
+void BoostSocketTransport::initServ(int clients_number, std::map<int, Message*> replies) {
     try
     {
         request_number = clients_number;

@@ -11,7 +11,7 @@
 /**
  * Class encapsulatin the data about the system of the client code
  */
-class SystemData : public BaseMessageData {
+struct SystemData : public BaseMessageData {
 
 public:
     SystemData() : BaseMessageData() { }

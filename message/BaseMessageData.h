@@ -8,7 +8,7 @@
 /**
  * Abstract class for data contained in the message
  */
-class BaseMessageData {
+struct BaseMessageData {
 public:
     /**
      * Type of the message (probably not needed anymore)

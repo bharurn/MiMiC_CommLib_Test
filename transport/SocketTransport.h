@@ -28,7 +28,7 @@ public:
         SocketTransport::portNumber = portNumber;
     }
 
-    virtual void initServ(int clients_number, const char* file, std::map<int, Message*> replies) override;
+    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
 
     virtual void sendMessage(Message* msg) override;
 

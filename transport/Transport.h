@@ -30,7 +30,7 @@ public:
      * \param clients_number number of clients to get data from
      * \param replies map of client_id -> reply from the server
      */
-    virtual void initServ(int clients_number, const char* file, std::map<int, Message*> replies) {}
+    virtual void initServ(int clients_number, std::map<int, Message*> replies) {}
 
     /**
      * Initialize client (prepare and connect to the server) for data interaction

@@ -17,7 +17,7 @@
 /**
  * A message class representing messages sent between processes.
  */
-class Message {
+struct Message {
 public:
     /**
      * Message data

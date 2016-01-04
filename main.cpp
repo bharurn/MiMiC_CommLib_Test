@@ -11,7 +11,7 @@ int main() {
     fgets(buffer, 80, stdin);
     string str = buffer;
     int size = 200000;
-    Transport *transport = new BoostSocketTransport(new BoostSerializer());
+    Transport *transport = new BoostSocketTransport(new BoostSerializer(), "./demo_socket");
     if (str.compare("server\n") == 0) {
         std::map<int, Message*> reply_map;
 
@@ -26,7 +26,7 @@ int main() {
         reply_map[1] = message;
         reply_map[2] = message;
 
-        transport->initServ(1, "./demo_socket", reply_map);
+        transport->initServ(1, reply_map);
     }
     else {
         transport->initClient();

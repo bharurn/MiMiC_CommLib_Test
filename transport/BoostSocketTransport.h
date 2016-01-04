@@ -16,9 +16,9 @@
 class BoostSocketTransport : public Transport {
 
 public:
-    BoostSocketTransport(Serializer *serializer) : Transport(serializer) { }
+    BoostSocketTransport(Serializer *serializer, const char *file) : Transport(serializer), file(file) { }
 
-    virtual void initServ(int clients_number, const char* file, std::map<int, Message*> replies) override;
+    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
 
     virtual void initClient() override;
 
@@ -31,6 +31,8 @@ private:
     const static long BUFFER_SIZE = 1 * 1024 * 1024;
 
     const static int HEADER_SIZE = 16;
+
+    const char* file;
 
     /**
      * Internal routine used for sending messages through a socket

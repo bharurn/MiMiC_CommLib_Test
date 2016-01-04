@@ -17,6 +17,9 @@ private:
     Transport transport;
 
 public:
+    MessageService(const Transport &transport) : transport(transport) { }
+
+    void initServer(int clients_number, std::map<int, Message*> replies);
     void sendMessage(Message message);
 
 };

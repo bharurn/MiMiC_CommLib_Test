@@ -5,7 +5,7 @@ set(BOOST_ROOT "/home/bolnykh/soft")
 set(BOOSTROOT "/home/bolnykh/soft")
 
 
-find_package(Boost 1.59.0  REQUIRED COMPONENTS
+find_package(Boost 1.54.0  REQUIRED COMPONENTS
         serialization system)
 
 if(NOT Boost_FOUND)

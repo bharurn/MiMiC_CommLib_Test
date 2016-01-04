@@ -29,7 +29,7 @@ void SocketTransport::handle_connection(int connection_fd) {
     printf("MESSAGE FROM CLIENT: %s\n", buffer);
 }
 
-void SocketTransport::initServ(int clients_number, const char* file, std::map<int, Message*> replies) {
+void SocketTransport::initServ(int clients_number, std::map<int, Message*> replies) {
     buffer = new char[BUFFER_SIZE];
     socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if(socket_fd < 0)

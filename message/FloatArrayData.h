@@ -13,7 +13,7 @@
 /**
  * Class for sending an array of doubles (like coordinates)
  */
-class FloatArrayData : public BaseMessageData {
+struct FloatArrayData : public BaseMessageData {
 public:
     /**
      * Array of double values to be sent
