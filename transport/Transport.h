@@ -6,9 +6,8 @@
 #include "../message/Message.h"
 #include "../serializer/Serializer.h"
 #include <map>
+#include "Endpoint.h"
 
-#ifndef MIMICCOMMLIB_TRANSPORT_H
-#define MIMICCOMMLIB_TRANSPORT_H
 
 /**
  * Abstract class of transport layer
@@ -30,7 +29,7 @@ public:
      * \param clients_number number of clients to get data from
      * \param replies map of client_id -> reply from the server
      */
-    virtual void initServ(int clients_number, std::map<int, Message*> replies) {}
+    virtual void initServ() {}
 
     /**
      * Initialize client (prepare and connect to the server) for data interaction
@@ -42,11 +41,16 @@ public:
      *
      * \param msg message to send
      */
-    virtual void sendMessage(Message *msg) {}
+    virtual void sendMessage(Message *msg, char* destination) {}
+
+    virtual Message receiveMessage(char* source) {}
+
+    virtual int connectAddress (char* address) {}
+
+    virtual void closeConnection () {}
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
     }
 
 };
-#endif //MIMICCOMMLIB_TRANSPORT_H

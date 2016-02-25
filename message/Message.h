@@ -7,7 +7,6 @@
 
 #include <assert.h>
 #include <boost/serialization/array.hpp>
-#include <type_traits>
 #include "BaseMessageData.h"
 #include "FloatArrayData.h"
 #include "SystemData.h"
@@ -29,8 +28,13 @@ public:
      */
     int sender_id;
 
+    int message_code;
+
     Message() { }
 
+    const int OK_CODE = 1;
+
+    const int FAIL_CODE = -1;
 };
 
 

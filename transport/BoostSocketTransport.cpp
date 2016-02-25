@@ -87,10 +87,10 @@ void BoostSocketTransport::sendMessage(Message *msg) {
     sendMessageInternal(msg, s);
 
     //just temporary thing
-    boost::asio::streambuf sb;
-    readData(s, &sb);
-    std::istream is(&sb);
-    Message* mess = serializer->deserealize(&is);
+//    boost::asio::streambuf sb;
+//    readData(s, &sb);
+//    std::istream is(&sb);
+//    Message* mess = serializer->deserealize(&is);
 }
 
 void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::socket* socket) {

@@ -3,6 +3,7 @@
 #include "serializer/BoostSerializer.h"
 #include "message/FloatArrayData.h"
 #include "transport/BoostSocketTransport.h"
+#include "transport/Endpoint.h"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ int main() {
     char buffer[1024];
     fgets(buffer, 80, stdin);
     string str = buffer;
-    int size = 200000;
+    int size = 200;
     Transport *transport = new BoostSocketTransport(new BoostSerializer(), "./demo_socket");
     if (str.compare("server\n") == 0) {
         std::map<int, Message*> reply_map;
