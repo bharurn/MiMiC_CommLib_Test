@@ -83,7 +83,7 @@ void BoostSocketTransport::readData(stream_protocol::socket *socket_, boost::asi
     buf->commit(bytes_read);
 }
 
-void BoostSocketTransport::sendMessage(Message *msg) {
+void BoostSocketTransport::sendMessage(Message *msg, char* destination) {
     sendMessageInternal(msg, s);
 
     //just temporary thing

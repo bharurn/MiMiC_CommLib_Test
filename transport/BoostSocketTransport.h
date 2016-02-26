@@ -18,11 +18,11 @@ class BoostSocketTransport : public Transport {
 public:
     BoostSocketTransport(Serializer *serializer, const char *file) : Transport(serializer), file(file) { }
 
-    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
+    virtual void initServ(int clients_number, std::map<int, Message*> replies);
 
     virtual void initClient() override;
 
-    virtual void sendMessage(Message *msg) override;
+    virtual void sendMessage(Message *msg, char* destination);
 
 private:
     /**

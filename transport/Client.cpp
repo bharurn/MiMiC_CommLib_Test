@@ -10,15 +10,15 @@ int Client::init(char *address, Transport protocol) {
 
 
 int Client::send(Message *msg, char *destination) {
-    protocol.connectAddress(destination);
-    protocol.sendMessage(msg, destination);
+    protocol->connectAddress(destination);
+    protocol->sendMessage(msg, destination);
 }
 
 Message Client::request(char *source) {
-    protocol.connectAddress(source);
+    protocol->connectAddress(source);
     Message* request = new Message();
-    protocol.sendMessage(request, source);
-    Message response = protocol.receiveMessage(source);
+    protocol->sendMessage(request, source);
+    Message response = protocol->receiveMessage(source);
     return response;
 }
 

@@ -22,5 +22,5 @@ void MPITransport::initClient() {
 }
 
 void MPITransport::sendMessage(Message *msg) {
-    Transport::sendMessage(msg);
+
 }

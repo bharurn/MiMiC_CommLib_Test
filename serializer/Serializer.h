@@ -7,6 +7,9 @@
 #include <ostream>
 #include <istream>
 
+#ifndef MIMICCOMMLIB_SERIALIZER_H
+#define MIMICCOMMLIB_SERIALIZER_H
+
 /**
  * Abstract class of serializer used to pack and unpack data from a parcel to be sent
  * over transport protocol
@@ -31,3 +34,4 @@ public:
     virtual Message * deserealize(std::istream *data) {}
 
 };
+#endif //MIMICCOMMLIB_SERIALIZER_H

@@ -7,6 +7,10 @@
 
 
 #include "transport/Transport.h"
+#include "transport/BoostSocketTransport.h"
+#include "serializer/BoostSerializer.h"
+#include "transport/Client.h"
+#include "transport/Server.h"
 
 /**
  * Singleton class representing messaging service used by the library (should be initialized)
@@ -14,13 +18,25 @@
 class MessageService {
 
 private:
-    Transport transport;
+    Endpoint* ep = NULL;
 
 public:
-    MessageService(const Transport &transport) : transport(transport) { }
+    MessageService() { }
 
-    void initServer(int clients_number, std::map<int, Message*> replies);
-    void sendMessage(Message message);
+    void init(char* address) {
+        ep = new Client(new BoostSocketTransport(new BoostSerializer(), address));
+        ep->init(address, NULL);
+    }
+
+    void init(char* address, int clients_number) {
+        ep = new Server(new BoostSocketTransport(new BoostSerializer(), address), address, clients_number);
+        ep->init(address, NULL);
+    }
+
+
+    void sendMessage(Message message, char* address) {
+
+    }
 
 };
 

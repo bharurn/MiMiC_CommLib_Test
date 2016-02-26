@@ -13,10 +13,10 @@ class Endpoint {
     char* address;
 
 protected:
-    Transport protocol;
+    Transport* protocol;
 public:
 
-    Endpoint(Transport protocol) : protocol(protocol) { }
+    Endpoint(Transport *protocol) : protocol(protocol) { }
 
     virtual int init(char* address, Transport protocol) {}
 

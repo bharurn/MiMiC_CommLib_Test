@@ -93,7 +93,7 @@ void SocketTransport::initClient() {
     }
 }
 
-void SocketTransport::sendMessage(Message* msg) {
+void SocketTransport::sendMessage(Message* msg, char* destination) {
     const char *serialized_message;
 //    serialized_message = "1234567890";
     std::ostringstream str;

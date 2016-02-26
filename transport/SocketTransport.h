@@ -2,10 +2,6 @@
 // Created by bolnykh on 12/7/15.
 //
 
-#ifndef MIMICCOMMLIB_SOCKETTRANSPORT_H
-#define MIMICCOMMLIB_SOCKETTRANSPORT_H
-
-
 #include <stdint.h>
 #include "Transport.h"
 
@@ -28,9 +24,9 @@ public:
         SocketTransport::portNumber = portNumber;
     }
 
-    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
+//    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
 
-    virtual void sendMessage(Message* msg) override;
+    virtual void sendMessage(Message* msg, char* destination) override;
 
     virtual void initClient() override;
 
@@ -42,4 +38,3 @@ private:
 };
 
 
-#endif //MIMICCOMMLIB_SOCKETTRANSPORT_H

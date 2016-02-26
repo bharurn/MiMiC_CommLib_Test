@@ -27,7 +27,7 @@ int main() {
         reply_map[1] = message;
         reply_map[2] = message;
 
-        transport->initServ(1, reply_map);
+        transport->initServ();
     }
     else {
         transport->initClient();

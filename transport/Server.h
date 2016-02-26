@@ -13,10 +13,10 @@ class Server : public Endpoint {
 
 private:
     int cleints_number;
-    std::map<Client> knownClients;
+    std::map<int, Client> knownClients;
 
 public:
-    Server(const Transport &protocol, const int clientsNumber) : Endpoint(protocol) { }
+    Server(Transport *protocol, char* address, const int clientsNumber) : Endpoint(protocol) { }
 
     virtual int init(char *address, Transport protocol);
 
@@ -31,6 +31,10 @@ public:
     virtual void disconnect(char *dest);
 
     virtual void destroy();
+
+    void setCleints_number(int cleints_number) {
+        Server::cleints_number = cleints_number;
+    }
 };
 
 

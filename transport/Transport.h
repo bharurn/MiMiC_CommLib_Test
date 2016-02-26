@@ -8,11 +8,13 @@
 #include <map>
 #include "Endpoint.h"
 
+#ifndef MIMICCOMMLIB_TRANSPORT_H
+#define MIMICCOMMLIB_TRANSPORT_H
 
 /**
  * Abstract class of transport layer
  */
-class  Transport {
+class Transport {
 
 protected:
     /*
@@ -54,3 +56,5 @@ public:
     }
 
 };
+
+#endif //MIMICCOMMLIB_TRANSPORT_H

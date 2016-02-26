@@ -13,18 +13,19 @@ int Server::connect(char *dest) {
 }
 
 int Server::send(Message *msg, char *destination) {
-    protocol.receiveMessage(destination);
-    protocol.sendMessage(msg, destination);
-    protocol.closeConnection();
+    protocol->receiveMessage(destination);
+    protocol->sendMessage(msg, destination);
+    disconnect(destination);
 }
 
 Message Server::request(char *source) {
-    Message msg = protocol.receiveMessage(source);
+    Message msg = protocol->receiveMessage(source);
+    disconnect(source);
     return msg;
 }
 
 void Server::disconnect(char *dest) {
-    protocol.closeConnection();
+    protocol->closeConnection();
 }
 
 void Server::destroy() {

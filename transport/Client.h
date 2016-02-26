@@ -12,7 +12,7 @@
 class Client : public Endpoint {
 
 public:
-    Client(const Transport &protocol) : Endpoint(protocol) { }
+    Client(Transport* protocol) : Endpoint(protocol) { }
 
 
     virtual int init(char *address, Transport protocol);
