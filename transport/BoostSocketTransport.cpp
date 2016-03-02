@@ -19,33 +19,15 @@ stream_protocol::acceptor* acceptor_;
 stream_protocol::socket* s;
 int request_number;
 
-void BoostSocketTransport::initServ(int clients_number, std::map<int, Message*> replies) {
+void BoostSocketTransport::initServ() {
     try
     {
-        request_number = clients_number;
         std::remove(file);
         io_service_ = new boost::asio::io_service;
         acceptor_ = new stream_protocol::acceptor(*io_service_, stream_protocol::endpoint(file));
         s = new stream_protocol::socket(*io_service_);
 
         io_service_->run();
-        int requests_received = 0;
-        while (requests_received < request_number) {
-            acceptor_->accept(*s);
-
-            boost::asio::streambuf sb;
-            readData(s, &sb);
-
-            std::istream is(&sb);
-            Message* msg = serializer->deserealize(&is);
-
-            //send reply
-            sendMessageInternal(replies[msg->sender_id], s);
-            s->close();
-            requests_received++;
-        }
-        io_service_->stop();
-
     }
     //TODO: Implement correct error handling
     catch (std::exception& e)
@@ -57,9 +39,9 @@ void BoostSocketTransport::initServ(int clients_number, std::map<int, Message*> 
 void BoostSocketTransport::initClient() {
     try
     {
-        boost::asio::io_service io_service;
-        s = new stream_protocol::socket(io_service);
-        s->connect(stream_protocol::endpoint("./demo_socket"));
+        io_service_ = new boost::asio::io_service;;
+//        s = new stream_protocol::socket(io_service);
+//        s->connect(stream_protocol::endpoint("./demo_socket"));
 
     }
     //TODO: Implement correct error handling
@@ -83,14 +65,8 @@ void BoostSocketTransport::readData(stream_protocol::socket *socket_, boost::asi
     buf->commit(bytes_read);
 }
 
-void BoostSocketTransport::sendMessage(Message *msg, char* destination) {
+void BoostSocketTransport::sendMessage(Message *msg, std::string destination) {
     sendMessageInternal(msg, s);
-
-    //just temporary thing
-//    boost::asio::streambuf sb;
-//    readData(s, &sb);
-//    std::istream is(&sb);
-//    Message* mess = serializer->deserealize(&is);
 }
 
 void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::socket* socket) {
@@ -131,3 +107,37 @@ void BoostSocketTransport::sendMessageInternal(Message* msg, stream_protocol::so
 #else // defined(BOOST_ASIO_HAS_LOCAL_SOCKETS)
 # error Local sockets not available on this platform.
 #endif // defined(BOOST_ASIO_HAS_LOCAL_SOCKETS)
+
+int BoostSocketTransport::connectAddress(std::string address) {
+    bool connected = false;
+    s = new stream_protocol::socket(*io_service_);
+    while (!connected) {
+        try {
+            s->connect(stream_protocol::endpoint(address));
+            connected = true;
+        }
+        catch (std::exception& e) {
+            continue;
+        }
+    }
+    return 0;
+}
+
+Message * BoostSocketTransport::receiveMessage(std::string source) {
+    boost::asio::streambuf sb;
+    readData(s, &sb);
+
+    std::istream is(&sb);
+    Message* msg = serializer->deserealize(&is);
+    return msg;
+}
+
+void BoostSocketTransport::closeConnection() {
+    s->close();
+    io_service_->stop();
+}
+
+int BoostSocketTransport::acceptConnection(std::string address) {
+    acceptor_->accept(*s);
+    return 0;
+}

@@ -1,15 +1,15 @@
 //
 // Created by bolnykh on 12/7/15.
 //
+#ifndef MIMICCOMMLIB_TRANSPORT_H
+#define MIMICCOMMLIB_TRANSPORT_H
 
 #include <zconf.h>
 #include "../message/Message.h"
 #include "../serializer/Serializer.h"
 #include <map>
-#include "Endpoint.h"
 
-#ifndef MIMICCOMMLIB_TRANSPORT_H
-#define MIMICCOMMLIB_TRANSPORT_H
+
 
 /**
  * Abstract class of transport layer
@@ -43,13 +43,19 @@ public:
      *
      * \param msg message to send
      */
-    virtual void sendMessage(Message *msg, char* destination) {}
+    virtual void sendMessage(Message *msg, std::string destination) {}
 
-    virtual Message receiveMessage(char* source) {}
+    virtual Message* receiveMessage(std::string source) {}
 
-    virtual int connectAddress (char* address) {}
+    virtual Message* receiveMessages(int number, std::string adresses) {}
+
+    virtual int connectAddress (std::string address) {}
+
+    virtual int acceptConnection(std::string address) {}
 
     virtual void closeConnection () {}
+
+    virtual char* getServerAddress () {}
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;

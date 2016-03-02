@@ -12,28 +12,29 @@
 class Server : public Endpoint {
 
 private:
-    int cleints_number;
-    std::map<int, Client> knownClients;
+    int clientsNumber;
 
 public:
-    Server(Transport *protocol, char* address, const int clientsNumber) : Endpoint(protocol) { }
+    Server(Transport *protocol, char* address) : Endpoint(protocol) { }
 
-    virtual int init(char *address, Transport protocol);
+    virtual int init(char *address, Transport protocol, const int clientsNumber, char** clientPaths);
 
-    virtual int connect(char *dest);
+    virtual int connect(int dest);
 
-    virtual int send(Message *msg, char *destination);
+    virtual int send(Message *msg, int destination);
 
     int broadcast(Message *msg);
 
-    virtual Message request(char *source);
+    virtual Message * request(int source);
 
-    virtual void disconnect(char *dest);
+    virtual void disconnect(int dest);
 
     virtual void destroy();
 
+    virtual void handshake() override;
+
     void setCleints_number(int cleints_number) {
-        Server::cleints_number = cleints_number;
+        Server::clientsNumber = cleints_number;
     }
 };
 

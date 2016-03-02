@@ -9,17 +9,36 @@
 #include "Transport.h"
 #include <mpi.h>
 
+/**
+ * Transport implementation using intercommunicators
+ */
 class MPITransport : public Transport {
 
 public:
     MPITransport(MPI_Comm comm) : Transport(NULL), host_comm(comm) { }
 
 
-    virtual void initServ(int clients_number, std::map<int, Message *> replies) override;
+    void initServ();
 
-    virtual void initClient() override;
+    void initClient();
 
-    virtual void sendMessage(Message *msg) override;
+    void sendMessage(Message *msg, std::string destination);
+
+    void sendRawData(void* data, MPI_Datatype type, int number, int id);
+
+    void* receiveRawData(MPI_Datatype type, int id);
+
+    Message *receiveMessage(std::string source);
+
+    Message *receiveMessages(int number, std::string adresses);
+
+    int connectAddress(std::string address);
+
+    int acceptConnection(std::string address);
+
+    void closeConnection();
+
+    char *getServerAddress();
 
 private:
     MPI_Comm host_comm;

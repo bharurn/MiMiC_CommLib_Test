@@ -9,6 +9,7 @@
 
 BOOST_CLASS_EXPORT(SystemData)
 BOOST_CLASS_EXPORT(FloatArrayData)
+BOOST_CLASS_EXPORT(ClientData)
 
 void BoostSerializer::serialize(Message *msg, std::ostream *stream) {
     boost::archive::binary_oarchive oa(*stream);

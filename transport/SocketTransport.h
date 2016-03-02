@@ -2,6 +2,9 @@
 // Created by bolnykh on 12/7/15.
 //
 
+#ifndef MIMICCOMMLIB_SOCKETTRANSPORT_H
+#define MIMICCOMMLIB_SOCKETTRANSPORT_H
+
 #include <stdint.h>
 #include "Transport.h"
 
@@ -18,17 +21,15 @@ public:
 
     SocketTransport(Serializer *serializer, int portNumber) : Transport(serializer), portNumber(portNumber) { }
 
-
-
     void setPortNumber(int portNumber) {
         SocketTransport::portNumber = portNumber;
     }
 
-//    virtual void initServ(int clients_number, std::map<int, Message*> replies) override;
+    virtual void initServ();
 
-    virtual void sendMessage(Message* msg, char* destination) override;
+    virtual void sendMessage(Message* msg, std::string destination);
 
-    virtual void initClient() override;
+    virtual void initClient();
 
 private:
     uint16_t portNumber = -1;
@@ -37,4 +38,5 @@ private:
 
 };
 
+#endif //MIMICCOMMLIB_SOCKETTRANSPORT_H
 

@@ -29,7 +29,7 @@ void SocketTransport::handle_connection(int connection_fd) {
     printf("MESSAGE FROM CLIENT: %s\n", buffer);
 }
 
-void SocketTransport::initServ(int clients_number, std::map<int, Message*> replies) {
+void SocketTransport::initServ() {
     buffer = new char[BUFFER_SIZE];
     socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if(socket_fd < 0)
@@ -93,7 +93,7 @@ void SocketTransport::initClient() {
     }
 }
 
-void SocketTransport::sendMessage(Message* msg, char* destination) {
+void SocketTransport::sendMessage(Message* msg, std::string destination) {
     const char *serialized_message;
 //    serialized_message = "1234567890";
     std::ostringstream str;

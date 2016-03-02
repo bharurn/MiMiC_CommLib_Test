@@ -8,6 +8,7 @@
 
 #include "Serializer.h"
 #include "../message/SystemData.h"
+#include "../message/ClientData.h"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
@@ -28,6 +29,7 @@ namespace boost {
         void serialize(Archive &archive, Message &m, const unsigned int version) {
             archive & m.data;
             archive & m.sender_id;
+            archive & m.message_code;
 //            archive & make_array<float>(m.data, m.size);
         }
 
@@ -41,6 +43,14 @@ namespace boost {
         void serialize(Archive &archive, FloatArrayData &m, const unsigned int version) {
             archive & boost::serialization::base_object<BaseMessageData>(m);
             archive & m.array;
+        }
+
+        template<class Archive>
+        void serialize(Archive &archive, ClientData &m, const unsigned int version) {
+            archive & boost::serialization::base_object<BaseMessageData>(m);
+            archive & m.clientId;
+            archive & m.clientAddress;
+            archive & m.clientPath;
         }
     }
 

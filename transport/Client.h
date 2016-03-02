@@ -14,18 +14,22 @@ class Client : public Endpoint {
 public:
     Client(Transport* protocol) : Endpoint(protocol) { }
 
+    virtual void handshake() override;
 
     virtual int init(char *address, Transport protocol);
 
-    virtual int connect(char *dest);
+    virtual int connect(int dest);
 
-    virtual int send(Message *msg, char *destination);
+    virtual int send(Message *msg, int destination);
 
-    virtual Message request(char *source);
+    virtual Message * request(int source);
 
-    virtual void disconnect(char *dest);
+    virtual void disconnect(int dest);
 
     virtual void destroy();
+
+private:
+    char* serverAddress;
 };
 
 
