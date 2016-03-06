@@ -14,6 +14,13 @@ class Client : public Endpoint {
 public:
     Client(Transport* protocol) : Endpoint(protocol) { }
 
+    virtual void message_handshake() override;
+
+
+    virtual int sendRaw(void *data, int count, int destination, DataType type);
+
+    virtual RawDataStruct *requestRaw(int source, DataType type);
+
     virtual void handshake() override;
 
     virtual int init(char *address, Transport protocol);

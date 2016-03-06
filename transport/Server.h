@@ -31,7 +31,14 @@ public:
 
     virtual void destroy();
 
-    virtual void handshake() override;
+    virtual void message_handshake();
+
+    virtual void handshake();
+
+
+    virtual int sendRaw(void *data, int count, int destination, DataType type);
+
+    virtual RawDataStruct *requestRaw(int source, DataType type);
 
     void setCleints_number(int cleints_number) {
         Server::clientsNumber = cleints_number;

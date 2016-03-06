@@ -4,6 +4,7 @@
 
 #include "Client.h"
 #include "../message/ClientData.h"
+#include "MPITransport.h"
 
 int Client::init(char *address, Transport protocol) {
     Client::protocol->initClient();
@@ -56,7 +57,7 @@ void Client::destroy() {
 
 }
 
-void Client::handshake() {
+void Client::message_handshake() {
     Message* clientDataRequest = new Message();
     ClientData* data = new ClientData();
     data->clientPath = Client::getPath();
@@ -68,4 +69,44 @@ void Client::handshake() {
     Message* msg = protocol->receiveMessage(serverAddress);
     ClientData* updatedData = (ClientData*) msg->data;
     Client::setId(updatedData->clientId);
+}
+
+void Client::handshake() {
+    MPITransport* transport = (MPITransport*) protocol;
+    char* serverAddress = transport->getServerAddress();
+    transport->connectAddress(serverAddress);
+    transport->sendRawData(getAddress(), MPI_CHARACTER, getAddress_size(), MPI_ANY_TAG, 1);
+    int* id = (int *) transport->receiveRawData(MPI_INT, 0)->data;
+    transport->closeConnection();
+    Client::setId(id[0]);
+}
+
+int Client::sendRaw(void *data, int count, int destination, DataType type) {
+    MPITransport* transport = (MPITransport*) protocol;
+    MPI_Datatype send_type = transport->pick_mpi_type(type);
+
+    for (Endpoint &eachPoint : client_list) {
+        if (eachPoint.getId() == destination) {
+            transport->connectAddress(eachPoint.getAddress());
+            transport->sendRawData(data, send_type, count, destination, getId());
+            transport->closeConnection();
+            break;
+        }
+    }
+    return 0;
+}
+
+RawDataStruct *Client::requestRaw(int source, DataType type) {
+    MPITransport* transport = (MPITransport*) protocol;
+    MPI_Datatype receiveType = transport->pick_mpi_type(type);
+    RawDataStruct* received = nullptr;
+    for (Endpoint &eachPoint : client_list) {
+        if (eachPoint.getId() == source) {
+            transport->connectAddress(eachPoint.getAddress());
+            received = transport->receiveRawData(receiveType, source);
+            transport->closeConnection();
+            break;
+        }
+    }
+    return received;
 }

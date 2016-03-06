@@ -7,6 +7,8 @@
 
 
 #include "Transport.h"
+#include "../message/RawDataStruct.h"
+#include "../DataTypes.h"
 #include <mpi.h>
 
 /**
@@ -24,9 +26,9 @@ public:
 
     void sendMessage(Message *msg, std::string destination);
 
-    void sendRawData(void* data, MPI_Datatype type, int number, int id);
+    void sendRawData(void *data, MPI_Datatype type, int number, int id, int endpoint_id);
 
-    void* receiveRawData(MPI_Datatype type, int id);
+    RawDataStruct * receiveRawData(MPI_Datatype type, int id);
 
     Message *receiveMessage(std::string source);
 
@@ -39,6 +41,8 @@ public:
     void closeConnection();
 
     char *getServerAddress();
+
+    MPI_Datatype pick_mpi_type(DataType type);
 
 private:
     MPI_Comm host_comm;
