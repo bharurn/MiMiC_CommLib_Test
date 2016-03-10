@@ -2,7 +2,8 @@
 // Created by bolnykh on 12/14/15.
 //
 
-#include <boost/serialization/array.hpp>
+#include <vector>
+#include <string>
 #include "BaseMessageData.h"
 
 #ifndef MIMICCOMMLIB_SYSTEMDATA_H

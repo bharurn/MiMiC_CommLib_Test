@@ -7,23 +7,32 @@
 #include "MPITransport.h"
 #include <cstring>
 
-int Server::init(char *address, Transport protocol, const int clientsNumber, char** clientPaths) {
-    Server::protocol->initServ();
+int Server::init(const int clientsNumber, std::string *paths) {
+    Server::protocol->initServ(paths, clientsNumber);
     Server::clientsNumber = clientsNumber;
+
     for (int i = 0; i < clientsNumber; ++i) {
         Endpoint client = Endpoint(Server::protocol);
         client.setId(i + 1);
-        client.setPath(clientPaths[i]);
+        client.setPath(paths[i]);
         client_list.push_back(client);
     }
 }
 
 int Server::connect(int dest) {
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachClient = client_list[i];
+        if (eachClient.getId() == dest) {
+            protocol->acceptConnection(eachClient.getAddress());
+        }
+    }
 
+    return 0;
 }
 
 int Server::send(Message *msg, int destination) {
-    for (Endpoint &eachClient : client_list) {
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachClient = client_list[i];
         if (eachClient.getId() == destination) {
             protocol->acceptConnection(eachClient.getAddress());
             protocol->receiveMessage(eachClient.getAddress());
@@ -31,10 +40,13 @@ int Server::send(Message *msg, int destination) {
             disconnect(destination);
         }
     }
+
+    return 0;
 }
 
 Message * Server::request(int source) {
-    for (Endpoint &eachClient : client_list) {
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachClient = client_list[i];
         if (eachClient.getId() == source) {
             protocol->acceptConnection(eachClient.getAddress());
             Message* msg = protocol->receiveMessage(eachClient.getAddress());
@@ -42,19 +54,25 @@ Message * Server::request(int source) {
             return msg;
         }
     }
+
     return new Message();
 }
 
 void Server::disconnect(int dest) {
-    protocol->closeConnection();
+    protocol->closeConnection(dest);
 }
 
 void Server::destroy() {
-    protocol->closeConnection();
+    for (int i = 0; i < clientsNumber; ++i) {
+        protocol->closeConnection(i + 1);
+        Endpoint each_client = client_list[i];
+        protocol->destroy(each_client.getPath());
+    }
 }
 
 int Server::broadcast(Message *msg) {
-    for (Endpoint &eachClient : client_list) {
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachClient = client_list[i];
         send(msg, eachClient.getId());
     }
     return 0;
@@ -65,12 +83,14 @@ void Server::message_handshake() {
         protocol->acceptConnection(protocol->getServerAddress());
         Message* clientMsg = protocol->receiveMessage(protocol->getServerAddress());
         ClientData* data = (ClientData*) clientMsg->data;
-        for(Endpoint &eachClient : client_list) {
-            if (std::strcmp(eachClient.getPath(), data->clientPath.c_str()) == 0) {
+
+        for (int j = 0; j < clientsNumber; j++) {
+            Endpoint eachClient = client_list[j];
+            if (std::strcmp(eachClient.getPath().c_str(), data->clientPath.c_str()) == 0) {
                 eachClient.setAddress((char *) data->clientAddress.c_str());
                 data->clientId = eachClient.getId();
                 protocol->sendMessage(clientMsg, eachClient.getAddress());
-                protocol->closeConnection();
+                protocol->closeConnection(eachClient.getId());
                 break;
             }
         }
@@ -80,17 +100,18 @@ void Server::message_handshake() {
 void Server::handshake() {
     MPITransport* transport = (MPITransport*) protocol;
     for (int i = 0; i < clientsNumber; ++i) {
-        transport->acceptConnection(transport->getServerAddress());
-        char* client_path = (char*) transport->receiveRawData(MPI_CHARACTER, MPI_ANY_TAG)->data;
-        std::cout << client_path << " \n";
-        for(Endpoint &eachClient : client_list) {
-            if (std::strcmp(eachClient.getPath(), client_path) == 0) {
+        transport->acceptConnection(i + 1);
+        int size = probe(i + 1, TYPE_CHAR);
+        char path[size];
+        transport->receiveRawData(path, MPI_CHARACTER, size, i + 1);
+        std::string temp = path;
+        temp = temp.substr(0, size);
+
+        for (int j = 0; j < clientsNumber; j++) {
+            Endpoint eachClient = client_list[j];
+            if (std::strcmp(eachClient.getPath().c_str(), temp.c_str()) == 0) {
                 int id = eachClient.getId();
-                std::cout << "send\n";
-                transport->sendRawData(&id, MPI_INT, 1, MPI_ANY_TAG, 0);
-                std::cout << "disconnect\n";
-                transport->closeConnection();
-                std::cout << "disconnected\n";
+                transport->sendRawData(&id, MPI_INT, 1, i + 1, 0);
                 break;
             }
         }
@@ -101,28 +122,25 @@ int Server::sendRaw(void *data, int count, int destination, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
     MPI_Datatype send_type = transport->pick_mpi_type(type);
 
-    for (Endpoint &eachPoint : client_list) {
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == destination) {
-            transport->acceptConnection(eachPoint.getAddress());
             transport->sendRawData(data, send_type, count, destination, 0);
-            transport->closeConnection();
             break;
         }
     }
     return 0;
 }
 
-RawDataStruct *Server::requestRaw(int source, DataType type) {
+void Server::requestRaw(void* data, int count, int source, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
     MPI_Datatype receiveType = transport->pick_mpi_type(type);
-    RawDataStruct* received = nullptr;
-    for (Endpoint &eachPoint : client_list) {
+
+    for (int i = 0; i < clientsNumber; i++) {
+        Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == source) {
-            transport->acceptConnection(eachPoint.getAddress());
-            received = transport->receiveRawData(receiveType, source);
-            transport->closeConnection();
+            transport->receiveRawData(data, receiveType, count, source);
             break;
         }
     }
-    return received;
 }

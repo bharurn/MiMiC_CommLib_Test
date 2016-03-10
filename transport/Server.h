@@ -9,36 +9,38 @@
 #include "Endpoint.h"
 #include "Client.h"
 
+/**
+ * Endpoint representing server(master)
+ */
 class Server : public Endpoint {
 
 private:
     int clientsNumber;
 
 public:
-    Server(Transport *protocol, char* address) : Endpoint(protocol) { }
+    Server(Transport *protocol) : Endpoint(protocol) { }
 
-    virtual int init(char *address, Transport protocol, const int clientsNumber, char** clientPaths);
+    int init(const int clientsNumber, std::string *paths);
 
-    virtual int connect(int dest);
+    int connect(int dest);
 
-    virtual int send(Message *msg, int destination);
+    int send(Message *msg, int destination);
 
     int broadcast(Message *msg);
 
-    virtual Message * request(int source);
+    Message * request(int source);
 
-    virtual void disconnect(int dest);
+    void disconnect(int dest);
 
-    virtual void destroy();
+    void destroy();
 
-    virtual void message_handshake();
+    void message_handshake();
 
-    virtual void handshake();
+    void handshake();
 
+    int sendRaw(void *data, int count, int destination, DataType type);
 
-    virtual int sendRaw(void *data, int count, int destination, DataType type);
-
-    virtual RawDataStruct *requestRaw(int source, DataType type);
+    void requestRaw(void* data, int count, int source, DataType type);
 
     void setCleints_number(int cleints_number) {
         Server::clientsNumber = cleints_number;

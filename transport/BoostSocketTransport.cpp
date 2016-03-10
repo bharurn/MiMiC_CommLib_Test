@@ -17,7 +17,6 @@ using boost::asio::local::stream_protocol;
 boost::asio::io_service* io_service_;
 stream_protocol::acceptor* acceptor_;
 stream_protocol::socket* s;
-int request_number;
 
 void BoostSocketTransport::initServ() {
     try
@@ -40,8 +39,6 @@ void BoostSocketTransport::initClient() {
     try
     {
         io_service_ = new boost::asio::io_service;;
-//        s = new stream_protocol::socket(io_service);
-//        s->connect(stream_protocol::endpoint("./demo_socket"));
 
     }
     //TODO: Implement correct error handling

@@ -25,7 +25,7 @@ public:
         SocketTransport::portNumber = portNumber;
     }
 
-    virtual void initServ();
+    virtual void initServ(char **paths);
 
     virtual void sendMessage(Message* msg, std::string destination);
 

@@ -2,91 +2,91 @@
 // Created by bolnykh on 23.02.16.
 //
 
+#include <stdexcept>
+#include <stdlib.h>
 #include "MPITransport.h"
 
-/*void MPITransport::initServ() {
-    MPI_Open_port(MPI_INFO_NULL, port);
+const char* MPITransport::FILENAME = ".portname";
 
-    FILE* port_file = fopen(FILENAME, "w");
-    fprintf(port_file, port);
-    fclose(port_file);
-
-    MPI_Comm_accept(port, MPI_INFO_NULL, 0, host_comm, &intercomm);
+void MPITransport::initServ(std::string *paths, int client_number) {
+    port = new mpi_port_name[client_number + 1];
+    intercomm = (MPI_Comm *) malloc(sizeof(MPI_Comm) * (client_number + 1));
+    for (int i = 0; i < client_number; ++i) {
+        MPI_Open_port(MPI_INFO_NULL, port[i + 1]);
+        std::string filepath = paths[i] + FILENAME;
+        remove(filepath.c_str());
+        FILE * port_file = fopen(filepath.c_str(), "w");
+        fprintf(port_file, port[i + 1]);
+        fclose(port_file);
+    }
 }
 
-void MPITransport::initClient() {
-    FILE* port_address = fopen(FILENAME, "r");
-    fscanf(port_address, "%s", port);
-    fclose(port_address);
-    MPI_Comm_connect(port, MPI_INFO_NULL, 0, host_comm, &intercomm);
-}*/
-
-void MPITransport::initServ() {
-    MPI_Open_port(MPI_INFO_NULL, port);
-
-    FILE* port_file = fopen(FILENAME, "w");
-    fprintf(port_file, port);
-    fclose(port_file);
-}
-
-void MPITransport::initClient() {
+void MPITransport::initClient(std::string path) {
     bool file_exists = false;
     FILE *port_address = NULL;
-//    while (!file_exists) {
-        port_address = fopen(FILENAME, "r");
+    std::string port_file = path + FILENAME;
+    port = new mpi_port_name[1];
+    intercomm = (MPI_Comm *) malloc(sizeof(MPI_Comm));
+    while (!file_exists) {
+        port_address = fopen(port_file.c_str(), "r");
         if (port_address != NULL) {
             file_exists = true;
         }
-//    }
-    fscanf(port_address, "%s", port);
+    }
+    fscanf(port_address, "%s", port[0]);
     fclose(port_address);
 }
 
 void MPITransport::sendMessage(Message *msg, std::string destination) {
-    Transport::sendMessage(msg, destination);
+    throw std::invalid_argument("Invalid function call - use raw data methods instead");
 }
 
 Message *MPITransport::receiveMessage(std::string source) {
-    return Transport::receiveMessage(source);
+    throw std::invalid_argument("Invalid function call - use raw data methods instead");
 }
 
 Message *MPITransport::receiveMessages(int number, std::string adresses) {
-    return Transport::receiveMessages(number, adresses);
+    throw std::invalid_argument("Invalid function call - use raw data methods instead");
 }
 
-int MPITransport::connectAddress(std::string address) {
-    MPI_Comm_connect(port, MPI_INFO_NULL, 0, MPI_COMM_SELF, &intercomm);
+int MPITransport::connectAddress(int id) {
+    MPI_Comm_connect(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
 }
 
-int MPITransport::acceptConnection(std::string address) {
-    MPI_Comm_accept(port, MPI_INFO_NULL, 0, MPI_COMM_SELF, &intercomm);
+int MPITransport::acceptConnection(int id) {
+    MPI_Comm_accept(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
 }
 
-void MPITransport::closeConnection() {
-    MPI_Comm_disconnect(&intercomm);
+void MPITransport::closeConnection(int id) {
+    MPI_Comm_disconnect(&intercomm[id]);
 }
 
 char *MPITransport::getServerAddress() {
-    return port;
+    return port[0];
 }
 
 void MPITransport::sendRawData(void *data, MPI_Datatype type, int number, int id, int endpoint_id) {
-    MPI_Ssend(data, number, type, 0, endpoint_id, intercomm);
+    std::cout << "sending data, receiver: " << id << "\n";
+    MPI_Ssend(data, number, type, 0, 0, intercomm[id]);
 }
 
-RawDataStruct * MPITransport::receiveRawData(MPI_Datatype type, int id) {
+void MPITransport::receiveRawData(void * data_holder, MPI_Datatype type, int count, int id) {
     MPI_Status status;
-    MPI_Probe(0, id, intercomm, &status);
-    int count;
+    MPI_Recv(data_holder, count, type, 0, MPI_ANY_TAG, intercomm[id], &status);
+}
+
+int MPITransport::probe(int id, DataType type) {
     int size;
-    MPI_Get_count(&status, type, &count);
-    MPI_Type_size(type, &size);
-    void* buf = malloc(size * count);
-    MPI_Recv(buf, count, type, 0, id, intercomm, &status);
-    RawDataStruct* dataStruct = new RawDataStruct;
-    dataStruct->data = buf;
-    dataStruct->count = count;
-    return dataStruct;
+    MPI_Status status;
+    MPI_Probe(0, MPI_ANY_TAG, intercomm[id], &status);
+    MPI_Get_count(&status, pick_mpi_type(type), &size);
+    std::cout << "Size in the queue: " << size << "\n";
+    return size;
+}
+
+void MPITransport::destroy(std::string path) {
+    std::string filepath = path + FILENAME;
+    remove(filepath.c_str());
 }
 
 MPI_Datatype MPITransport::pick_mpi_type(DataType type) {

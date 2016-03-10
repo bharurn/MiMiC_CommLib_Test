@@ -7,48 +7,68 @@
 
 
 #include "Transport.h"
-#include "../message/RawDataStruct.h"
 #include "../DataTypes.h"
 #include <mpi.h>
 
 /**
- * Transport implementation using intercommunicators
+ * Transport implementation using MPI intercommunicators
  */
 class MPITransport : public Transport {
+
+    typedef char mpi_port_name[MPI_MAX_PORT_NAME];
 
 public:
     MPITransport(MPI_Comm comm) : Transport(NULL), host_comm(comm) { }
 
+    void initServ(std::string *paths, int client_number);
 
-    void initServ();
-
-    void initClient();
+    void initClient(std::string path);
 
     void sendMessage(Message *msg, std::string destination);
 
     void sendRawData(void *data, MPI_Datatype type, int number, int id, int endpoint_id);
 
-    RawDataStruct * receiveRawData(MPI_Datatype type, int id);
+    void receiveRawData(void * data_holder, MPI_Datatype type, int count, int id);
 
     Message *receiveMessage(std::string source);
 
     Message *receiveMessages(int number, std::string adresses);
 
-    int connectAddress(std::string address);
+    int probe(int id, DataType type);
 
-    int acceptConnection(std::string address);
+    int connectAddress(int id);
 
-    void closeConnection();
+    int acceptConnection(int id);
+
+    void closeConnection(int id);
+
+    void destroy(std::string path);
 
     char *getServerAddress();
 
     MPI_Datatype pick_mpi_type(DataType type);
 
 private:
+
+    /**
+     * Communicator to which a remote group will be attached
+     */
     MPI_Comm host_comm;
-    MPI_Comm intercomm;
-    const char* FILENAME = ".portname";
-    char port[MPI_MAX_PORT_NAME];
+
+    /**
+     * Array of intercommunicators that will handle connections
+     */
+    MPI_Comm* intercomm;
+
+    /**
+     * Name of the file used to share port address
+     */
+    static const char* FILENAME;
+
+    /**
+     * Array of ports used to connect clients
+     */
+    mpi_port_name* port;
 };
 
 

@@ -9,34 +9,41 @@
 #include "../message/Message.h"
 #include "Endpoint.h"
 
+/**
+ * Endpoint representing a client (slave) side
+ */
 class Client : public Endpoint {
 
 public:
     Client(Transport* protocol) : Endpoint(protocol) { }
 
-    virtual void message_handshake() override;
+    void message_handshake();
 
+    int sendRaw(void *data, int count, int destination, DataType type);
 
-    virtual int sendRaw(void *data, int count, int destination, DataType type);
+    void requestRaw(void* data, int count, int source, DataType type);
 
-    virtual RawDataStruct *requestRaw(int source, DataType type);
+    void handshake() ;
 
-    virtual void handshake() override;
+    int init(std::string address, std::string path);
 
-    virtual int init(char *address, Transport protocol);
+    int connect(int dest);
 
-    virtual int connect(int dest);
+    int send(Message *msg, int destination);
 
-    virtual int send(Message *msg, int destination);
+    Message * request(int source);
 
-    virtual Message * request(int source);
+    void disconnect(int dest);
 
-    virtual void disconnect(int dest);
-
-    virtual void destroy();
+    void destroy();
 
 private:
-    char* serverAddress;
+    /**
+     * Ugly, just ugly - but could be useful if at certain point we create a p2p
+     * solution
+     */
+    static const int clientsNumber = 1;
+
 };
 
 

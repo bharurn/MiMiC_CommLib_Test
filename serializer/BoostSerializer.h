@@ -15,12 +15,13 @@
 
 /**
  * Serializer implementation using boost serialization mechanism
+ * KNOWN ISSUE: HETEROGENEOUS ARCHITECTURES ARE NOT SUPPORTED
  */
 class BoostSerializer : public Serializer {
 
-    virtual void serialize(Message *msg, std::ostream *stream) override;
+    void serialize(Message *msg, std::ostream *stream);
 
-    virtual Message * deserealize(std::istream *data) override;
+    Message * deserealize(std::istream *data);
 };
 
 namespace boost {

@@ -2,10 +2,8 @@
 // Created by bolnykh on 12/14/15.
 //
 
-#include <boost/serialization/base_object.hpp>
-#include <assert.h>
-#include <boost/serialization/array.hpp>
 #include "BaseMessageData.h"
+#include <vector>
 
 #ifndef MIMICCOMMLIB_FLOATARRAYDATA_H
 #define MIMICCOMMLIB_FLOATARRAYDATA_H
