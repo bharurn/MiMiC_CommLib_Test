@@ -6,6 +6,7 @@
 #define MIMICCOMMLIB_ENDPOINT_H
 
 
+#include <iostream>
 #include "Transport.h"
 #include "../DataTypes.h"
 
@@ -129,6 +130,15 @@ public:
      * Destroy the endpoint
      */
     virtual void destroy () {}
+
+    std::string transform_path(std::string original_path) {
+        char sep = '/';
+        std::string tmp = original_path;
+        if (original_path[original_path.length() - 1] != sep) {
+            tmp += sep;
+        }
+        return tmp;
+    }
 
     int getId() {
         return id;

@@ -7,13 +7,13 @@
 #include "MPITransport.h"
 
 int Client::init(std::string address, std::string path) {
-    protocol->initClient(path);
+    protocol->initClient(transform_path(path));
     Endpoint server = Endpoint(protocol);
     server.setId(0);
     server.setAddress(protocol->getServerAddress());
     client_list.push_back(server);
     setAddress(address);
-    setPath(path);
+    setPath(transform_path(path));
 }
 
 

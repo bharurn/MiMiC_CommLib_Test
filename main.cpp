@@ -26,7 +26,7 @@ int main() {
         int size = 10000000;
         if (str.compare("server\n") == 0) {
             char* clients[2];
-            clients[0] = "./client1/";
+            clients[0] = "./client1";
             clients[1] = "./client2/";
             MCL_init_server(1, clients);
             double* data = (double *) malloc(sizeof(double) * size);

@@ -8,13 +8,17 @@
 #include <cstring>
 
 int Server::init(const int clientsNumber, std::string *paths) {
-    Server::protocol->initServ(paths, clientsNumber);
+    std::string transformed_paths[clientsNumber];
+    for (int i = 0; i < clientsNumber; ++i) {
+        transformed_paths[i] = transform_path(paths[i]);
+    }
+    Server::protocol->initServ(transformed_paths, clientsNumber);
     Server::clientsNumber = clientsNumber;
 
     for (int i = 0; i < clientsNumber; ++i) {
         Endpoint client = Endpoint(Server::protocol);
         client.setId(i + 1);
-        client.setPath(paths[i]);
+        client.setPath(transformed_paths[i]);
         client_list.push_back(client);
     }
 }
