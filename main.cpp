@@ -3,6 +3,13 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include "MessageApi.h"
+#include "DataTypes.h"
+#define BOOST_TEST_MODULE MyTest
+#include <boost/test/included/unit_test.hpp>
+BOOST_AUTO_TEST_CASE(MPI_transport_test)
+{
+    BOOST_TEST(true);
+}
 
 using namespace std;
 
@@ -16,7 +23,8 @@ get_timestamp ()
     return  now.tv_usec + (timestamp_t)now.tv_sec * 1000000;
 }
 
-int main() {
+
+/*int main() {
     MPI_Init(NULL, NULL);
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -59,69 +67,9 @@ int main() {
                 cout << "Total execution time: " << t1-t0 << "\n";
             }
             MCL_destroy();
-            /*RawDataStruct* test = client.requestRaw(0, TYPE_DOUBLE);
-            double* data = (double *) test->data;
-            for (int i = 0; i < test->count; ++i) {
-                std::cout << data[i] << "\n";
-            }
-            client.sendRaw(data, 2, 0, TYPE_DOUBLE);*/
-//        client.connect(0);
-
-//        Message *message = new Message();
-//        message->sender_id = 1;
-//        std::vector<int> indices;
-//        std::vector<std::string> types;
-//        std::vector<double> coordinates;
-//        std::vector<double> masses;
-//        for (int i = 0; i < size; ++i) {
-//            indices.push_back(i);
-//            types.push_back("Na");
-//            coordinates.push_back(i*3);
-//            coordinates.push_back(i*6);
-//            coordinates.push_back(i*9);
-//            masses.push_back(i*20);
-//        }
-//        std::copy(array.begin(), array.end(), message->data);
-//        SystemData* data = new SystemData(1, size);
-//        std::vector<double> vector1 = *new std::vector<double>(size);
-//        data->indices = indices;
-//        data->types = types;
-//        data->coordinates = coordinates;
-//        data->masses = masses;
-//        data->multipole_order = 4;
-//        data->array = vector1;
-//        message->data = data;
-//        client.send(message, 0);
-            /*transport->initClient();
-            Message *message = new Message();
-            message->sender_id = 1;
-            std::vector<int> indices;
-            std::vector<std::string> types;
-            std::vector<double> coordinates;
-            std::vector<double> masses;
-            for (int i = 0; i < size; ++i) {
-                indices.push_back(i);
-                types.push_back("Na");
-                coordinates.push_back(i*3);
-                coordinates.push_back(i*6);
-                coordinates.push_back(i*9);
-                masses.push_back(i*20);
-            }
-    //        std::copy(array.begin(), array.end(), message->data);
-            SystemData* data = new SystemData(1, size);
-            std::vector<double> vector1 = *new std::vector<double>(size);
-            data->indices = indices;
-            data->types = types;
-            data->coordinates = coordinates;
-            data->masses = masses;
-            data->multipole_order = 4;
-    //        data->array = vector1;
-            message->data = data;
-    //        transport->MCL_init_client();
-            transport->sendMessage(message, "f");*/
         }
-//    }
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
     return 0;
 }
+*/
