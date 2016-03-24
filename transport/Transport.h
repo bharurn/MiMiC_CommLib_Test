@@ -100,9 +100,9 @@ public:
      */
     virtual void destroy(std::string path) {}
 
-    void sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {}
+    virtual void sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {}
 
-    void receiveRawData(void * data_holder, DataType type, int count, int id) {}
+    virtual void receiveRawData(void * data_holder, DataType type, int count, int id) {}
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
