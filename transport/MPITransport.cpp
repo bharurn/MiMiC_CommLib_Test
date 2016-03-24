@@ -51,10 +51,12 @@ Message *MPITransport::receiveMessages(int number, std::string adresses) {
 
 int MPITransport::connectAddress(int id) {
     MPI_Comm_connect(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    return 0;
 }
 
 int MPITransport::acceptConnection(int id) {
     MPI_Comm_accept(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    return 0;
 }
 
 void MPITransport::closeConnection(int id) {
@@ -65,14 +67,14 @@ char *MPITransport::getServerAddress() {
     return port[0];
 }
 
-void MPITransport::sendRawData(void *data, MPI_Datatype type, int number, int id, int endpoint_id) {
+void MPITransport::sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {
     std::cout << "sending data, receiver: " << id << "\n";
-    MPI_Ssend(data, number, type, 0, 0, intercomm[id]);
+    MPI_Ssend(data, number, pick_mpi_type(type), 0, 0, intercomm[id]);
 }
 
-void MPITransport::receiveRawData(void * data_holder, MPI_Datatype type, int count, int id) {
+void MPITransport::receiveRawData(void * data_holder, DataType type, int count, int id) {
     MPI_Status status;
-    MPI_Recv(data_holder, count, type, 0, MPI_ANY_TAG, intercomm[id], &status);
+    MPI_Recv(data_holder, count, pick_mpi_type(type), 0, MPI_ANY_TAG, intercomm[id], &status);
 }
 
 int MPITransport::probe(int id, DataType type) {

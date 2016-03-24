@@ -68,12 +68,12 @@ public:
     /**
      * Establish connection to a specified address
      */
-    virtual int connectAddress (std::string address) {}
+    virtual int connectAddress (int id) {}
 
     /**
      * Accept a connection on a specified address
      */
-    virtual int acceptConnection(std::string address) {}
+    virtual int acceptConnection(int id) {}
 
     /**
      * Disconnect client
@@ -99,6 +99,10 @@ public:
      * Destroy the port associated with the specified path
      */
     virtual void destroy(std::string path) {}
+
+    void sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {}
+
+    void receiveRawData(void * data_holder, DataType type, int count, int id) {}
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;

@@ -4,12 +4,6 @@
 #include <stdlib.h>
 #include "MessageApi.h"
 #include "DataTypes.h"
-#define BOOST_TEST_MODULE MyTest
-#include <boost/test/included/unit_test.hpp>
-BOOST_AUTO_TEST_CASE(MPI_transport_test)
-{
-    BOOST_TEST(true);
-}
 
 using namespace std;
 
@@ -24,7 +18,7 @@ get_timestamp ()
 }
 
 
-/*int main() {
+int main() {
     MPI_Init(NULL, NULL);
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -72,4 +66,3 @@ get_timestamp ()
     MPI_Finalize();
     return 0;
 }
-*/

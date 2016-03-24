@@ -27,7 +27,7 @@ int Server::connect(int dest) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachClient = client_list[i];
         if (eachClient.getId() == dest) {
-            protocol->acceptConnection(eachClient.getAddress());
+            protocol->acceptConnection(dest);
         }
     }
 
@@ -38,7 +38,7 @@ int Server::send(Message *msg, int destination) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachClient = client_list[i];
         if (eachClient.getId() == destination) {
-            protocol->acceptConnection(eachClient.getAddress());
+            protocol->acceptConnection(destination);
             protocol->receiveMessage(eachClient.getAddress());
             protocol->sendMessage(msg, eachClient.getAddress());
             disconnect(destination);
@@ -52,7 +52,7 @@ Message * Server::request(int source) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachClient = client_list[i];
         if (eachClient.getId() == source) {
-            protocol->acceptConnection(eachClient.getAddress());
+            protocol->acceptConnection(source);
             Message* msg = protocol->receiveMessage(eachClient.getAddress());
             disconnect(source);
             return msg;
@@ -84,7 +84,7 @@ int Server::broadcast(Message *msg) {
 
 void Server::message_handshake() {
     for (int i = 0; i < clientsNumber; ++i) {
-        protocol->acceptConnection(protocol->getServerAddress());
+        protocol->acceptConnection(i + 1);
         Message* clientMsg = protocol->receiveMessage(protocol->getServerAddress());
         ClientData* data = (ClientData*) clientMsg->data;
 
@@ -107,7 +107,7 @@ void Server::handshake() {
         transport->acceptConnection(i + 1);
         int size = probe(i + 1, TYPE_CHAR);
         char path[size];
-        transport->receiveRawData(path, MPI_CHARACTER, size, i + 1);
+        transport->receiveRawData(path, TYPE_CHAR, size, i + 1);
         std::string temp = path;
         temp = temp.substr(0, size);
 
@@ -115,7 +115,7 @@ void Server::handshake() {
             Endpoint eachClient = client_list[j];
             if (std::strcmp(eachClient.getPath().c_str(), temp.c_str()) == 0) {
                 int id = eachClient.getId();
-                transport->sendRawData(&id, MPI_INT, 1, i + 1, 0);
+                transport->sendRawData(&id, TYPE_INT, 1, i + 1, 0);
                 break;
             }
         }
@@ -124,12 +124,11 @@ void Server::handshake() {
 
 int Server::sendRaw(void *data, int count, int destination, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
-    MPI_Datatype send_type = transport->pick_mpi_type(type);
 
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == destination) {
-            transport->sendRawData(data, send_type, count, destination, 0);
+            transport->sendRawData(data, type, count, destination, 0);
             break;
         }
     }
@@ -138,12 +137,11 @@ int Server::sendRaw(void *data, int count, int destination, DataType type) {
 
 void Server::requestRaw(void* data, int count, int source, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
-    MPI_Datatype receiveType = transport->pick_mpi_type(type);
 
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == source) {
-            transport->receiveRawData(data, receiveType, count, source);
+            transport->receiveRawData(data, type, count, source);
             break;
         }
     }

@@ -21,7 +21,7 @@ int Client::send(Message *msg, int destination) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == destination) {
-            protocol->connectAddress(eachPoint.getAddress());
+            protocol->connectAddress(destination);
             protocol->sendMessage(msg, eachPoint.getAddress());
         }
     }
@@ -34,7 +34,7 @@ Message * Client::request(int source) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == source) {
-            protocol->connectAddress(eachPoint.getAddress());
+            protocol->connectAddress(source);
             Message* request = new Message();
             protocol->sendMessage(request, eachPoint.getAddress());
             response = protocol->receiveMessage(eachPoint.getAddress());
@@ -48,7 +48,7 @@ int Client::connect(int dest) {
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == dest) {
-            protocol->connectAddress(eachPoint.getAddress());
+            protocol->connectAddress(dest);
         }
     }
     return 0;
@@ -70,7 +70,7 @@ void Client::message_handshake() {
     clientDataRequest->data = data;
 
     char* serverAddress = protocol->getServerAddress();
-    protocol->connectAddress(serverAddress);
+    protocol->connectAddress(0);
     protocol->sendMessage(clientDataRequest, serverAddress);
     Message* msg = protocol->receiveMessage(serverAddress);
     ClientData* updatedData = (ClientData*) msg->data;
@@ -80,21 +80,20 @@ void Client::message_handshake() {
 void Client::handshake() {
     MPITransport* transport = (MPITransport*) protocol;
     transport->connectAddress(0);
-    transport->sendRawData((char *) getPath().c_str(), MPI_CHARACTER, getPath().length(), 0, 1);
+    transport->sendRawData((char *) getPath().c_str(), TYPE_CHAR, getPath().length(), 0, 1);
 
     int id;
-    transport->receiveRawData(&id,MPI_INT, 1, 0);
+    transport->receiveRawData(&id, TYPE_INT, 1, 0);
     Client::setId(id);
 }
 
 int Client::sendRaw(void *data, int count, int destination, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
-    MPI_Datatype send_type = transport->pick_mpi_type(type);
 
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == destination) {
-            transport->sendRawData(data, send_type, count, destination, getId());
+            transport->sendRawData(data, type, count, destination, getId());
             break;
         }
     }
@@ -103,11 +102,10 @@ int Client::sendRaw(void *data, int count, int destination, DataType type) {
 
 void Client::requestRaw(void* data, int count, int source, DataType type) {
     MPITransport* transport = (MPITransport*) protocol;
-    MPI_Datatype receiveType = transport->pick_mpi_type(type);
     for (int i = 0; i < clientsNumber; i++) {
         Endpoint eachPoint = client_list[i];
         if (eachPoint.getId() == source) {
-            transport->receiveRawData(data, receiveType, count, source);
+            transport->receiveRawData(data, type, count, source);
             break;
         }
     }

@@ -26,9 +26,9 @@ public:
 
     void sendMessage(Message *msg, std::string destination);
 
-    void sendRawData(void *data, MPI_Datatype type, int number, int id, int endpoint_id);
+    void sendRawData(void *data, DataType type, int number, int id, int endpoint_id);
 
-    void receiveRawData(void * data_holder, MPI_Datatype type, int count, int id);
+    void receiveRawData(void * data_holder, DataType type, int count, int id);
 
     Message *receiveMessage(std::string source);
 
