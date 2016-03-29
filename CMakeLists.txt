@@ -13,11 +13,11 @@ add_library(mimiccomm STATIC ${SOURCE_FILES})
 
 if(INCLUDE_TESTS)
     enable_testing()
-    set(BOOST_ROOT "/home/bolnykh/soft")
-    set(BOOSTROOT "/home/bolnykh/soft")
+#    set(BOOST_ROOT "/home/bolnykh/soft")
+#    set(BOOSTROOT "/home/bolnykh/soft")
     set(CMAKE_CXX_FLAGS "-std=c++11")
 
-    find_package(Boost 1.59.0  REQUIRED COMPONENTS
+    find_package(Boost 1.50.0  REQUIRED COMPONENTS
             serialization system)
 
     if(NOT Boost_FOUND)
