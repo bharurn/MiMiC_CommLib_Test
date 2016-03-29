@@ -1,7 +1,6 @@
 my_project:
   script:
     - source ~/prepare_build.sh
-    - module list
     - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
     - make
     - make test
