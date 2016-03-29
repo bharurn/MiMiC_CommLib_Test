@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 2.6)
 project(MimicCommLib)
 
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
