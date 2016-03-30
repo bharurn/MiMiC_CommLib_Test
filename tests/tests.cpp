@@ -11,6 +11,5 @@ using namespace std;
 BOOST_AUTO_TEST_CASE(Serializer_test)
 {
     BOOST_TEST(true);
-//    int i = 2;
 //    BOOST_TEST(i == 1);
 }
