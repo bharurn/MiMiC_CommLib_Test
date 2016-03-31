@@ -1,6 +1,18 @@
-my_project:
+stages:
+  - build
+  - test
+before_script:
+  - source ~/prepare_build.sh
+
+build_job:
+  stage: build
   script:
-    - source ~/prepare_build.sh
-    - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
-    - make
-    - make test
+  - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx
+  - make
+
+test_job:
+  stage: test
+  script:
+  - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
+  - make
+  - make test
