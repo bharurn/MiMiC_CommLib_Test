@@ -20,20 +20,30 @@
 
 Endpoint* endpoint;
 
+//int MCL_init_server(int clients_number, char *paths_string) {
+//    MCL_init_server(clients_number, paths_string, (char *) ";");
+//}
+
 /**
  * Use to initialize the server
  *
  * \param clients_number number of clients to be connected
  * \param paths local paths of all clients (needed for addresses sharing)
  */
-int MCL_init_server(int clients_number, char **paths) {
+int MCL_init_server(int clients_number, char *paths_string, char *delimeter) {
+    std::string* client_paths = new std::string[clients_number];
+    char* token;
+    token = strtok(paths_string, delimeter);
+    int i = 0;
+    while (token != NULL && i < clients_number)
+    {
+        client_paths[i] = std::string(token);
+        token = strtok(NULL, delimeter);
+        i++;
+    }
     Transport* protocol = new MPITransport(MPI_COMM_SELF);
     Server* server = new Server(protocol);
     server->setId(0);
-    std::string* client_paths = new std::string[clients_number];
-    for (int i = 0; i < clients_number; ++i) {
-        client_paths[i] = std::string(paths[i]);
-    }
     endpoint = server;
     server->init(clients_number, client_paths);
     server->handshake();
@@ -45,7 +55,8 @@ int MCL_init_server(int clients_number, char **paths) {
  *
  * \param path string containing the path in the file system to this client
  */
-int MCL_init_client(char *path) {
+void MCL_init_client(char *path) {
+    std::cout << path << "\n";
     Transport* protocol = new MPITransport(MPI_COMM_SELF);
     std::string client_path = std::string(path);
     Client* client = new Client(protocol);
@@ -53,7 +64,6 @@ int MCL_init_client(char *path) {
     client->init("", client_path);
     client->handshake();
     std::cout << "Received id: " << client->getId() << "\n";
-    return 0;
 }
 
 /**

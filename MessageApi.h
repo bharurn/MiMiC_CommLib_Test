@@ -17,14 +17,19 @@
  * \param clients_number number of clients to be connected
  * \param paths local paths of all clients (needed for addresses sharing)
  */
-int MCL_init_server(int clients_number, char **paths);
+//extern "C"
+//int MCL_init_server(int clients_number, char *paths);
+
+extern "C"
+int MCL_init_server(int clients_number, char *paths, char *delimeter);
 
 /**
  * Initialize client endpoint
  *
  * \param path string containing the path in the file system to this client
  */
-int MCL_init_client(char *path);
+extern "C"
+void MCL_init_client(char *path);
 
 /**
  * Send data to specified client
@@ -34,6 +39,7 @@ int MCL_init_client(char *path);
  * \param data_type type of data to send
  * \param destination id of the client to receive data
  */
+extern "C"
 void MCL_send(void *data, int count, int data_type, int destination);
 
 /**
@@ -44,11 +50,13 @@ void MCL_send(void *data, int count, int data_type, int destination);
  * \param data_type type of data to send
  * \param source id of the client which is sending data
  */
+extern "C"
 void MCL_receive(void *buffer, int count, int data_type, int source);
 
 /**
  * Destroy the endpoint
  */
+extern "C"
 void MCL_destroy();
 
 

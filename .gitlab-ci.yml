@@ -7,7 +7,7 @@ grsjuc_job:
     - make
     - make test
   tags:
-    - grsjuc
+    - grsjuc,comm_lib
 
 ubuntu_job:
   script:
@@ -15,4 +15,4 @@ ubuntu_job:
     - make
     - make test
   tags:
-    - ubuntu
+    - ubuntu,comm_lib
