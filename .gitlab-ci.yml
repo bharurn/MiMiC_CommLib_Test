@@ -16,3 +16,11 @@ ubuntu_job:
     - make test
   tags:
     - ubuntu,comm_lib
+
+lcbcpc_job:
+  script:
+    - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
+    - make
+    - make test
+  tags:
+    - debian,intel,comm_lib
