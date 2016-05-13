@@ -25,14 +25,17 @@ int main() {
         char buffer[1024];
         fgets(buffer, 80, stdin);
         string str = buffer;
-        int size = 10000000;
+        int size = 200000000;
         if (str.compare("server\n") == 0) {
             char* clients[2];
             clients[0] = "./client1";
             clients[1] = "./client2/";
-            MCL_init_server(1, clients);
+            char* delimeter = ";";
+            int data_type = TYPE_DOUBLE;
+            int client = 1;
+            MCL_init_server(&client, "./client1", delimeter);
             double* data = (double *) malloc(sizeof(double) * size);
-            MCL_receive(data, size, TYPE_DOUBLE, 1);
+            MCL_receive(data, &size, &data_type, &client);
             for (int i = 0; i < 2; ++i) {
                 std::cout << data[i] << "\n";
             }
@@ -54,9 +57,10 @@ int main() {
                 for (int i = 0; i < size; ++i) {
                     test[i] = i * 0.2;
                 }
-
+                int data_type = TYPE_DOUBLE;
+                int client = 1;
                 timestamp_t t0 = get_timestamp();
-                MCL_send(test, size, TYPE_DOUBLE, 0);
+                MCL_send(test, &size, &data_type, &client);
                 timestamp_t t1 = get_timestamp();
                 cout << "Total execution time: " << t1-t0 << "\n";
             }

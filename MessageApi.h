@@ -21,7 +21,7 @@
 //int MCL_init_server(int clients_number, char *paths);
 
 extern "C"
-int MCL_init_server(int clients_number, char *paths, char *delimeter);
+int MCL_init_server(int *clients_number, char *paths, char *delimeter);
 
 /**
  * Initialize client endpoint
@@ -40,7 +40,7 @@ void MCL_init_client(char *path);
  * \param destination id of the client to receive data
  */
 extern "C"
-void MCL_send(void *data, int count, int data_type, int destination);
+void MCL_send(void *data, int *count, int *data_type, int *destination);
 
 /**
  * Receive data from a specified client
@@ -51,7 +51,7 @@ void MCL_send(void *data, int count, int data_type, int destination);
  * \param source id of the client which is sending data
  */
 extern "C"
-void MCL_receive(void *buffer, int count, int data_type, int source);
+void MCL_receive(void *buffer, int *count, int *data_type, int *source);
 
 /**
  * Destroy the endpoint
