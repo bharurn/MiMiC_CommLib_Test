@@ -12,6 +12,8 @@
 #include "transport/Client.h"
 #include "transport/Server.h"
 #include "transport/MPITransport.h"
+#include <sstream>
+#include <iterator>
 
 /**
  * External API of the library
@@ -20,9 +22,9 @@
 
 Endpoint* endpoint;
 
-//int MCL_init_server(int clients_number, char *paths_string) {
-//    MCL_init_server(clients_number, paths_string, (char *) ";");
-//}
+int MCL_init_server(char *paths_string) {
+    MCL_init_server(paths_string, ';');
+}
 
 /**
  * Use to initialize the server
@@ -30,22 +32,22 @@ Endpoint* endpoint;
  * \param clients_number number of clients to be connected
  * \param paths local paths of all clients (needed for addresses sharing)
  */
-int MCL_init_server(int *clients_number, char *paths_string, char *delimeter) {
-    std::string* client_paths = new std::string[*clients_number];
-    char* token;
-    token = strtok(paths_string, delimeter);
-    int i = 0;
-    while (token != NULL && i < *clients_number)
-    {
-        client_paths[i] = std::string(token);
-        token = strtok(NULL, delimeter);
-        i++;
+int MCL_init_server(char *paths_string, char delimeter) {
+    std::string merged_paths = std::string(paths_string);
+    std::stringstream ss(merged_paths);
+    std::string path;
+    std::vector<std::string> client_paths;
+    while (std::getline(ss, path, delimeter)) {
+        if (!path.empty()) {
+            client_paths.push_back(path);
+        }
     }
+
     Transport* protocol = new MPITransport(MPI_COMM_SELF);
     Server* server = new Server(protocol);
     server->setId(0);
     endpoint = server;
-    server->init(*clients_number, client_paths);
+    server->init(client_paths);
     server->handshake();
     return 0;
 }
@@ -76,10 +78,10 @@ void MCL_init_client(char *path) {
  * \param data_type type of data to send
  * \param destination id of the client to receive data
  */
-void MCL_send(void *data, int *count, int *data_type, int *destination) {
-    int temp_type = *data_type;
+void MCL_send(void *data, int count, int data_type, int destination) {
+    int temp_type = data_type;
     DataType type = static_cast<DataType>(temp_type);
-    endpoint->sendRaw(data, *count, *destination, type);
+    endpoint->send(data, count, destination, type);
 }
 
 /**
@@ -90,10 +92,10 @@ void MCL_send(void *data, int *count, int *data_type, int *destination) {
  * \param data_type type of data to send
  * \param source id of the client which is sending data
  */
-void MCL_receive(void *buffer, int *count, int *data_type, int *source) {
-    int temp_type = *data_type;
+void MCL_receive(void *buffer, int count, int data_type, int source) {
+    int temp_type = data_type;
     DataType type = static_cast<DataType>(temp_type);
-    endpoint->requestRaw(buffer, *count, *source, type);
+    endpoint->request(buffer, count, source, type);
 }
 
 /**

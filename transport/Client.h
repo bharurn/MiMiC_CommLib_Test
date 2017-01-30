@@ -17,21 +17,15 @@ class Client : public Endpoint {
 public:
     Client(Transport* protocol) : Endpoint(protocol) { }
 
-    void message_handshake();
+    Client(int id, const std::string &path, Transport *protocol) : Endpoint(id, path, protocol) { }
 
-    int sendRaw(void *data, int count, int destination, DataType type);
+    int send(void *data, int count, int destination, DataType type);
 
-    void requestRaw(void* data, int count, int source, DataType type);
+    void request(void *data, int count, int source, DataType type);
 
-    void handshake() ;
+    void handshake();
 
     int init(std::string address, std::string path);
-
-    int connect(int dest);
-
-    int send(Message *msg, int destination);
-
-    Message * request(int source);
 
     void disconnect(int dest);
 

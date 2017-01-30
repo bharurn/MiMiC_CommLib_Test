@@ -9,6 +9,7 @@
 #include "Transport.h"
 #include "../DataTypes.h"
 #include <mpi.h>
+#include <iostream>
 
 /**
  * Transport implementation using MPI intercommunicators
@@ -20,19 +21,13 @@ class MPITransport : public Transport {
 public:
     MPITransport(MPI_Comm comm) : Transport(NULL), host_comm(comm) { }
 
-    void initServ(std::string *paths, int client_number);
+    void initServ(std::vector<std::string> paths);
 
     void initClient(std::string path);
 
-    void sendMessage(Message *msg, std::string destination);
+    void sendData(void *data, DataType type, int count, int id);
 
-    void sendRawData(void *data, DataType type, int number, int id, int endpoint_id);
-
-    void receiveRawData(void * data_holder, DataType type, int count, int id);
-
-    Message *receiveMessage(std::string source);
-
-    Message *receiveMessages(int number, std::string adresses);
+    void receiveData(void *data_holder, DataType type, int count, int id);
 
     int probe(int id, DataType type);
 
@@ -63,7 +58,7 @@ private:
     /**
      * Name of the file used to share port address
      */
-    static const char* FILENAME;
+    static std::string FILENAME;
 
     /**
      * Array of ports used to connect clients

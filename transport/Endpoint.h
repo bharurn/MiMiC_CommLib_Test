@@ -40,76 +40,40 @@ protected:
     /**
      * List of known client (needed for server, but could be useful for p2p transports
      */
-    std::vector <Endpoint> client_list;
+    std::vector<Endpoint*> client_list;
 
 public:
 
     Endpoint(Transport *protocol) : protocol(protocol) { }
 
-    /**
-     * Initialize endpoint (overloaded for client and server)
-     */
-    virtual int init(std::string *address, std::string *path) {}
+
+    Endpoint(int id, const std::string &path, Transport *protocol) :
+            id(id), path(path), protocol(protocol) { }
 
     /**
-     * Handshake procedure for a transport without messaging system
-     */
-    virtual void message_handshake() {}
-
-    /**
-     * Handshake procedure for transports with internal messaging
-     * mechinsms (MPI, PAMI, etc.)
+     * Handshake procedure, assigns ids to clients
      */
     virtual void handshake() {}
 
     /**
-     * @Deprecated
-     */
-    virtual void initClientList(Endpoint clients[]) {};
-
-    /**
-     * @Deprecated?
-     */
-    virtual int connect(int dest) {}
-
-    /**
-     * Send a message to specified client
-     *
-     * \param msg message to send
-     * \param destination id of the client to receive data
-     */
-    virtual int send(Message *msg, int destination) {}
-
-    /**
-     * Request a message from a client
-     *
-     * \param source id of the source client
-     */
-    virtual Message * request(int source) {}
-
-    /**
-     * Send raw data (array of primitive type) to a specific client
-     * !!!ONLY FOR MESSAGE_BASED MECHANISMS(MPI, PAMI)  !!!
-     * !!!FOR SIMPLER MECHANISMS MESSAGES SHOULD BE USED!!!
+     * Send data to a specific client (transport layer should handle data packaging)
      *
      * \param data pointer to the data array
      * \param count number of data entities
      * \param destination id of the client to receive data
      * \param type of the data to send
      */
-    virtual int sendRaw(void* data, int count, int destination, DataType type) {}
+    virtual int send(void *data, int count, int destination, DataType type) = 0;
 
     /**
      * Receive raw data (array of primitive type) from a specific client
-     * !!!ONLY FOR MESSAGE_BASED MECHANISMS(MPI, PAMI)  !!!
-     * !!!FOR SIMPLER MECHANISMS MESSAGES SHOULD BE USED!!!
      *
      * \param data pointer to the buffer
      * \param count number of data entities
      * \param source id of the client to receive data
      * \param type of the data to send
      */
-    virtual void requestRaw (void* data, int count, int source, DataType type) {}
+    virtual void request(void *data, int count, int source, DataType type) = 0;
 
     /**
      * Probe message queue for length of the pending message
@@ -124,7 +88,7 @@ public:
     /**
      * Disconnect from a specified client
      */
-    virtual void disconnect(int dest) {}
+    virtual void disconnect(int dest) = 0;
 
     /**
      * Destroy the endpoint
@@ -133,11 +97,11 @@ public:
 
     std::string transform_path(std::string original_path) {
         char sep = '/';
-        std::string tmp = original_path;
+        std::string transformed_path = std::string(original_path);
         if (original_path[original_path.length() - 1] != sep) {
-            tmp += sep;
+            transformed_path += sep;
         }
-        return tmp;
+        return transformed_path;
     }
 
     int getId() {

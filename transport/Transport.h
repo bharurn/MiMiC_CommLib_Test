@@ -4,7 +4,6 @@
 #ifndef MIMICCOMMLIB_TRANSPORT_H
 #define MIMICCOMMLIB_TRANSPORT_H
 
-#include <zconf.h>
 #include "../message/Message.h"
 #include "../serializer/Serializer.h"
 #include "../DataTypes.h"
@@ -33,59 +32,34 @@ public:
      * \param clients_number number of clients to get data from
      * \param replies map of client_id -> reply from the server
      */
-    virtual void initServ(std::string *paths, int client_number) {}
+    virtual void initServ(std::vector<std::string> paths) = 0;
 
     /**
      * Initialize client (prepare and connect to the server) for data interaction
      */
-    virtual void initClient(std::string path) {}
-
-    /**
-     * Used to bind a network address to specific client (most possibly has to be removed)
-     */
-    virtual void bindAddress(std::string path) {}
-
-    /**
-     * Send a message to a specified address
-     *
-     * \param msg message to send
-     * \param destination address of the client to obtain the message
-     */
-    virtual void sendMessage(Message *msg, std::string destination) {}
-
-    /**
-     * Receive a message from a specified source
-     *
-     * \param source address of the client sending the message
-     */
-    virtual Message* receiveMessage(std::string source) {}
-
-    /**
-     * Deprecate?
-     */
-    virtual Message* receiveMessages(int number, std::string adresses) {}
+    virtual void initClient(std::string path) = 0;
 
     /**
      * Establish connection to a specified address
      */
-    virtual int connectAddress (int id) {}
+    virtual int connectAddress (int id) = 0;
 
     /**
      * Accept a connection on a specified address
      */
-    virtual int acceptConnection(int id) {}
+    virtual int acceptConnection(int id) = 0;
 
     /**
      * Disconnect client
      *
      * \param id id of the client to disconnect
      */
-    virtual void closeConnection (int id) {}
+    virtual void closeConnection (int id) = 0;
 
     /**
      * Returns the address of the local server (remove?)
      */
-    virtual char* getServerAddress () {}
+    virtual char* getServerAddress () = 0;
 
     /**
      * Analogue to MPI_Probe return the size of the message waiting in the queue
@@ -93,16 +67,16 @@ public:
      * \param id id of the client
      * \param type DataType to be received
      */
-    virtual int probe(int id, DataType type) {}
+    virtual int probe(int id, DataType type) = 0;
 
     /**
      * Destroy the port associated with the specified path
      */
-    virtual void destroy(std::string path) {}
+    virtual void destroy(std::string path) = 0;
 
-    virtual void sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {}
+    virtual void sendData(void *data, DataType type, int count, int id) = 0;
 
-    virtual void receiveRawData(void * data_holder, DataType type, int count, int id) {}
+    virtual void receiveData(void *data_holder, DataType type, int count, int id) = 0;
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mpi.h>
 #include <sys/time.h>
+#include <string.h>
 #include <stdlib.h>
 #include "MessageApi.h"
 #include "DataTypes.h"
@@ -25,19 +26,22 @@ int main() {
         char buffer[1024];
         fgets(buffer, 80, stdin);
         string str = buffer;
-        int size = 200000000;
+        int size = 200;
         if (str.compare("server\n") == 0) {
             char* clients[2];
             clients[0] = "./client1";
             clients[1] = "./client2/";
-            char* delimeter = ";";
+            char delimeter = ';';
             int data_type = TYPE_DOUBLE;
             int client = 1;
-            MCL_init_server(&client, "./client1", delimeter);
-            double* data = (double *) malloc(sizeof(double) * size);
-            MCL_receive(data, &size, &data_type, &client);
+            MCL_init_server(client, "./client1;./client2", delimeter);
+            std::cout << "initialized server" << "\n";
             for (int i = 0; i < 2; ++i) {
-                std::cout << data[i] << "\n";
+                double* data = (double *) malloc(sizeof(double) * size);
+                MCL_receive(data, size, data_type, i + 1);
+                for (int j = 0; j < 10; ++j) {
+                    std::cout << data[j] << "\n";
+                }
             }
             MCL_destroy();
         }
@@ -51,19 +55,24 @@ int main() {
 
             std::cout << "init\n";
             MCL_init_client((char *) path.c_str());
+            int startIndex = 0;
             if (strcmp(str.c_str(), "asdf\n") == 0) {
-                double* test = (double *) malloc(sizeof(double) * size);
-
-                for (int i = 0; i < size; ++i) {
-                    test[i] = i * 0.2;
-                }
-                int data_type = TYPE_DOUBLE;
-                int client = 1;
-                timestamp_t t0 = get_timestamp();
-                MCL_send(test, &size, &data_type, &client);
-                timestamp_t t1 = get_timestamp();
-                cout << "Total execution time: " << t1-t0 << "\n";
+                startIndex = 0;
+            } else {
+                startIndex = size;
             }
+            double* test = (double *) malloc(sizeof(double) * size);
+
+            for (int i = startIndex; i < startIndex + size; ++i) {
+                test[i - startIndex] = i * 0.2;
+            }
+            int data_type = TYPE_DOUBLE;
+            int client = 1;
+            timestamp_t t0 = get_timestamp();
+            cout << "Sending data" << "\n";
+            MCL_send(test, size, data_type, 0);
+            timestamp_t t1 = get_timestamp();
+            cout << "Total execution time: " << t1-t0 << "\n";
             MCL_destroy();
         }
     MPI_Barrier(MPI_COMM_WORLD);

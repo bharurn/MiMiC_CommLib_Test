@@ -3,8 +3,6 @@ project(MimicCommLib)
 
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 
-set(OLD_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
 
 set(SOURCE_FILES message/Message.h transport/Transport.h MessageApi.h MessageApi.cpp serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h)

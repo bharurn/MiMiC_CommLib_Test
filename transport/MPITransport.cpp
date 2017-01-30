@@ -3,19 +3,19 @@
 //
 
 #include <stdexcept>
-#include <stdlib.h>
 #include "MPITransport.h"
 
-const char* MPITransport::FILENAME = ".portname";
+std::string MPITransport::FILENAME = ".portname";
 
-void MPITransport::initServ(std::string *paths, int client_number) {
+void MPITransport::initServ(std::vector<std::string> paths) {
+    unsigned int client_number = (unsigned int) paths.size();
     port = new mpi_port_name[client_number + 1];
-    intercomm = (MPI_Comm *) malloc(sizeof(MPI_Comm) * (client_number + 1));
+    intercomm = new MPI_Comm[client_number + 1];
     for (int i = 0; i < client_number; ++i) {
         MPI_Open_port(MPI_INFO_NULL, port[i + 1]);
-        std::string filepath = paths[i] + FILENAME;
+        std::string filepath = paths[i].append(FILENAME);
         remove(filepath.c_str());
-        FILE * port_file = fopen(filepath.c_str(), "w");
+        FILE *port_file = fopen(filepath.c_str(), "w");
         fprintf(port_file, port[i + 1]);
         fclose(port_file);
     }
@@ -24,9 +24,9 @@ void MPITransport::initServ(std::string *paths, int client_number) {
 void MPITransport::initClient(std::string path) {
     bool file_exists = false;
     FILE *port_address = NULL;
-    std::string port_file = path + FILENAME;
+    std::string port_file = path.append(FILENAME);
     port = new mpi_port_name[1];
-    intercomm = (MPI_Comm *) malloc(sizeof(MPI_Comm));
+    intercomm = new MPI_Comm[1];
     while (!file_exists) {
         port_address = fopen(port_file.c_str(), "r");
         if (port_address != NULL) {
@@ -35,18 +35,6 @@ void MPITransport::initClient(std::string path) {
     }
     fscanf(port_address, "%s", port[0]);
     fclose(port_address);
-}
-
-void MPITransport::sendMessage(Message *msg, std::string destination) {
-    throw std::invalid_argument("Invalid function call - use raw data methods instead");
-}
-
-Message *MPITransport::receiveMessage(std::string source) {
-    throw std::invalid_argument("Invalid function call - use raw data methods instead");
-}
-
-Message *MPITransport::receiveMessages(int number, std::string adresses) {
-    throw std::invalid_argument("Invalid function call - use raw data methods instead");
 }
 
 int MPITransport::connectAddress(int id) {
@@ -67,12 +55,11 @@ char *MPITransport::getServerAddress() {
     return port[0];
 }
 
-void MPITransport::sendRawData(void *data, DataType type, int number, int id, int endpoint_id) {
-    std::cout << "sending data, receiver: " << id << "\n";
-    MPI_Ssend(data, number, pick_mpi_type(type), 0, 0, intercomm[id]);
+void MPITransport::sendData(void *data, DataType type, int count, int id) {
+    MPI_Ssend(data, count, pick_mpi_type(type), 0, 0, intercomm[id]);
 }
 
-void MPITransport::receiveRawData(void * data_holder, DataType type, int count, int id) {
+void MPITransport::receiveData(void *data_holder, DataType type, int count, int id) {
     MPI_Status status;
     MPI_Recv(data_holder, count, pick_mpi_type(type), 0, MPI_ANY_TAG, intercomm[id], &status);
 }
@@ -82,12 +69,11 @@ int MPITransport::probe(int id, DataType type) {
     MPI_Status status;
     MPI_Probe(0, MPI_ANY_TAG, intercomm[id], &status);
     MPI_Get_count(&status, pick_mpi_type(type), &size);
-    std::cout << "Size in the queue: " << size << "\n";
     return size;
 }
 
 void MPITransport::destroy(std::string path) {
-    std::string filepath = path + FILENAME;
+    std::string filepath = path.append(FILENAME);
     remove(filepath.c_str());
 }
 

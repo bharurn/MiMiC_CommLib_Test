@@ -23,7 +23,7 @@ public:
      * \param msg message to be serialized
      * \param stream output strem in which to put data
      */
-    virtual void serialize(Message *msg, std::ostream *stream) {}
+    virtual void serialize(Message msg, std::ostream *stream) = 0;
 
     /**
      * Deserialize data from stream
@@ -31,7 +31,7 @@ public:
      * \param stream with serialized data
      * \return Message contained in serialized data
      */
-    virtual Message * deserealize(std::istream *data) {}
+    virtual Message deserealize(std::istream *data) = 0;
 
 };
 #endif //MIMICCOMMLIB_SERIALIZER_H
