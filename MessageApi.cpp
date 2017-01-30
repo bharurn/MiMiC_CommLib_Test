@@ -22,10 +22,6 @@
 
 Endpoint* endpoint;
 
-int MCL_init_server(char *paths_string) {
-    MCL_init_server(paths_string, ';');
-}
-
 /**
  * Use to initialize the server
  *

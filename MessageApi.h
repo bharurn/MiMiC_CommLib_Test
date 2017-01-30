@@ -12,15 +12,6 @@
  */
 
 /**
- * Used to initialize the server, default implementation.
- * uses ';' character as a delimeter
- *
- * \param paths local paths of all clients (needed for addresses sharing)
- */
-extern "C"
-int MCL_init_server(char *paths_string);
-
-/**
  * Customizable init function. Uses arbitrary delimeter char
  *
  * \param paths local paths of all clients (needed for addresses sharing)
