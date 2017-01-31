@@ -4,15 +4,10 @@ project(MimicCommLib)
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
-
-set(SOURCE_FILES message/Message.h transport/Transport.h MessageApi.h MessageApi.cpp serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h)
-add_library(mimiccomm STATIC ${SOURCE_FILES})
-#add_executable(MimicCommLib ${SOURCE_FILES})
+add_subdirectory(src)
 
 if(INCLUDE_TESTS)
     enable_testing()
-#    set(BOOST_ROOT "/home/bolnykh/soft")
-#    set(BOOSTROOT "/home/bolnykh/soft")
     set(CMAKE_CXX_FLAGS "-std=c++11")
 
     find_package(Boost 1.50.0  REQUIRED COMPONENTS
