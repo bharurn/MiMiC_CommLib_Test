@@ -57,10 +57,12 @@ void MCL_init_client(char *path) {
     std::cout << "start initialization" << "\n";
     Transport* protocol = new MPITransport(MPI_COMM_SELF);
     std::string client_path = std::string(path);
+    std::vector<std::string> paths;
+    paths.push_back(client_path);
     Client* client = new Client(protocol);
     endpoint = client;
     std::cout << "initializing client" << "\n";
-    client->init("", client_path);
+    client->init(paths);
     std::cout << "starting handshake" << "\n";
     client->handshake();
     std::cout << "Received id: " << client->getId() << "\n";

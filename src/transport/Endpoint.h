@@ -51,6 +51,14 @@ public:
             id(id), path(path), protocol(protocol) { }
 
     /**
+     * Initialize endpoint
+     *
+     * \param paths paths to other endpoints which this one is
+     * interacting with.
+     */
+    virtual int init(std::vector<std::string> paths) = 0;
+
+    /**
      * Handshake procedure, assigns ids to clients
      */
     virtual void handshake() {}

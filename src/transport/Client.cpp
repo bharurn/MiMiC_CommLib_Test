@@ -6,11 +6,10 @@
 #include "MPITransport.h"
 #include "Server.h"
 
-int Client::init(std::string address, std::string path) {
-    protocol->initClient(transform_path(path));
+int Client::init(std::vector<std::string> paths) {
+    protocol->initClient(transform_path(paths[0]));
     client_list.push_back(new Server(0, "", protocol));
-    setAddress(address);
-    setPath(transform_path(path));
+    setPath(transform_path(paths[0]));
 
     return 0;
 }

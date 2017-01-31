@@ -25,7 +25,7 @@ public:
 
     void handshake();
 
-    int init(std::string address, std::string path);
+    int init(std::vector<std::string> paths);
 
     void disconnect(int dest);
 
