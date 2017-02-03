@@ -26,6 +26,10 @@ protected:
 public:
     Transport(Serializer *serializer) : serializer(serializer) { }
 
+    void setSerializer(Serializer *serializer) {
+        Transport::serializer = serializer;
+    }
+
     /**
      * Initialize server for receiving/sending data
      *
@@ -36,16 +40,23 @@ public:
 
     /**
      * Initialize client (prepare and connect to the server) for data interaction
+     *
+     * \param path path to working folder of the client
+     * @todo consider merging into one init method
      */
     virtual void initClient(std::string path) = 0;
 
     /**
      * Establish connection to a specified address
+     *
+     * \param id id of the client to be connected
      */
     virtual int connectAddress (int id) = 0;
 
     /**
      * Accept a connection on a specified address
+     *
+     * \param id id of the client to accept connection from
      */
     virtual int acceptConnection(int id) = 0;
 
@@ -74,13 +85,25 @@ public:
      */
     virtual void destroy(std::string path) = 0;
 
+    /**
+     * Send the data to a specified client
+     *
+     * \param data pointer to the array containing data to be sent
+     * \param type type of the data to be sent
+     * \param count number of elements in the data array
+     * \param id of the receiving client
+     */
     virtual void sendData(void *data, DataType type, int count, int id) = 0;
 
+    /**
+     * Receive data from the endpoint
+     *
+     * \param pointer to the array containing data to be sent
+     * \param type type of the data to be received
+     * \param count number of elements in the data array
+     * \param id of the sending endpoint
+     */
     virtual void receiveData(void *data_holder, DataType type, int count, int id) = 0;
-
-    void setSerializer(Serializer *serializer) {
-        Transport::serializer = serializer;
-    }
 
 };
 

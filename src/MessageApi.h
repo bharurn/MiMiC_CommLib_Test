@@ -7,11 +7,15 @@
 
 
 /**
- * External API of the library
+ * \file MessageApi.h
+ * \brief External API of the library
+ *
+ * Provides the C API to call library functions
  * NOTE! ALL API CALLS ARE BLOCKING!!!
  */
 
 /**
+ * \fn int MCL_init_server(char *paths, char delimeter)
  * Customizable init function. Uses arbitrary delimeter char
  *
  * \param paths local paths of all clients (needed for addresses sharing)
@@ -21,6 +25,7 @@ extern "C"
 int MCL_init_server(char *paths, char delimeter);
 
 /**
+ * \fn void MCL_init_client(char *path)
  * Initialize client endpoint
  *
  * \param path string containing the path in the file system to this client
@@ -29,6 +34,7 @@ extern "C"
 void MCL_init_client(char *path);
 
 /**
+ * \fn void MCL_send(void *data, int count, int data_type, int destination)
  * Send data to specified client
  *
  * \param data pointer to the buffer with data
@@ -40,6 +46,7 @@ extern "C"
 void MCL_send(void *data, int count, int data_type, int destination);
 
 /**
+ * \fn void MCL_receive(void *buffer, int count, int data_type, int source)
  * Receive data from a specified client
  *
  * \param buffer buffer to store data
@@ -51,6 +58,7 @@ extern "C"
 void MCL_receive(void *buffer, int count, int data_type, int source);
 
 /**
+ * \fn void MCL_destroy()
  * Destroy the endpoint
  */
 extern "C"

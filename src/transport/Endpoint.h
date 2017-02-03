@@ -15,6 +15,18 @@
  */
 class Endpoint {
 
+protected:
+
+    /**
+     * Transport protocol used to send data
+     */
+    Transport* protocol;
+
+    /**
+     * List of known client (needed for server, but could be useful for p2p transports
+     */
+    std::vector<Endpoint*> client_list;
+
     /**
      * Endpoint id
      */
@@ -29,18 +41,6 @@ class Endpoint {
      * Local path associated with the current endpoint
      */
     std::string path;
-
-protected:
-
-    /**
-     * Transport protocol used to send data
-     */
-    Transport* protocol;
-
-    /**
-     * List of known client (needed for server, but could be useful for p2p transports
-     */
-    std::vector<Endpoint*> client_list;
 
 public:
 
