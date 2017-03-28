@@ -3,7 +3,11 @@ project(MimicCommLib)
 
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
+set(CMAKE_CXX_STANDARD 11)
+
+find_package(MPI REQUIRED)
+include_directories("${MPI_INCLUDE_PATH}")
+
 add_subdirectory(src)
 
 if(INCLUDE_TESTS)

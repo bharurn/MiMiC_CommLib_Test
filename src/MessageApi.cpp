@@ -22,12 +22,6 @@
 
 Endpoint* endpoint;
 
-/**
- * Use to initialize the server
- *
- * \param clients_number number of clients to be connected
- * \param paths local paths of all clients (needed for addresses sharing)
- */
 int MCL_init_server(char *paths_string, char delimeter) {
     std::string merged_paths = std::string(paths_string);
     std::stringstream ss(merged_paths);
@@ -48,11 +42,6 @@ int MCL_init_server(char *paths_string, char delimeter) {
     return 0;
 }
 
-/**
- * Initialize client endpoint
- *
- * \param path string containing the path in the file system to this client
- */
 void MCL_init_client(char *path) {
     std::cout << "start initialization" << "\n";
     Transport* protocol = new MPITransport(MPI_COMM_SELF);
@@ -68,37 +57,18 @@ void MCL_init_client(char *path) {
     std::cout << "Received id: " << client->getId() << "\n";
 }
 
-/**
- * Send data to specified client
- *
- * \param data pointer to the buffer with data
- * \param count number of entities to send
- * \param data_type type of data to send
- * \param destination id of the client to receive data
- */
 void MCL_send(void *data, int count, int data_type, int destination) {
     int temp_type = data_type;
     DataType type = static_cast<DataType>(temp_type);
     endpoint->send(data, count, destination, type);
 }
 
-/**
- * Receive data from a specified client
- *
- * \param buffer buffer to store data
- * \param count number of entities to receive
- * \param data_type type of data to send
- * \param source id of the client which is sending data
- */
 void MCL_receive(void *buffer, int count, int data_type, int source) {
     int temp_type = data_type;
     DataType type = static_cast<DataType>(temp_type);
     endpoint->request(buffer, count, source, type);
 }
 
-/**
- * Destroy the endpoint
- */
 void MCL_destroy() {
     endpoint->destroy();
 }
