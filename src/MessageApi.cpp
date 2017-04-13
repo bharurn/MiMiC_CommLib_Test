@@ -32,24 +32,24 @@
  */
 
 int MCL_init_server(char *paths_string, char delimeter) {
-    MCLMain<MPITransport>::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
-    return MCLMain<MPITransport>::getInstance().initServer(paths_string, delimeter);
+    MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
+    return MCLMain::getInstance().initServer(paths_string, delimeter);
 }
 
 void MCL_init_client(char *path) {
-    MCLMain<MPITransport>::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
-    MCLMain<MPITransport>::getInstance().initClient(path);
+    MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
+    MCLMain::getInstance().initClient(path);
 }
 
 void MCL_send(void *data, int count, int data_type, int destination) {
-    MCLMain<MPITransport>::getInstance().send(data, count, data_type, destination);
+    MCLMain::getInstance().send(data, count, data_type, destination);
 }
 
 void MCL_receive(void *buffer, int count, int data_type, int source) {
-    MCLMain<MPITransport>::getInstance().receive(buffer, count, data_type, source);
+    MCLMain::getInstance().receive(buffer, count, data_type, source);
 }
 
 void MCL_destroy() {
-    MCLMain<MPITransport>::getInstance().destroy();
+    MCLMain::getInstance().destroy();
 }
 

@@ -1,26 +1,54 @@
-#before_script:
-#  - source ~/prepare_build.sh
-#
-#grsjuc_job:
-#  script:
-#    - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
-#    - make
-#    - make test
-#  tags:
-#    - grsjuc,comm_lib
-#
-#ubuntu_job:
-#  script:
-#    - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
-#    - make
-#    - make test
-#  tags:
-#    - ubuntu,comm_lib
-#
-#lcbcpc_job:
-#  script:
-#    - cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DINCLUDE_TESTS=ON
-#    - make
-#    - make test
-#  tags:
-#    - debian,intel,comm_lib
+centos_gfortran:
+  script:
+    - source ~/prepare_build_gcc.sh
+    - mkdir build
+    - cd build
+    - cmake -DMAKE_TESTS=YES -DCHECK_BUILD=YES ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - juelich,centos
+
+lcbc_job_intel:
+  script:
+    - source ~/prepare_build_intel.sh
+    - mkdir build
+    - cd build
+    - cmake -DMAKE_TESTS=YES -DCHECK_BUILD=YES ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - epfl,debian
+
+lcbc_job_gfortran:
+  script:
+    - source ~/prepare_build_gcc.sh
+    - mkdir build
+    - cd build
+    - cmake -DMAKE_TESTS=YES -DCHECK_BUILD=YES ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - epfl,debian
+
+ubuntu_job_gfortran:
+  script:
+    - source ~/prepare_build_gcc.sh
+    - mkdir build
+    - cd build
+    - cmake -DMAKE_TESTS=YES -DCHECK_BUILD=YES ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - ubuntu
+
+ubuntu_job_intel:
+  script:
+    - source ~/prepare_build_intel.sh
+    - mkdir build
+    - cd build
+    - cmake -DMAKE_TESTS=YES -DCHECK_BUILD=YES ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - ubuntu

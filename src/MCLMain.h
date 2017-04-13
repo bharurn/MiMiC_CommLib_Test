@@ -32,29 +32,38 @@
 #include <iterator>
 
 /**
- * Main class of the MCL - mostly needed in order to simplify testing
+ * Singleton main class of the MCL - mostly needed in order to simplify testing
  */
-template <typename _Transport>
 class MCLMain {
 
 private:
     Endpoint* endpoint;
-    _Transport* protocol;
+    Transport* protocol;
 
     MCLMain() {};
-//    MCLMain(MCLMain<_Transport> const&);
-    void operator=(MCLMain<_Transport> const&);
+    void operator=(MCLMain const&);
 
 public:
-    static MCLMain<_Transport>& getInstance() {
-        static MCLMain<_Transport> instance;
+    /**
+     * Retrieve or create the singleton instance
+     * @return singleton instance
+     */
+    static MCLMain& getInstance() {
+        static MCLMain instance;
         return instance;
     }
 
-    void setProtocol(_Transport* protocol) {
+    void setProtocol(Transport* protocol) {
         this->protocol = protocol;
     }
 
+    /**
+     * Customizable init function. Uses arbitrary delimiter char
+     *
+     * \param paths local paths of all clients (needed for addresses sharing)
+     * \param delimiter character which is used to extract individual paths
+     * \return error code - NOT IMPLEMENTED YET
+     */
     int initServer(char *paths_string, char delimeter) {
         std::string merged_paths = std::string(paths_string);
         std::stringstream ss(merged_paths);
@@ -75,6 +84,12 @@ public:
         return 0;
     }
 
+    /**
+     * Initialize client endpoint
+     *
+     * \param path string containing the path in the file system to this client
+     */
+
     void initClient(char *path) {
         std::string client_path = std::string(path);
         std::vector<std::string> paths;
@@ -87,20 +102,43 @@ public:
         client->handshake();
     }
 
+    /**
+     * Send data to specified client
+     *
+     * \param data pointer to the buffer with data
+     * \param count number of entities to send
+     * \param data_type type of data to send
+     * \param destination id of the client to receive data
+     */
     void send(void *data, int count, int data_type, int destination) {
         int temp_type = data_type;
         DataType type = static_cast<DataType>(temp_type);
         this->endpoint->send(data, count, destination, type);
     }
 
+    /**
+     * Receive data from a specified client
+     *
+     * \param buffer buffer to store data
+     * \param count number of entities to receive
+     * \param data_type type of data to send
+     * \param source id of the client which is sending data
+     */
     void receive(void *buffer, int count, int data_type, int source) {
         int temp_type = data_type;
         DataType type = static_cast<DataType>(temp_type);
         endpoint->request(buffer, count, source, type);
     }
 
+    /**
+     * Destroy the endpoint
+     */
     void destroy() {
         endpoint->destroy();
+    }
+
+    Endpoint *getEndpoint() const {
+        return endpoint;
     }
 
 };
