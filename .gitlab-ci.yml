@@ -3,7 +3,7 @@ centos_gfortran:
     - source ~/prepare_build_gcc.sh
     - mkdir build
     - cd build
-    - cmake -DINCLUDE_TESTS=YES ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -14,7 +14,7 @@ ubuntu_job_gfortran:
     - source ~/prepare_build_gcc.sh
     - mkdir build
     - cd build
-    - cmake -DINCLUDE_TESTS=YES ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -25,7 +25,7 @@ ubuntu_job_intel:
     - source ~/prepare_build_intel.sh
     - mkdir build
     - cd build
-    - cmake -DINCLUDE_TESTS=YES ..
+    - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DINCLUDE_TESTS=YES ..
     - make -j 4
     - ctest --output-on-failure
   tags:
