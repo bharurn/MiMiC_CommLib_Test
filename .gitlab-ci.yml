@@ -9,24 +9,24 @@ centos_gfortran:
   tags:
     - juelich,centos
 
-ubuntu_job_gfortran:
-  script:
-    - source ~/prepare_build_gcc.sh
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - ubuntu
-
-ubuntu_job_intel:
-  script:
-    - source ~/prepare_build_intel.sh
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DINCLUDE_TESTS=YES ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - ubuntu
+#ubuntu_job_gfortran:
+#  script:
+#    - source ~/prepare_build_gcc.sh
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - ubuntu
+#
+#ubuntu_job_intel:
+#  script:
+#    - source ~/prepare_build_intel.sh
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DINCLUDE_TESTS=YES ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - ubuntu
