@@ -59,8 +59,6 @@ public:
 
     void destroy(std::string path);
 
-    char *getServerAddress();
-
     MPI_Datatype pick_mpi_type(DataType type);
 
 private:

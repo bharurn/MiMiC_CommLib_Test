@@ -89,11 +89,6 @@ public:
     virtual void closeConnection (int id) = 0;
 
     /**
-     * Returns the address of the local server (remove?)
-     */
-    virtual char* getServerAddress () = 0;
-
-    /**
      * Analogue to MPI_Probe return the size of the message waiting in the queue
      *
      * \param id id of the client

@@ -107,6 +107,12 @@ TEST(PingPong, ) {
     int sendBuffer[5] = {1, 2, 3, 4, 5};
     int recvBuffer[5];
 
+    float sendFloat[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
+    float recvFloat[5];
+
+    float sendDouble[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
+    float recvDouble[5];
+
     MPITransport transport(MPI_COMM_SELF);
 
     if (rank == 0) {
@@ -134,6 +140,30 @@ TEST(PingPong, ) {
             ASSERT_EQ(sendBuffer[i], recvBuffer[i]);
         }
 
+        transport.sendData(sendFloat, TYPE_FLOAT, 5, 1);
+        transport.sendData(sendFloat, TYPE_FLOAT, 5, 2);
+
+        transport.receiveData(recvFloat, TYPE_FLOAT, 5, 1);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendFloat[i], recvFloat[i]);
+        }
+        transport.receiveData(recvFloat, TYPE_FLOAT, 5, 2);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendFloat[i], recvFloat[i]);
+        }
+
+        transport.sendData(sendDouble, TYPE_DOUBLE, 5, 1);
+        transport.sendData(sendDouble, TYPE_DOUBLE, 5, 2);
+
+        transport.receiveData(recvDouble, TYPE_DOUBLE, 5, 1);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendDouble[i], recvDouble[i]);
+        }
+        transport.receiveData(recvDouble, TYPE_DOUBLE, 5, 2);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendDouble[i], sendDouble[i]);
+        }
+
         transport.closeConnection(1);
         transport.closeConnection(2);
     } else {
@@ -147,6 +177,70 @@ TEST(PingPong, ) {
             ASSERT_EQ(sendBuffer[i], recvBuffer[i]);
         }
         transport.sendData(recvBuffer, TYPE_INT, 5, 0);
+
+        transport.receiveData(recvFloat, TYPE_FLOAT, 5, 0);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendFloat[i], recvFloat[i]);
+        }
+        transport.sendData(recvFloat, TYPE_FLOAT, 5, 0);
+
+        transport.receiveData(recvDouble, TYPE_DOUBLE, 5, 0);
+        for (int i = 0; i < 5; ++i) {
+            ASSERT_EQ(sendDouble[i], recvDouble[i]);
+        }
+        transport.sendData(recvDouble, TYPE_DOUBLE, 5, 0);
+
+        transport.closeConnection(0);
+        transport.destroy(testAddresses[rank - 1]);
+    }
+}
+
+TEST(Probe, ) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("./test1/");
+    testAddresses.push_back("./test2/");
+
+    int send_size[2] = {5, 3};
+
+    MPITransport transport(MPI_COMM_SELF);
+
+    if (rank == 0) {
+        struct stat info;
+        for (int i = 0; i < testAddresses.size(); ++i) {
+            if( stat( testAddresses[i].c_str(), &info ) != 0 ) {
+                mkdir(testAddresses[i].c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            }
+        }
+        MPITransport transport(MPI_COMM_SELF);
+        transport.initServ(testAddresses);
+        MPI_Barrier(MPI_COMM_WORLD);
+        transport.acceptConnection(1);
+        transport.acceptConnection(2);
+
+        int size = transport.probe(1, TYPE_INT);
+        ASSERT_EQ(send_size[0], size);
+        int *recvBuffer = new int[size];
+        transport.receiveData(recvBuffer, TYPE_INT, size, 1);
+
+        delete(recvBuffer);
+        size = transport.probe(2, TYPE_INT);
+        ASSERT_EQ(send_size[1], size);
+        recvBuffer = new int[size];
+        transport.receiveData(recvBuffer, TYPE_INT, size, 2);
+
+        transport.closeConnection(1);
+        transport.closeConnection(2);
+    } else {
+        MPI_Barrier(MPI_COMM_WORLD);
+        int *send_buffer[send_size[rank - 1]];
+        transport.initClient(testAddresses[rank - 1]);
+
+        transport.connectAddress(0);
+
+        transport.sendData(send_buffer, TYPE_INT, send_size[rank - 1], 0);
         transport.closeConnection(0);
         transport.destroy(testAddresses[rank - 1]);
     }

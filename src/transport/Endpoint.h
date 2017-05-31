@@ -81,7 +81,7 @@ public:
     /**
      * Handshake procedure, assigns ids to clients
      */
-    virtual void handshake() {}
+    virtual void handshake() = 0;
 
     /**
      * Send data to a specific client (transport layer should handle data packaging)
@@ -121,7 +121,7 @@ public:
     /**
      * Destroy the endpoint
      */
-    virtual void destroy () {}
+    virtual void destroy () = 0;
 
     /**
      * Add new client to the clients list

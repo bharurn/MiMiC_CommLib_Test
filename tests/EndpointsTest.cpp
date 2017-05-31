@@ -126,6 +126,48 @@ TEST(ServerHandshake, ProperCalls) {
     delete(protocol);
 }
 
+TEST(ServerDisconnect, ProperCalls) {
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("test1/");
+    testAddresses.push_back("test2/");
+    testAddresses.push_back("test3/");
+    testAddresses.push_back("test4/");
+
+    MockTransport* protocol = new MockTransport();
+    Server server(protocol);
+    server.addClient(new Client(0, testAddresses[0], protocol));
+    server.set_clients_number(1);
+
+    EXPECT_CALL(*protocol, closeConnection(1)).Times(Exactly(1));
+    server.disconnect(1);
+    delete(protocol);
+}
+
+TEST(ServerDestroy, ProperCalls) {
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("test1/");
+    testAddresses.push_back("test2/");
+    testAddresses.push_back("test3/");
+    testAddresses.push_back("test4/");
+
+    MockTransport* protocol = new MockTransport();
+    Server server(protocol);
+    server.addClient(new Client(0, testAddresses[0], protocol));
+    server.addClient(new Client(1, testAddresses[1], protocol));
+    server.addClient(new Client(2, testAddresses[2], protocol));
+    server.addClient(new Client(3, testAddresses[3], protocol));
+    server.set_clients_number(4);
+
+    EXPECT_CALL(*protocol, closeConnection(1)).Times(Exactly(1));
+    EXPECT_CALL(*protocol, closeConnection(2)).Times(Exactly(1));
+    EXPECT_CALL(*protocol, closeConnection(3)).Times(Exactly(1));
+    EXPECT_CALL(*protocol, closeConnection(4)).Times(Exactly(1));
+
+    server.destroy();
+
+    delete(protocol);
+}
+
 TEST(ClientInit, ProperCalls) {
     std::vector<std::string> testAddresses;
     testAddresses.push_back("test1/");
@@ -153,6 +195,51 @@ TEST(ClientHandshake, ProperCalls) {
     EXPECT_CALL(*protocol, receiveData(_, TYPE_INT, 1, 0)).Times(Exactly(1));
 
     client.handshake();
+
+    delete(protocol);
+}
+
+TEST(ClientDisconnect, ProperCalls) {
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("test1/");
+
+    MockTransport* protocol = new MockTransport();
+    Client client(1, testAddresses[0], protocol);
+    client.addClient(new Server(protocol));
+
+    EXPECT_CALL(*protocol, closeConnection(0)).Times(Exactly(1));
+
+    client.disconnect(0);
+
+    delete(protocol);
+}
+
+TEST(ClientDestroy, ProperCalls) {
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("test1/");
+
+    MockTransport* protocol = new MockTransport();
+    Client client(1, testAddresses[0], protocol);
+    client.addClient(new Server(protocol));
+
+    EXPECT_CALL(*protocol, closeConnection(0)).Times(Exactly(1));
+
+    client.destroy();
+
+    delete(protocol);
+}
+
+TEST(ClientProbe, ProperCalls) {
+    std::vector<std::string> testAddresses;
+    testAddresses.push_back("test1/");
+
+    MockTransport* protocol = new MockTransport();
+    Client client(1, testAddresses[0], protocol);
+    client.addClient(new Server(protocol));
+
+    EXPECT_CALL(*protocol, probe(0, TYPE_INT)).Times(Exactly(1));
+
+    client.probe(0, TYPE_INT);
 
     delete(protocol);
 }

@@ -71,10 +71,6 @@ void MPITransport::closeConnection(int id) {
     MPI_Comm_disconnect(&intercomm[id]);
 }
 
-char *MPITransport::getServerAddress() {
-    return port[0];
-}
-
 void MPITransport::sendData(void *data, DataType type, int count, int id) {
     MPI_Ssend(data, count, pick_mpi_type(type), 0, 0, intercomm[id]);
 }
