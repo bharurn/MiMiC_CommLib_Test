@@ -1,3 +1,6 @@
+[![build status](https://gitlab.com/mimic-cpmd/MimicCommLib/badges/master/build.svg)](https://gitlab.com/mimic-cpmd/MimicCommLib/commits/master)
+[![coverage report](https://gitlab.com/mimic-cpmd/MimicCommLib/badges/master/coverage.svg)](https://gitlab.com/mimic-cpmd/MimicCommLib/commits/master)
+
 This directory contains the first working version of the MiMiC
 communication library, to be linked to both GROMACS and CPMD to
 facilitate a QM/MM calculation. However, no released version of either
