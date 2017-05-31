@@ -1,4 +1,24 @@
+stages:
+  - test
+  - deploy
+
+pages:
+  stage: deploy
+  script:
+    - rm -rf public
+    - mkdir public
+    - doxygen commlib.conf
+    - cp -r doc/html/* public
+  artifacts:
+    paths:
+    - public
+  only:
+    - master  
+  tags:
+    - juelich,centos
+
 centos_gfortran:
+  stage: test
   script:
     - source ~/prepare_build_gcc.sh
     - mkdir build
