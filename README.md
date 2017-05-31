@@ -11,18 +11,26 @@ Building the library requires a C++11 compiler, MPI2.0 compliant MPI library
 and cmake version 2.6 or higher. To build, run
 
 mkdir build
+
 cd build
+
 cmake ..
+
 make
 
 To use the library one will need to link against the built library
 including the MessageApi.h header
 
 To build tests:
+
 mkdir build
+
 cd build
-cmake -DINCLUDE_TESTS=ON ..
+
+cmake -DCMAKE_BUILD_TYPE=Debug -DINCLUDE_TESTS=ON ..
+
 make
+
 ctest
 
 GTest library will be downloaded and compiled in order to run unit tests
