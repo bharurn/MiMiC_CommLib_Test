@@ -23,7 +23,7 @@ centos_gcc:
     - source ~/prepare_build_gcc.sh
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -35,7 +35,7 @@ centos_coverage:
     - source ~/prepare_build_gcc.sh
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCODE_COVERAGE=ON ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
     - make -j 4
     - ctest --output-on-failure
     - ctest -D ExperimentalCoverage
