@@ -3,6 +3,7 @@ project(MimicCommLib)
 
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
+option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -29,6 +30,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 add_subdirectory(src)
 
 if(INCLUDE_TESTS)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
     include(CTest)
     configure_file(${CMAKE_SOURCE_DIR}/cmake/CTestCustom.cmake
             ${CMAKE_BINARY_DIR}/CTestCustom.cmake
