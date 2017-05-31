@@ -47,6 +47,8 @@ protected:
 public:
     Transport(Serializer *serializer) : serializer(serializer) { }
 
+    virtual ~Transport() {}
+
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
     }

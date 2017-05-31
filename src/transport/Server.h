@@ -40,7 +40,7 @@ private:
 public:
     Server(Transport *protocol) : Endpoint(protocol) { }
 
-    Server(int id, const std::string &path, Transport *protocol) : Endpoint(id, path, protocol) { }
+    Server(int id, const std::string &path, Transport *protocol) : Endpoint(protocol, id, path) { }
 
     int init(std::vector<std::string> paths);
 

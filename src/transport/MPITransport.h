@@ -41,6 +41,8 @@ class MPITransport : public Transport {
 public:
     MPITransport(MPI_Comm comm) : Transport(NULL), host_comm(comm) { }
 
+    ~MPITransport() = default;
+
     void initServ(std::vector<std::string> paths);
 
     void initClient(std::string path);

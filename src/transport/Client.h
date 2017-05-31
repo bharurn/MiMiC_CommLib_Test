@@ -37,7 +37,7 @@ class Client : public Endpoint {
 public:
     Client(Transport* protocol) : Endpoint(protocol) { }
 
-    Client(int id, const std::string &path, Transport *protocol) : Endpoint(id, path, protocol) { }
+    Client(int id, const std::string &path, Transport *protocol) : Endpoint(protocol, id, path) { }
 
     int send(void *data, int count, int destination, DataType type);
 

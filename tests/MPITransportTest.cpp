@@ -35,7 +35,7 @@ TEST(InitServer, ) {
 
     if (rank == 0) {
         struct stat info;
-        for (int i = 0; i < testAddresses.size(); ++i) {
+        for (uint i = 0; i < testAddresses.size(); ++i) {
             if( stat( testAddresses[i].c_str(), &info ) != 0 ) {
                 mkdir(testAddresses[i].c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
             }
@@ -70,7 +70,7 @@ TEST(Connection, ) {
 
     if (rank == 0) {
         struct stat info;
-        for (int i = 0; i < testAddresses.size(); ++i) {
+        for (uint i = 0; i < testAddresses.size(); ++i) {
             if( stat( testAddresses[i].c_str(), &info ) != 0 ) {
                 mkdir(testAddresses[i].c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
             }
@@ -117,7 +117,7 @@ TEST(PingPong, ) {
 
     if (rank == 0) {
         struct stat info;
-        for (int i = 0; i < testAddresses.size(); ++i) {
+        for (uint i = 0; i < testAddresses.size(); ++i) {
             if( stat( testAddresses[i].c_str(), &info ) != 0 ) {
                 mkdir(testAddresses[i].c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
             }
@@ -209,7 +209,7 @@ TEST(Probe, ) {
 
     if (rank == 0) {
         struct stat info;
-        for (int i = 0; i < testAddresses.size(); ++i) {
+        for (uint i = 0; i < testAddresses.size(); ++i) {
             if( stat( testAddresses[i].c_str(), &info ) != 0 ) {
                 mkdir(testAddresses[i].c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
             }
@@ -235,7 +235,7 @@ TEST(Probe, ) {
         transport.closeConnection(2);
     } else {
         MPI_Barrier(MPI_COMM_WORLD);
-        int *send_buffer[send_size[rank - 1]];
+        int *send_buffer = new int[send_size[rank - 1]];
         transport.initClient(testAddresses[rank - 1]);
 
         transport.connectAddress(0);

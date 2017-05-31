@@ -57,7 +57,7 @@ void Server::handshake() {
     for (int i = 0; i < clientsNumber; ++i) {
         protocol->acceptConnection(i + 1);
         int size = probe(i + 1, TYPE_CHAR);
-        char path[size];
+        char *path = new char[size];
         protocol->receiveData(path, TYPE_CHAR, size, i + 1);
         std::string temp = path;
         temp = temp.substr(0, size);
