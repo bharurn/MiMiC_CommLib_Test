@@ -17,7 +17,7 @@ pages:
   tags:
     - juelich,centos
 
-centos_gfortran:
+centos_gcc:
   stage: test
   script:
     - source ~/prepare_build_gcc.sh
@@ -26,6 +26,19 @@ centos_gfortran:
     - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
     - make -j 4
     - ctest --output-on-failure
+  tags:
+    - juelich,centos
+
+centos_coverage:
+  stage: test
+  script:
+    - source ~/prepare_build_gcc.sh
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCODE_COVERAGE=ON ..
+    - make -j 4
+    - ctest --output-on-failure
+    - ctest -D ExperimentalCoverage
   tags:
     - juelich,centos
 
