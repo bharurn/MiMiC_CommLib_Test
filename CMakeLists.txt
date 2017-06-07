@@ -33,6 +33,8 @@ find_package(MPI REQUIRED)
 include_directories("${MPI_INCLUDE_PATH}")
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
+set(COMMLIB_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/transport ${CMAKE_CURRENT_SOURCE_DIR}/src/serializer ${CMAKE_CURRENT_SOURCE_DIR}/src/message)
+include_directories(${COMMLIB_DIRS})
 add_subdirectory(src)
 
 if(INCLUDE_TESTS)

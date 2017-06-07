@@ -22,7 +22,7 @@
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gtest/gtest.h"
-#include "../src/transport/MPITransport.h"
+#include "MPITransport.h"
 #include <mpi.h>
 
 TEST(InitServer, ) {

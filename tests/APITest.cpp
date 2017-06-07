@@ -24,8 +24,8 @@
 #include <memory>
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "../src/transport/Transport.h"
-#include "../src/MCLMain.h"
+#include "Transport.h"
+#include "MCLMain.h"
 
 using ::testing::Exactly;
 using ::testing::_;

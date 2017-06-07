@@ -3,7 +3,7 @@ add_library(mimiccomm STATIC ${SOURCE_FILES})
 
 set_property(TARGET mimiccomm PROPERTY VERSION ${MimicCommLib_VERSION})
 
-set(HEADER_FILES MessageApi.h MCLMain.h)
+set(HEADER_FILES transport/Transport.h transport/MPITransport.h transport/Endpoint.h message/Message.h message/BaseMessageData.h serializer/Serializer.h MessageApi.h MCLMain.h)
 
 install(TARGETS mimiccomm DESTINATION lib EXPORT CommlibTargets)
 install(FILES ${HEADER_FILES} DESTINATION include)
@@ -25,15 +25,14 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/CommlibConfig.cmake
         @ONLY
         )
 
-set(ConfigPackageLocation lib/cmake/Commlib)
 install(EXPORT CommlibTargets
         FILE
         MimicCommLibTargets.cmake
         NAMESPACE
         Upstream::
         DESTINATION
-        cmake
-        )
+        cmake)
+
 install(
         FILES
         ${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfig.cmake
@@ -41,5 +40,4 @@ install(
         DESTINATION
         cmake
         COMPONENT
-        Devel
-)
+        Devel)

@@ -26,8 +26,6 @@
 #define MIMICCOMMLIB_MESSAGE_H
 
 #include "BaseMessageData.h"
-#include "FloatArrayData.h"
-#include "SystemData.h"
 
 /**
  * A message class representing messages sent between processes.

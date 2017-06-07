@@ -28,7 +28,7 @@
 
 #include <iostream>
 #include "Transport.h"
-#include "../DataTypes.h"
+#include "DataTypes.h"
 
 /**
  * Endpoint class representing clients involved in data communications

@@ -25,11 +25,10 @@
 #ifndef MIMICCOMMLIB_TRANSPORT_H
 #define MIMICCOMMLIB_TRANSPORT_H
 
-#include "../message/Message.h"
-#include "../serializer/Serializer.h"
-#include "../DataTypes.h"
-
-
+#include "Message.h"
+#include "Serializer.h"
+#include "DataTypes.h"
+#include <vector>
 
 /**
  * Abstract class of transport layer
