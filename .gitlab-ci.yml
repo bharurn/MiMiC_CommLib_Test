@@ -17,22 +17,10 @@ pages:
   tags:
     - juelich,centos
 
-centos_gcc:
-  stage: test
-  script:
-    - source ~/prepare_build_gcc.sh
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - juelich,centos
-
 centos_coverage:
   stage: test
   script:
-    - source ~/prepare_build_gcc.sh
+    - module load gcc/6.3.0 ompi/2.1.0/gcc-6.3.0 cmake/3.7.2
     - mkdir build
     - cd build
     - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
