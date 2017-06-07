@@ -3,7 +3,7 @@ add_library(mimiccomm STATIC ${SOURCE_FILES})
 
 set_property(TARGET mimiccomm PROPERTY VERSION ${MimicCommLib_VERSION})
 
-set(HEADER_FILES transport/Transport.h transport/MPITransport.h transport/Endpoint.h message/Message.h message/BaseMessageData.h serializer/Serializer.h MessageApi.h MCLMain.h)
+set(HEADER_FILES MessageApi.h DataTypes.h MCLMain.h)
 
 install(TARGETS mimiccomm DESTINATION lib EXPORT CommlibTargets)
 install(FILES ${HEADER_FILES} DESTINATION include)
