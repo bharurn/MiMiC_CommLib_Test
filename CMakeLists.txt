@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 project(MimicCommLib)
 
+set(MimicCommLib_MAJOR_VERSION 0)
+set(MimicCommLib_MINOR_VERSION 1)
+set(MimicCommLib_PATCH_VERSION 0)
+set(MimicCommLib_VERSION
+        ${MimicCommLib_MAJOR_VERSION}.${MimicCommLib_MINOR_VERSION}.${MimicCommLib_PATCH_VERSION})
+
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
 option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
