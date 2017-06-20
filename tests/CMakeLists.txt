@@ -56,7 +56,7 @@ function(mcl_add_mpi_test targetName targetFile numProcs)
 
     add_test(NAME ${targetName}
             WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-            COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${numProcs}
+            COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${numProcs} --allow-run-as-root
             ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS})
     add_dependencies(tests ${targetName})
 endfunction()
