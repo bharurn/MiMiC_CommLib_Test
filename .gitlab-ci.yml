@@ -17,18 +17,6 @@ pages:
   tags:
     - juelich,centos
 
-centos_docker:
-  stage: test
-  image: bolnykh/images:ubuntu-gcc-7.1-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
 centos_coverage:
   stage: test
   script:
@@ -54,24 +42,218 @@ centos_intel:
   tags:
     - juelich,centos
 
-#ubuntu_job_gfortran:
-#  script:
-#    - source ~/prepare_build_gcc.sh
-#    - mkdir build
-#    - cd build
-#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES ..
-#    - make -j 4
-#    - ctest --output-on-failure
-#  tags:
-#    - ubuntu
-#
-#ubuntu_job_intel:
-#  script:
-#    - source ~/prepare_build_intel.sh
-#    - mkdir build
-#    - cd build
-#    - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DINCLUDE_TESTS=YES ..
-#    - make -j 4
-#    - ctest --output-on-failure
-#  tags:
-#    - ubuntu
+ubuntu-gcc-7.1.0-mpich:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-7.1.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+ubuntu-gcc-7.1.0-ompi:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-7.1.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+ubuntu-gcc-6.3.0-mpich:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-6.3.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+ubuntu-gcc-6.3.0-ompi:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-6.3.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+ubuntu-gcc-5.4.0-mpich:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-5.4.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+ubuntu-gcc-5.4.0-ompi:
+  stage: test
+  image: bolnykh/images:ubuntu-gcc-5.4.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-7.1.0-mpich:
+  stage: test
+  image: bolnykh/images:debian-gcc-7.1.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-7.1.0-ompi:
+  stage: test
+  image: bolnykh/images:debian-gcc-7.1.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-6.3.0-mpich:
+  stage: test
+  image: bolnykh/images:debian-gcc-6.3.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-6.3.0-ompi:
+  stage: test
+  image: bolnykh/images:debian-gcc-6.3.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-5.4.0-mpich:
+  stage: test
+  image: bolnykh/images:debian-gcc-5.4.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+debian-gcc-5.4.0-ompi:
+  stage: test
+  image: bolnykh/images:debian-gcc-5.4.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-7.1.0-mpich:
+  stage: test
+  image: bolnykh/images:centos-gcc-7.1.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-7.1.0-ompi:
+  stage: test
+  image: bolnykh/images:centos-gcc-7.1.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-6.3.0-mpich:
+  stage: test
+  image: bolnykh/images:centos-gcc-6.3.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-6.3.0-ompi:
+  stage: test
+  image: bolnykh/images:centos-gcc-6.3.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-5.4.0-mpich:
+  stage: test
+  image: bolnykh/images:centos-gcc-5.4.0-mpich
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
+
+centos-gcc-5.4.0-ompi:
+  stage: test
+  image: bolnykh/images:centos-gcc-5.4.0-ompi
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - make -j 4
+    - ctest --output-on-failure
+  tags:
+    - docker
