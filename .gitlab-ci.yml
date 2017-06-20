@@ -60,7 +60,7 @@ ubuntu-gcc-7.1.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -84,7 +84,7 @@ ubuntu-gcc-6.3.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -108,7 +108,7 @@ ubuntu-gcc-5.4.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -132,7 +132,7 @@ debian-gcc-7.1.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -156,7 +156,7 @@ debian-gcc-6.3.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -180,7 +180,7 @@ debian-gcc-5.4.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -204,7 +204,7 @@ centos-gcc-7.1.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -228,7 +228,7 @@ centos-gcc-6.3.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
@@ -252,7 +252,7 @@ centos-gcc-5.4.0-ompi:
   script:
     - mkdir build
     - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
     - make -j 4
     - ctest --output-on-failure
   tags:
