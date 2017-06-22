@@ -52,7 +52,7 @@ ubuntu-gcc-7.1.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 ubuntu-gcc-7.1.0-ompi:
   stage: test
@@ -64,7 +64,7 @@ ubuntu-gcc-7.1.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 ubuntu-gcc-6.3.0-mpich:
   stage: test
@@ -76,7 +76,7 @@ ubuntu-gcc-6.3.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 ubuntu-gcc-6.3.0-ompi:
   stage: test
@@ -88,7 +88,7 @@ ubuntu-gcc-6.3.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 ubuntu-gcc-5.4.0-mpich:
   stage: test
@@ -100,7 +100,7 @@ ubuntu-gcc-5.4.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 ubuntu-gcc-5.4.0-ompi:
   stage: test
@@ -112,7 +112,7 @@ ubuntu-gcc-5.4.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-7.1.0-mpich:
   stage: test
@@ -124,7 +124,7 @@ debian-gcc-7.1.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-7.1.0-ompi:
   stage: test
@@ -136,7 +136,7 @@ debian-gcc-7.1.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-6.3.0-mpich:
   stage: test
@@ -148,7 +148,7 @@ debian-gcc-6.3.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-6.3.0-ompi:
   stage: test
@@ -160,7 +160,7 @@ debian-gcc-6.3.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-5.4.0-mpich:
   stage: test
@@ -172,7 +172,7 @@ debian-gcc-5.4.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 debian-gcc-5.4.0-ompi:
   stage: test
@@ -184,7 +184,7 @@ debian-gcc-5.4.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 centos-gcc-7.1.0-mpich:
   stage: test
@@ -196,7 +196,7 @@ centos-gcc-7.1.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 centos-gcc-7.1.0-ompi:
   stage: test
@@ -208,7 +208,7 @@ centos-gcc-7.1.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 centos-gcc-6.3.0-mpich:
   stage: test
@@ -220,7 +220,7 @@ centos-gcc-6.3.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - ubuntu,docker
+    - docker
 
 centos-gcc-6.3.0-ompi:
   stage: test
@@ -232,7 +232,7 @@ centos-gcc-6.3.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 centos-gcc-5.4.0-mpich:
   stage: test
@@ -244,7 +244,7 @@ centos-gcc-5.4.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 centos-gcc-5.4.0-ompi:
   stage: test
@@ -256,7 +256,7 @@ centos-gcc-5.4.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-7.1.0-mpich:
   stage: test
@@ -268,7 +268,7 @@ fedora-gcc-7.1.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-7.1.0-ompi:
   stage: test
@@ -280,7 +280,7 @@ fedora-gcc-7.1.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-6.3.0-mpich:
   stage: test
@@ -292,7 +292,7 @@ fedora-gcc-6.3.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-6.3.0-ompi:
   stage: test
@@ -304,7 +304,7 @@ fedora-gcc-6.3.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-5.4.0-mpich:
   stage: test
@@ -316,7 +316,7 @@ fedora-gcc-5.4.0-mpich:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
 
 fedora-gcc-5.4.0-ompi:
   stage: test
@@ -328,4 +328,4 @@ fedora-gcc-5.4.0-ompi:
     - make -j 4
     - ctest --output-on-failure
   tags:
-    - centos,docker
+    - docker
