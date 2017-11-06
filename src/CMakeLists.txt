@@ -1,5 +1,9 @@
 set(SOURCE_FILES message/Message.h transport/Transport.h MessageApi.h MessageApi.cpp MCLMain.h serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h)
-add_library(mimiccomm STATIC ${SOURCE_FILES})
+if (BUILD_SHARED)
+    add_library(mimiccomm SHARED ${SOURCE_FILES})
+else()
+    add_library(mimiccomm STATIC ${SOURCE_FILES})
+endif()
 
 set_property(TARGET mimiccomm PROPERTY VERSION ${MimicCommLib_VERSION})
 
