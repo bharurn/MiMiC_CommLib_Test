@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -traceback -fpic")
@@ -41,7 +43,6 @@ include_directories(${COMMLIB_DIRS})
 add_subdirectory(src)
 
 if(INCLUDE_TESTS)
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
     include(CTest)
     configure_file(${CMAKE_SOURCE_DIR}/cmake/CTestCustom.cmake
             ${CMAKE_BINARY_DIR}/CTestCustom.cmake
