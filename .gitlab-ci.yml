@@ -53,7 +53,7 @@ centos_coverage:
 centos_intel:
   stage: test
   script:
-    - module load cmake/3.7.2 intel/2017 mpich/3.2/intel_17 gtest/intel-17
+    - module load cmake/3.7.2 intel/2018 mpich/3.2/intel_17 gtest/intel-17
     - mkdir build
     - cd build
     - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
