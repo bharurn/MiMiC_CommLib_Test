@@ -27,7 +27,7 @@ library:
     - make -j 4 && make install
     - module purge
     - rm -rf *
-    - module load cmake/3.7.2 intel/2017 mpich/3.2/intel_17 gtest/intel-17
+    - module load cmake/3.7.2 intel/2018 mpich/3.2/intel_17 gtest/intel-17
     - cmake -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../commlib_intel ..
     - make -j 4 && make install
   artifacts:
@@ -206,146 +206,146 @@ centos_intel:
 #  tags:
 #    - docker
 
-centos-gcc-7.1.0-mpich:
-  stage: test
-  image: bolnykh/images:centos-gcc-7.1.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-centos-gcc-7.1.0-ompi:
-  stage: test
-  image: bolnykh/images:centos-gcc-7.1.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-centos-gcc-6.3.0-mpich:
-  stage: test
-  image: bolnykh/images:centos-gcc-6.3.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-centos-gcc-6.3.0-ompi:
-  stage: test
-  image: bolnykh/images:centos-gcc-6.3.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-centos-gcc-5.4.0-mpich:
-  stage: test
-  image: bolnykh/images:centos-gcc-5.4.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-centos-gcc-5.4.0-ompi:
-  stage: test
-  image: bolnykh/images:centos-gcc-5.4.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-7.1.0-mpich:
-  stage: test
-  image: bolnykh/images:fedora-gcc-7.1.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-7.1.0-ompi:
-  stage: test
-  image: bolnykh/images:fedora-gcc-7.1.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-6.3.0-mpich:
-  stage: test
-  image: bolnykh/images:fedora-gcc-6.3.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-6.3.0-ompi:
-  stage: test
-  image: bolnykh/images:fedora-gcc-6.3.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-5.4.0-mpich:
-  stage: test
-  image: bolnykh/images:fedora-gcc-5.4.0-mpich
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
-
-fedora-gcc-5.4.0-ompi:
-  stage: test
-  image: bolnykh/images:fedora-gcc-5.4.0-ompi
-  script:
-    - mkdir build
-    - cd build
-    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
-    - make -j 4
-    - ctest --output-on-failure
-  tags:
-    - docker
+#centos-gcc-7.1.0-mpich:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-7.1.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#centos-gcc-7.1.0-ompi:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-7.1.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#centos-gcc-6.3.0-mpich:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-6.3.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#centos-gcc-6.3.0-ompi:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-6.3.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#centos-gcc-5.4.0-mpich:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-5.4.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#centos-gcc-5.4.0-ompi:
+#  stage: test
+#  image: bolnykh/images:centos-gcc-5.4.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-7.1.0-mpich:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-7.1.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-7.1.0-ompi:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-7.1.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-6.3.0-mpich:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-6.3.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-6.3.0-ompi:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-6.3.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-5.4.0-mpich:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-5.4.0-mpich
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
+#
+#fedora-gcc-5.4.0-ompi:
+#  stage: test
+#  image: bolnykh/images:fedora-gcc-5.4.0-ompi
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DINCLUDE_TESTS=YES -DCMAKE_BUILD_TYPE=Debug -DDOWNLOAD_GTEST=NO -DMPIEXEC_PREFLAGS="--allow-run-as-root" ..
+#    - make -j 4
+#    - ctest --output-on-failure
+#  tags:
+#    - docker
