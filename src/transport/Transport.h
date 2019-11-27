@@ -44,9 +44,10 @@ protected:
     Serializer *serializer;
 
 public:
+    Transport()= default;
     Transport(Serializer *serializer) : serializer(serializer) { }
 
-    virtual ~Transport() {}
+    virtual ~Transport() = default;
 
     void setSerializer(Serializer *serializer) {
         Transport::serializer = serializer;
@@ -58,7 +59,7 @@ public:
      * \param clients_number number of clients to get data from
      * \param replies map of client_id -> reply from the server
      */
-    virtual void initServ(std::vector<std::string> paths) = 0;
+    virtual void initServer(std::vector<std::string> paths) = 0;
 
     /**
      * Initialize client (prepare and connect to the server) for data interaction
@@ -100,7 +101,7 @@ public:
     /**
      * Destroy the port associated with the specified path
      */
-    virtual void destroy(std::string path) = 0;
+    virtual void destroy(int id, std::string path) = 0;
 
     /**
      * Send the data to a specified client

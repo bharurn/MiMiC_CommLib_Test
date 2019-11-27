@@ -42,17 +42,17 @@ public:
 
     Server(int id, const std::string &path, Transport *protocol) : Endpoint(protocol, id, path) { }
 
-    int init(std::vector<std::string> paths);
+    int init(std::vector<std::string> paths) override;
 
-    void disconnect(int dest);
+    void disconnect(int dest) override;
 
-    void destroy();
+    void destroy() override;
 
-    void handshake();
+    void handshake() override;
 
-    int send(void *data, int count, int destination, DataType type);
+    int send(void *data, int count, int destination, DataType type) override;
 
-    void request(void *data, int count, int source, DataType type);
+    void request(void *data, int count, int source, DataType type) override;
 
     void set_clients_number(int clients_number) {
         Server::clientsNumber = clients_number;

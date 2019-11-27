@@ -32,7 +32,7 @@ int Server::init(std::vector<std::string> paths) {
     for (int i = 0; i < clientsNumber; ++i) {
         transformed_paths.push_back(transform_path(paths[i]));
     }
-    this->protocol->initServ(transformed_paths);
+    this->protocol->initServer(transformed_paths);
     this->clientsNumber = clientsNumber;
 
     for (int i = 0; i < clientsNumber; ++i) {
@@ -49,7 +49,7 @@ void Server::disconnect(int dest) {
 void Server::destroy() {
     for (int i = 0; i < clientsNumber; ++i) {
         protocol->closeConnection(i + 1);
-        protocol->destroy(client_list[i]->getPath());
+        protocol->destroy(i + 1, client_list[i]->getPath());
     }
 }
 

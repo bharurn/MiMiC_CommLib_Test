@@ -24,49 +24,59 @@
 
 
 #include <stdexcept>
-#include <cstdio>
+#include <fstream>
 #include "MPITransport.h"
 
-std::string MPITransport::FILENAME = ".portname";
+const std::string MPITransport::FILENAME = ".portname";
 
-void MPITransport::initServ(const std::vector<std::string> paths) {
+void MPITransport::initServer(const std::vector<std::string> paths) {
     uint client_number = (unsigned int) paths.size();
-    port = new mpi_port_name[client_number + 1];
-    intercomm = new MPI_Comm[client_number + 1];
+    ports.reserve(client_number + 1);
+    intercomm.reserve(client_number + 1);
+    ports.push_back(Port{});
+    intercomm.push_back(this->host_comm);
     for (uint i = 0; i < client_number; ++i) {
-        MPI_Open_port(MPI_INFO_NULL, port[i + 1]);
+        Port port{};
+        MPI_Open_port(MPI_INFO_NULL, port.name);
+        ports.push_back(port);
         std::string filepath = paths[i];
         filepath.append(FILENAME);
-        remove(filepath.c_str());
-        FILE *port_file = fopen(filepath.c_str(), "w");
-        fprintf(port_file, port[i + 1]);
-        fclose(port_file);
+        std::remove(filepath.c_str());
+        std::fstream f(filepath, std::fstream::out);
+        if (f.is_open()) {
+            f << port.name;
+            f.close();
+        }
     }
 }
 
 void MPITransport::initClient(const std::string path) {
-    bool file_exists = false;
-    FILE *port_address = NULL;
     std::string port_file = path;
     port_file.append(FILENAME);
-    port = new mpi_port_name[1];
-    intercomm = new MPI_Comm[1];
+
+    ports.reserve(1);
+    intercomm.reserve(1);
+    intercomm.push_back(MPI_Comm());
+
+    bool file_exists = false;
     while (!file_exists) {
-        port_address = fopen(port_file.c_str(), "r");
-        if (port_address != NULL) {
+        Port port{};
+        std::fstream f(port_file, std::fstream::in);
+        if (f.good()) {
             file_exists = true;
+            f >> port.name;
+            ports.push_back(port);
+            f.close();
         }
     }
-    fscanf(port_address, "%s", port[0]);
-    fclose(port_address);
 }
 
 int MPITransport::connectAddress(int id) {
-    return MPI_Comm_connect(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    return MPI_Comm_connect(ports[id].name, MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
 }
 
 int MPITransport::acceptConnection(int id) {
-    return MPI_Comm_accept(port[id], MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    return MPI_Comm_accept(ports[id].name, MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
 }
 
 void MPITransport::closeConnection(int id) {
@@ -90,7 +100,8 @@ int MPITransport::probe(int id, DataType type) {
     return size;
 }
 
-void MPITransport::destroy(std::string path) {
+void MPITransport::destroy(int id, std::string path) {
+    MPI_Close_port(ports[id].name);
     std::string filepath = path.append(FILENAME);
     remove(filepath.c_str());
 }

@@ -75,7 +75,7 @@ public:
             }
         }
 
-        Server* server = new Server(this->protocol);
+        auto* server = new Server(this->protocol);
         server->setId(0);
         this->endpoint = server;
 
@@ -95,7 +95,7 @@ public:
         std::vector<std::string> paths;
         paths.push_back(client_path);
 
-        Client* client = new Client(this->protocol);
+        auto* client = new Client(this->protocol);
         this->endpoint = client;
 
         client->init(paths);
@@ -112,7 +112,7 @@ public:
      */
     void send(void *data, int count, int data_type, int destination) {
         int temp_type = data_type;
-        DataType type = static_cast<DataType>(temp_type);
+        auto type = static_cast<DataType>(temp_type);
         this->endpoint->send(data, count, destination, type);
     }
 
@@ -126,7 +126,7 @@ public:
      */
     void receive(void *buffer, int count, int data_type, int source) {
         int temp_type = data_type;
-        DataType type = static_cast<DataType>(temp_type);
+        auto type = static_cast<DataType>(temp_type);
         endpoint->request(buffer, count, source, type);
     }
 

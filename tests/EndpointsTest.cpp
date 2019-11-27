@@ -35,7 +35,7 @@ class MockTransport : public Transport {
 public:
     MockTransport() : Transport(NULL) {}
 
-    MOCK_METHOD1(initServ,
+    MOCK_METHOD1(initServer,
                  void(std::vector<std::string> paths));
     MOCK_METHOD1(initClient,
                  void(std::string path));
@@ -49,8 +49,8 @@ public:
                  char*());
     MOCK_METHOD2(probe,
                  int(int id, DataType type));
-    MOCK_METHOD1(destroy,
-                 void(std::string path));
+    MOCK_METHOD2(destroy,
+                 void(int id, std::string path));
     MOCK_METHOD4(sendData,
                  void(void *data, DataType type, int count, int id));
     MOCK_METHOD4(receiveData,
@@ -63,15 +63,15 @@ ACTION_P(SetArg0, value) {
 
 TEST(ServerInit, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Server server(protocol);
 
-    EXPECT_CALL(*protocol, initServ(testAddresses)).Times(Exactly(1));
+    EXPECT_CALL(*protocol, initServer(testAddresses)).Times(Exactly(1));
 
     server.init(testAddresses);
 
@@ -80,12 +80,12 @@ TEST(ServerInit, ProperCalls) {
 
 TEST(ServerHandshake, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Server server(protocol);
     server.addClient(new Client(0, testAddresses[0], protocol));
     server.addClient(new Client(1, testAddresses[1], protocol));
@@ -128,12 +128,12 @@ TEST(ServerHandshake, ProperCalls) {
 
 TEST(ServerDisconnect, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Server server(protocol);
     server.addClient(new Client(0, testAddresses[0], protocol));
     server.set_clients_number(1);
@@ -145,12 +145,12 @@ TEST(ServerDisconnect, ProperCalls) {
 
 TEST(ServerDestroy, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Server server(protocol);
     server.addClient(new Client(0, testAddresses[0], protocol));
     server.addClient(new Client(1, testAddresses[1], protocol));
@@ -170,9 +170,9 @@ TEST(ServerDestroy, ProperCalls) {
 
 TEST(ClientInit, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
+    testAddresses.emplace_back("test1/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Client client(protocol);
 
     EXPECT_CALL(*protocol, initClient(testAddresses[0])).Times(Exactly(1));
@@ -184,9 +184,9 @@ TEST(ClientInit, ProperCalls) {
 
 TEST(ClientHandshake, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
+    testAddresses.emplace_back("test1/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Client client(1, testAddresses[0], protocol);
     client.addClient(new Server(protocol));
 
@@ -201,9 +201,9 @@ TEST(ClientHandshake, ProperCalls) {
 
 TEST(ClientDisconnect, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
+    testAddresses.emplace_back("test1/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Client client(1, testAddresses[0], protocol);
     client.addClient(new Server(protocol));
 
@@ -216,9 +216,9 @@ TEST(ClientDisconnect, ProperCalls) {
 
 TEST(ClientDestroy, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
+    testAddresses.emplace_back("test1/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Client client(1, testAddresses[0], protocol);
     client.addClient(new Server(protocol));
 
@@ -231,9 +231,9 @@ TEST(ClientDestroy, ProperCalls) {
 
 TEST(ClientProbe, ProperCalls) {
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
+    testAddresses.emplace_back("test1/");
 
-    MockTransport* protocol = new MockTransport();
+    auto* protocol = new MockTransport();
     Client client(1, testAddresses[0], protocol);
     client.addClient(new Server(protocol));
 

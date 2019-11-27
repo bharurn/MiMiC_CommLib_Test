@@ -35,21 +35,21 @@
 class Client : public Endpoint {
 
 public:
-    Client(Transport* protocol) : Endpoint(protocol) { }
+    explicit Client(Transport* protocol) : Endpoint(protocol) { }
 
     Client(int id, const std::string &path, Transport *protocol) : Endpoint(protocol, id, path) { }
 
-    int send(void *data, int count, int destination, DataType type);
+    int send(void *data, int count, int destination, DataType type) override;
 
-    void request(void *data, int count, int source, DataType type);
+    void request(void *data, int count, int source, DataType type) override;
 
-    void handshake();
+    void handshake() override;
 
-    int init(std::vector<std::string> paths);
+    int init(std::vector<std::string> paths) override;
 
-    void disconnect(int dest);
+    void disconnect(int dest) override;
 
-    void destroy();
+    void destroy() override;
 
 private:
     /**
