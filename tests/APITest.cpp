@@ -36,11 +36,11 @@ using ::testing::SetArgPointee;
 
 class MockTransport : public Transport {
 public:
-    MockTransport() : Transport(NULL) {}
+    MockTransport() : Transport(nullptr) {}
 
-    ~MockTransport() = default;
+    ~MockTransport() override = default;
 
-    MOCK_METHOD1(initServ,
+    MOCK_METHOD1(initServer,
                  void(std::vector<std::string> paths));
     MOCK_METHOD1(initClient,
                  void(std::string path));
@@ -54,8 +54,8 @@ public:
                  char*());
     MOCK_METHOD2(probe,
                  int(int id, DataType type));
-    MOCK_METHOD1(destroy,
-                 void(std::string path));
+    MOCK_METHOD2(destroy,
+                 void(int id, std::string path));
     MOCK_METHOD4(sendData,
                  void(void *data, DataType type, int count, int id));
     MOCK_METHOD4(receiveData,
@@ -71,12 +71,12 @@ TEST(ServerInit, ProperCalls) {
     MockTransport protocol;
     main.setProtocol(&protocol);
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    EXPECT_CALL(protocol, initServ(testAddresses)).Times(Exactly(1));
+    EXPECT_CALL(protocol, initServer(testAddresses)).Times(Exactly(1));
 
     EXPECT_CALL(protocol, acceptConnection(1)).Times(Exactly(1));
     EXPECT_CALL(protocol, acceptConnection(2)).Times(Exactly(1));
@@ -111,7 +111,7 @@ TEST(ServerInit, ProperCalls) {
     ASSERT_EQ(main.getEndpoint()->getId(), 0);
     ASSERT_EQ(main.getEndpoint()->getClient_list().size(), 4);
     const std::vector<Endpoint *> &clients = main.getEndpoint()->getClient_list();
-    for (int i = 0; i < clients.size(); ++i) {
+    for (size_t i = 0; i < clients.size(); ++i) {
         ASSERT_EQ(testAddresses[i], clients[i]->getPath());
         ASSERT_EQ(i + 1, clients[i]->getId());
     }
@@ -182,7 +182,7 @@ TEST(ServerSend, ProperCalls) {
     main.setProtocol(&protocol);
     char *testString = (char *) "test1;test2;test3;test4";
 
-    EXPECT_CALL(protocol, initServ(_)).Times(Exactly(1));
+    EXPECT_CALL(protocol, initServer(_)).Times(Exactly(1));
     EXPECT_CALL(protocol, acceptConnection(_)).Times(Exactly(4));
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
@@ -208,7 +208,7 @@ TEST(ServerReceive, ProperCalls) {
     main.setProtocol(&protocol);
     char *testString = (char *) "test1;test2;test3;test4";
 
-    EXPECT_CALL(protocol, initServ(_)).Times(Exactly(1));
+    EXPECT_CALL(protocol, initServer(_)).Times(Exactly(1));
     EXPECT_CALL(protocol, acceptConnection(_)).Times(Exactly(4));
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
@@ -235,12 +235,12 @@ TEST(DestroyServer, ProperCalls) {
     char *testString = (char *) "test1;test2;test3;test4";
 
     std::vector<std::string> testAddresses;
-    testAddresses.push_back("test1/");
-    testAddresses.push_back("test2/");
-    testAddresses.push_back("test3/");
-    testAddresses.push_back("test4/");
+    testAddresses.emplace_back("test1/");
+    testAddresses.emplace_back("test2/");
+    testAddresses.emplace_back("test3/");
+    testAddresses.emplace_back("test4/");
 
-    EXPECT_CALL(protocol, initServ(_)).Times(Exactly(1));
+    EXPECT_CALL(protocol, initServer(_)).Times(Exactly(1));
     EXPECT_CALL(protocol, acceptConnection(_)).Times(Exactly(4));
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
@@ -252,10 +252,10 @@ TEST(DestroyServer, ProperCalls) {
     EXPECT_CALL(protocol, closeConnection(3)).Times(Exactly(1));
     EXPECT_CALL(protocol, closeConnection(4)).Times(Exactly(1));
 
-    EXPECT_CALL(protocol, destroy(testAddresses[0])).Times(Exactly(1));
-    EXPECT_CALL(protocol, destroy(testAddresses[1])).Times(Exactly(1));
-    EXPECT_CALL(protocol, destroy(testAddresses[2])).Times(Exactly(1));
-    EXPECT_CALL(protocol, destroy(testAddresses[3])).Times(Exactly(1));
+    EXPECT_CALL(protocol, destroy(1, testAddresses[0])).Times(Exactly(1));
+    EXPECT_CALL(protocol, destroy(2, testAddresses[1])).Times(Exactly(1));
+    EXPECT_CALL(protocol, destroy(3, testAddresses[2])).Times(Exactly(1));
+    EXPECT_CALL(protocol, destroy(4, testAddresses[3])).Times(Exactly(1));
 
     main.destroy();
 }
