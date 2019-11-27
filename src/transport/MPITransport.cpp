@@ -22,14 +22,36 @@
 //    You should have received a copy of the GNU Lesser General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <stdexcept>
-#include <fstream>
 #include "MPITransport.h"
+
+#include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <stdexcept>
 
 const std::string MPITransport::FILENAME = ".portname";
 
+void MPITransport::setTimeout() {
+    this->timeout = TIMEOUT_DEFAULT;
+    auto chars = std::getenv(TIMEOUT_KEY);
+    if (chars == nullptr) {
+        return;
+    }
+    std::string timeoutString = std::string(chars);
+
+    bool isNumber = !timeoutString.empty() &&
+                    std::find_if(timeoutString.begin(),
+                                 timeoutString.end(),
+                                 [](char c) { return !std::isdigit(c); }) == timeoutString.end();
+
+
+    if (isNumber) {
+        this->timeout = std::stoi(timeoutString);
+    }
+}
+
 void MPITransport::initServer(const std::vector<std::string> paths) {
+    this->setTimeout();
     uint client_number = (unsigned int) paths.size();
     ports.reserve(client_number + 1);
     intercomm.reserve(client_number + 1);
@@ -51,6 +73,7 @@ void MPITransport::initServer(const std::vector<std::string> paths) {
 }
 
 void MPITransport::initClient(const std::string path) {
+    this->setTimeout();
     std::string port_file = path;
     port_file.append(FILENAME);
 
@@ -72,11 +95,27 @@ void MPITransport::initClient(const std::string path) {
 }
 
 int MPITransport::connectAddress(int id) {
-    return MPI_Comm_connect(ports[id].name, MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    auto result = std::async(std::launch::async,
+                             MPI_Comm_connect,
+                             ports[id].name,
+                             MPI_INFO_NULL,
+                             0,
+                             host_comm,
+                             &intercomm[id]);
+    checkTimeout(result, ports[id].name);
+    return result.get();
 }
 
 int MPITransport::acceptConnection(int id) {
-    return MPI_Comm_accept(ports[id].name, MPI_INFO_NULL, 0, host_comm, &intercomm[id]);
+    auto result = std::async(std::launch::async,
+                             MPI_Comm_accept,
+                             ports[id].name,
+                             MPI_INFO_NULL,
+                             0,
+                             host_comm,
+                             &intercomm[id]);
+    checkTimeout(result, ports[id].name);
+    return result.get();
 }
 
 void MPITransport::closeConnection(int id) {
