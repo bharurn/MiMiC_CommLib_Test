@@ -28,7 +28,12 @@
 
 #include "Transport.h"
 #include "DataTypes.h"
+
 #include <mpi.h>
+
+#include <csignal>
+#include <iostream>
+#include <future>
 
 /**
  * Transport implementation using MPI intercommunicators
@@ -61,6 +66,11 @@ public:
     void destroy(int id, std::string path) override;
 
 private:
+    static constexpr auto TIMEOUT_KEY = "MCL_TIMEOUT";
+    static constexpr int TIMEOUT_DEFAULT = 5000;
+
+    int timeout;
+
     class Port {
     public:
         mpi_port_name name;
@@ -87,6 +97,16 @@ private:
      * Array of ports used to connect clients
      */
     std::vector<Port> ports;
+
+    template <typename _future>
+    void checkTimeout(_future &request, mpi_port_name &portName) {
+        if (request.wait_for(std::chrono::milliseconds(timeout)) == std::future_status::timeout) {
+            std::cerr << "MCL Connection timeout on port: " << portName << std::endl;
+            std::raise(SIGABRT);
+        }
+    }
+
+    void setTimeout();
 };
 
 
