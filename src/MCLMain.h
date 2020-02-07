@@ -58,6 +58,17 @@ public:
     }
 
     /**
+     * Prepares the communication layer (currently only needed for MPMDTransport)
+     *
+     * @param arg
+     * @return
+     */
+    int prepare(void *arg) {
+        protocol->prepare(arg);
+        return 0;
+    }
+
+    /**
      * Customizable init function. Uses arbitrary delimiter char
      *
      * \param paths local paths of all clients (needed for addresses sharing)

@@ -54,6 +54,14 @@ public:
     }
 
     /**
+     * Optional preparation step
+     *
+     * \param clients_number number of clients to get data from
+     * \param replies map of client_id -> reply from the server
+     */
+    virtual void prepare(void *args) = 0;
+
+    /**
      * Initialize server for receiving/sending data
      *
      * \param clients_number number of clients to get data from
