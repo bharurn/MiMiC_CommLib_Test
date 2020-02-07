@@ -20,7 +20,7 @@ pages:
 library:
   stage: deploy
   script:
-    - module load gcc/6.3.0 ompi/2.1.0/gcc-6.3.0 cmake/3.7.2 gtest/gcc-6.3.0
+    - module load gcc/6.3.0 ompi/2.1.0/gcc-6.3.0 cmake gtest/gcc-6.3.0
     - mkdir build
     - cd build
     - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../commlib_gcc ..
