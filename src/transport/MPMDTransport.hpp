@@ -69,7 +69,7 @@ private:
     static constexpr int SERVER_IDENTIFY_TAG = CLIENT_IDENTIFY_TAG + 1;
     static constexpr int CLIENT_COUNT_TAG = SERVER_IDENTIFY_TAG + 1;
     static constexpr int CLIENT_LIST_TAG = CLIENT_COUNT_TAG + 1;
-    static constexpr int CLIENT_ID_TAG = CLIENT_ID_TAG + 1;
+    static constexpr int CLIENT_ID_TAG = CLIENT_LIST_TAG + 1;
 
     /**
      * Local communicator handling communication within a single entity
