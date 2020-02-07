@@ -56,7 +56,7 @@ function(mcl_add_mpi_test targetName targetFile numProcs)
 
     add_test(NAME ${targetName}
             WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-            COMMAND ${MPIEXEC} --oversubscribe ${MPIEXEC_NUMPROC_FLAG} ${numProcs}
+            COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${numProcs}
             ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS})
     add_dependencies(tests ${targetName})
 endfunction()
@@ -72,7 +72,7 @@ function(mcl_add_mpmd_test targetName targetFile numProcs1 numProcs2)
 
     add_test(NAME ${targetName}
             WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-            COMMAND ${MPIEXEC} --oversubscribe ${MPIEXEC_NUMPROC_FLAG} ${numProcs1}
+            COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${numProcs1}
             ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS} :
             ${MPIEXEC_NUMPROC_FLAG} ${numProcs2}
             ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS})
