@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.12)
 project(MimicCommLib)
 
 set(MimicCommLib_MAJOR_VERSION 0)
@@ -11,6 +11,14 @@ option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
 option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
 option(BUILD_SHARED "Whether to build shared or static library" OFF)
+
+set(MCL_COMM "MCL_MPMD" CACHE STRING
+        "Communication mechanism used by the Commlib")
+
+set(CommunicationMechanisms
+        "MCL_MPMD;MCL_MPI")
+
+set_property(CACHE MCL_COMM PROPERTY STRINGS ${CommunicationMechanisms})
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
@@ -37,6 +45,14 @@ endif()
 find_package(MPI REQUIRED)
 include_directories("${MPI_INCLUDE_PATH}")
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+if (${MCL_COMM} MATCHES "MCL_MPMD")
+    add_compile_definitions(MCL_MPMD)
+elseif(${MCL_COMM} MATCHES "MCL_MPI")
+    add_compile_definitions(MCL_MPI)
+else()
+    message(FATAL_ERROR "Unknown communication mechanism is selected")
+endif()
 
 set(COMMLIB_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/transport ${CMAKE_CURRENT_SOURCE_DIR}/src/serializer ${CMAKE_CURRENT_SOURCE_DIR}/src/message)
 include_directories(${COMMLIB_DIRS})

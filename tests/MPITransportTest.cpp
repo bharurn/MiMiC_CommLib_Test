@@ -24,6 +24,7 @@
 #include "gtest/gtest.h"
 #include "MPITransport.h"
 #include <mpi.h>
+#include <array>
 
 TEST(MPITransport, InitServer) {
     MPI_Barrier(MPI_COMM_WORLD);

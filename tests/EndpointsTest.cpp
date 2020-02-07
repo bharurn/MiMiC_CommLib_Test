@@ -35,6 +35,8 @@ class MockTransport : public Transport {
 public:
     MockTransport() : Transport(NULL) {}
 
+    MOCK_METHOD1(prepare,
+                 void(void *args));
     MOCK_METHOD1(initServer,
                  void(std::vector<std::string> paths));
     MOCK_METHOD1(initClient,

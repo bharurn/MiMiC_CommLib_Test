@@ -169,3 +169,7 @@ MPI_Datatype MPITransport::pick_mpi_type(DataType type) {
     }
     return send_type;
 }
+
+void MPITransport::prepare(void *args) {
+
+}

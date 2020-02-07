@@ -22,22 +22,45 @@
 //    You should have received a copy of the GNU Lesser General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "mpi.h"
+
 #include "MessageApi.h"
-#include "transport/MPITransport.h"
 #include "MCLMain.h"
+
+#include "transport/MPITransport.h"
+#include "transport/MPMDTransport.hpp"
 
 /**
  * External API of the library
  * NOTE! ALL API CALLS ARE BLOCKING!!!
  */
 
-int MCL_init_server(char *paths_string, char delimeter) {
+int MCL_prepare(void *param) {
+#ifdef MCL_MPI
     MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
+#elif MCL_MPMD
+    MCLMain::getInstance().setProtocol(new MPMDTransport(static_cast<MPI_Comm>(param)));
+#else
+    std::err << "MCL: Communication mechanism has not been configured. "
+                 "Please recompile the library!" << std::endl;
+#endif
+    return 0;
+}
+
+int MCL_init(char *paths, char delimeter, int isServer) {
+    if (isServer) {
+        MCL_init_server(paths, delimeter);
+    } else {
+        MCL_init_client(paths);
+    }
+    return 0;
+}
+
+int MCL_init_server(char *paths_string, char delimeter) {
     return MCLMain::getInstance().initServer(paths_string, delimeter);
 }
 
 void MCL_init_client(char *path) {
-    MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
     MCLMain::getInstance().initClient(path);
 }
 
