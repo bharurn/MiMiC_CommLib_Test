@@ -39,7 +39,7 @@ int MCL_prepare(void *param) {
 #ifdef MCL_MPI
     MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
 #elif MCL_MPMD
-    MCLMain::getInstance().setProtocol(new MPMDTransport(static_cast<MPI_Comm>(param)));
+    MCLMain::getInstance().setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
 #else
     std::err << "MCL: Communication mechanism has not been configured. "
                  "Please recompile the library!" << std::endl;
