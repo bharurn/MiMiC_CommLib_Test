@@ -109,7 +109,7 @@ TEST(ServerInit, ProperCalls) {
     EXPECT_CALL(protocol, sendData(_, TYPE_INT, 1, 4)).Times(Exactly(1));
 
     char *testString = (char *) "test1;test2;test3;test4";
-    main.initServer(testString, ';', nullptr);
+    main.initServer(testString, ';');
     ASSERT_EQ(main.getEndpoint()->getId(), 0);
     ASSERT_EQ(main.getEndpoint()->getClient_list().size(), 4);
     const std::vector<Endpoint *> &clients = main.getEndpoint()->getClient_list();
@@ -189,7 +189,7 @@ TEST(ServerSend, ProperCalls) {
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
 
-    main.initServer(testString, ';', nullptr);
+    main.initServer(testString, ';');
 
     int testData[5] = {1, 2, 3, 4, 5};
 
@@ -215,7 +215,7 @@ TEST(ServerReceive, ProperCalls) {
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
 
-    main.initServer(testString, ';', nullptr);
+    main.initServer(testString, ';');
 
     int testData[5];
 
@@ -247,7 +247,7 @@ TEST(DestroyServer, ProperCalls) {
     EXPECT_CALL(protocol, probe(_, TYPE_CHAR)).Times(Exactly(4));
     EXPECT_CALL(protocol, receiveData(_, TYPE_CHAR, _, _)).Times(Exactly(4));
 
-    main.initServer(testString, ';', nullptr);
+    main.initServer(testString, ';');
 
     EXPECT_CALL(protocol, closeConnection(1)).Times(Exactly(1));
     EXPECT_CALL(protocol, closeConnection(2)).Times(Exactly(1));
