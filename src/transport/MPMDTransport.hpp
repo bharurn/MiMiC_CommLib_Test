@@ -22,12 +22,12 @@
 //    You should have received a copy of the GNU Lesser General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MIMICCOMMLIB_MPITRANSPORT_H
-#define MIMICCOMMLIB_MPITRANSPORT_H
-
+#ifndef MIMICCOMMLIB_MPMDTRANSPORT_HPP
+#define MIMICCOMMLIB_MPMDTRANSPORT_HPP
 
 #include "Transport.h"
 #include "DataTypes.h"
+#include "MPITransport.h"
 
 #include <mpi.h>
 
@@ -35,17 +35,13 @@
 #include <iostream>
 #include <future>
 
-/**
- * Transport implementation using MPI intercommunicators
- */
-class MPITransport : public Transport {
-
-    typedef char mpi_port_name[MPI_MAX_PORT_NAME];
+class MPMDTransport : public MPITransport {
 
 public:
-    explicit MPITransport(MPI_Comm comm) : Transport(), host_comm(comm) { }
 
-    ~MPITransport() override = default;
+    explicit MPMDTransport(MPI_Comm comm) : MPITransport(comm){}
+
+    ~MPMDTransport() override = default;
 
     void prepare(void *args) override;
 
@@ -67,49 +63,24 @@ public:
 
     void destroy(int id, std::string path) override;
 
-protected:
-    static constexpr auto TIMEOUT_KEY = "MCL_TIMEOUT";
-    static constexpr int TIMEOUT_DEFAULT = 5000;
+private:
 
-    int timeout;
+    static constexpr int CLIENT_IDENTIFY_TAG = 12345;
+    static constexpr int SERVER_IDENTIFY_TAG = CLIENT_IDENTIFY_TAG + 1;
+    static constexpr int CLIENT_COUNT_TAG = SERVER_IDENTIFY_TAG + 1;
+    static constexpr int CLIENT_LIST_TAG = CLIENT_COUNT_TAG + 1;
+    static constexpr int CLIENT_ID_TAG = CLIENT_ID_TAG + 1;
 
-    class Port {
-    public:
-        mpi_port_name name;
+    /**
+     * Local communicator handling communication within a single entity
+     */
+    MPI_Comm local_comm;
+
+    enum EndpointType {
+        TYPE_SERVER = 0,
+        TYPE_CLIENT = 1
     };
-
-    static MPI_Datatype pick_mpi_type(DataType type);
-
-    /**
-     * Communicator to which a remote group will be attached
-     */
-    MPI_Comm host_comm;
-
-    /**
-     * Array of intercommunicators that will handle connections
-     */
-    std::vector<MPI_Comm>intercomm;
-
-    /**
-     * Name of the file used to share port address
-     */
-    const static std::string FILENAME;
-
-    /**
-     * Array of ports used to connect clients
-     */
-    std::vector<Port> ports;
-
-    template <typename _future>
-    void checkTimeout(_future &request, mpi_port_name &portName) {
-        if (request.wait_for(std::chrono::milliseconds(timeout)) == std::future_status::timeout) {
-            std::cerr << "MCL Connection timeout on port: " << portName << std::endl;
-            std::raise(SIGABRT);
-        }
-    }
-
-    void setTimeout();
 };
 
 
-#endif //MIMICCOMMLIB_MPITRANSPORT_H
+#endif //MIMICCOMMLIB_MPMDTRANSPORT_HPP

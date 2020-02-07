@@ -56,7 +56,25 @@ function(mcl_add_mpi_test targetName targetFile numProcs)
 
     add_test(NAME ${targetName}
             WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
-            COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${numProcs}
+            COMMAND ${MPIEXEC} --oversubscribe ${MPIEXEC_NUMPROC_FLAG} ${numProcs}
+            ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS})
+    add_dependencies(tests ${targetName})
+endfunction()
+
+function(mcl_add_mpmd_test targetName targetFile numProcs1 numProcs2)
+    add_executable(${targetName} ${targetFile})
+    target_link_libraries(${targetName} ${MPI_CXX_LIBRARIES}
+            ${GTEST_BOTH_LIBRARIES} ${GMOCK_BOTH_LIBRARIES}
+            mimiccomm ${CMAKE_THREAD_LIBS_INIT})
+    set_target_properties(${targetName} PROPERTIES
+            COMPILE_FLAGS "${MPI_CXX_COMPILER_FLAGS}"
+            LINK_FLAGS "${MPI_CXX_LINK_FLAGS}")
+
+    add_test(NAME ${targetName}
+            WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
+            COMMAND ${MPIEXEC} --oversubscribe ${MPIEXEC_NUMPROC_FLAG} ${numProcs1}
+            ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS} :
+            ${MPIEXEC_NUMPROC_FLAG} ${numProcs2}
             ${MPIEXEC_PREFLAGS} ./${targetName} ${MPIEXEC_POSTFLAGS})
     add_dependencies(tests ${targetName})
 endfunction()
@@ -64,3 +82,4 @@ endfunction()
 mcl_add_test(api APITest.cpp)
 mcl_add_test(endpoint EndpointsTest.cpp)
 mcl_add_mpi_test(mpitransport MPITransportTest.cpp "3")
+mcl_add_mpmd_test(mpmdtransport MPMD_TransportTest.cpp "2" "2")
