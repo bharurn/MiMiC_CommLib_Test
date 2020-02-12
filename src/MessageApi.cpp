@@ -44,6 +44,7 @@ int MCL_prepare(void *param) {
     std::err << "MCL: Communication mechanism has not been configured. "
                  "Please recompile the library!" << std::endl;
 #endif
+    MCLMain::getInstance().prepare(param);
     return 0;
 }
 

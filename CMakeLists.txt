@@ -11,6 +11,11 @@ option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
 option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
 option(BUILD_SHARED "Whether to build shared or static library" OFF)
+option(BUILD_FORTRAN_API "Whether to build Fortran API module or not" OFF)
+
+if(BUILD_FORTRAN_API)
+    enable_language(Fortran)
+endif()
 
 set(MCL_COMM "MCL_MPMD" CACHE STRING
         "Communication mechanism used by the Commlib")
