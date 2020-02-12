@@ -1,4 +1,10 @@
-set(SOURCE_FILES message/Message.h transport/Transport.h MessageApi.h MessageApi.cpp MCLMain.h serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h transport/MPMDTransport.cpp transport/MPMDTransport.hpp)
+set(SOURCE_FILES message/Message.h transport/Transport.h MCLf2c.h MCLf2c.cpp MessageApi.h MessageApi.cpp MCLMain.h serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h transport/MPMDTransport.cpp transport/MPMDTransport.hpp)
+
+if(BUILD_FORTRAN_API)
+    set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
+    add_library(MCLfortran OBJECT MCLfortran.f90)
+    install(TARGETS MCLfortran DESTINATION include)
+endif()
 if (BUILD_SHARED)
     add_library(mimiccomm SHARED ${SOURCE_FILES})
 else()
@@ -7,7 +13,7 @@ endif()
 
 set_property(TARGET mimiccomm PROPERTY VERSION ${MimicCommLib_VERSION})
 
-set(HEADER_FILES MessageApi.h DataTypes.h MCLMain.h)
+set(HEADER_FILES MessageApi.h DataTypes.h MCLMain.h MCLf2c.h ${CMAKE_BINARY_DIR}/include/mclfortran.mod)
 
 install(TARGETS mimiccomm DESTINATION lib EXPORT CommlibTargets)
 install(FILES ${HEADER_FILES} DESTINATION include)

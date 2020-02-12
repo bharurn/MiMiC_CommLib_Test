@@ -41,6 +41,7 @@
  * @param param parameter or null
  * @return
  */
+extern "C"
 int MCL_prepare(void *param);
 
 /**
@@ -54,6 +55,7 @@ int MCL_prepare(void *param);
  *                 0 - indicates that the calling process becomes a client
  * \param misc misc data object that may be required or null
  */
+extern "C"
 int MCL_init(char *paths, char delimeter, int isServer);
 
 /**
