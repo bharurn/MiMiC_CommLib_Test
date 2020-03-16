@@ -28,13 +28,8 @@ void MPMDTransport::prepare(void *args) {
     int *color;
     int flag;
     MPI_Comm_get_attr(this->host_comm, MPI_APPNUM, &color, &flag);
-    if (flag) {
-        MPI_Comm_split(this->host_comm, *color, 0, &this->local_comm);
-        MPI_Comm_dup(this->local_comm, static_cast<MPI_Comm *>(args));
-    } else{
-        std::cerr << "MCL: Not running in a MPMD way!!!" << std::endl;
-        std::raise(SIGABRT);
-    }
+    MPI_Comm_split(this->host_comm, *color, 0, &this->local_comm);
+    MPI_Comm_dup(this->local_comm, static_cast<MPI_Comm *>(args));
 }
 
 void MPMDTransport::initServer(std::vector<std::string> paths) {
