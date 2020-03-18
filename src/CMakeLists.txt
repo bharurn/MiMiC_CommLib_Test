@@ -9,8 +9,8 @@ endif()
 
 if(BUILD_FORTRAN_API)
     set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
-    list(APPEND HEADER_FILES ${CMAKE_Fortran_MODULE_DIRECTORY}/mclfortran.mod)
-    add_library(mclfortran STATIC fortran/MCL_Interface.f90 fortran/MCL_send_recv.f90 fortran/MCLfortran.f90)
+    list(APPEND HEADER_FILES ${CMAKE_Fortran_MODULE_DIRECTORY}/mcl_fortran.mod)
+    add_library(mclfortran STATIC fortran/MCL_Interface.f90 fortran/MCL_send_recv.f90 fortran/MCL_fortran.f90)
     install(TARGETS mclfortran DESTINATION include)
 endif()
 

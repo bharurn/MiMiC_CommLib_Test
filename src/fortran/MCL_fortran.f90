@@ -1,4 +1,4 @@
-module MCLfortran
+module MCL_fortran
     use MCL_interface
     use MCL_send_recv
 
@@ -81,4 +81,4 @@ module MCLfortran
         call CMCL_destroy
     end subroutine MCL_Destroy
 
-end module MCLfortran
+end module MCL_fortran
