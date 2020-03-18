@@ -4,11 +4,11 @@ module MCLfortran
 
     private
 
-    public :: MCL_prepare
+    public :: MCL_Prepare
     public :: MCL_Init
     public :: MCL_Send
-    public :: MCL_receive
-    public :: MCL_destroy
+    public :: MCL_Receive
+    public :: MCL_Destroy
 
     !> interface of the communication library
     interface
@@ -61,16 +61,24 @@ module MCLfortran
         end subroutine CMCL_send
     end interface
 
+    interface MCL_Send
+        module procedure send_int, send_float, send_char, send_double
+    end interface ! MCL_send
+
+    interface MCL_Receive
+        module procedure recv_int, recv_float, recv_char, recv_double
+    end interface ! MCL_Receive
+
     contains
 
-    subroutine MCL_prepare(communicator)
+    subroutine MCL_Prepare(communicator)
         use, intrinsic :: iso_c_binding
         use mpi_f08
         integer, intent(inout), target :: communicator
         class(*), pointer :: test
 
         call CMCL_prepare(c_loc(communicator))
-    end subroutine MCL_prepare
+    end subroutine MCL_Prepare
 
     subroutine MCL_Init(paths, delimiter, is_server)
         use, intrinsic :: iso_c_binding
@@ -106,32 +114,169 @@ module MCLfortran
         call CMCL_init(path, c_delimiter, c_flag)
     end subroutine MCL_Init
 
-    subroutine MCL_Send(buffer, count, data_type, destination)
-        use iso_c_binding, only: c_ptr, c_int
-        type(c_ptr), value :: buffer
+    subroutine send_int(data, count, destination)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        integer, dimension(*), target :: data
         !> Pointer to the buffer to send data from
-        integer(kind=c_int), value :: count
-        !> Number of data entries
-        integer(kind=c_int), value :: data_type
+        integer :: count
         !> Type of data to be sent
-        integer(kind=c_int), value :: destination
+        integer :: destination
 
-        call CMCL_send(buffer, count, data_type, destination)
-    end subroutine MCL_Send
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 2
+        integer(kind=c_int) :: c_dest
 
-    subroutine MCL_receive(buffer, count, data_type, source)
-        use iso_c_binding, only: c_ptr, c_int
-        !> pointer to the buffer to receive data
-        type(c_ptr), value :: buffer
-        !> number of data entries
-        integer(kind=c_int), value :: count
-        !> type of data to be received
-        integer(kind=c_int), value :: data_type
-        !> ID of the client to receive data from
-        integer(kind=c_int), value :: source
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
 
-        call CMCL_receive(buffer, count, data_type, source)
-    end subroutine MCL_receive
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_int
+
+    subroutine send_float(data, count, destination)
+        use, intrinsic :: iso_fortran_env, only: real32
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        real(kind=real32), dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 4
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_float
+
+    subroutine send_double(data, count, destination)
+        use, intrinsic :: iso_fortran_env, only: real64
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        real(kind=real64), dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 1
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_double
+
+    subroutine send_char(data, count, destination)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        character, dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 3
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_char
+
+    subroutine recv_int(data, count, destination)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        integer, dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 2
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_dest)
+    end subroutine recv_int
+
+    subroutine recv_float(data, count, destination)
+        use, intrinsic :: iso_fortran_env, only: real32
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        real(kind=real32), dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 4
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_dest)
+    end subroutine recv_float
+
+    subroutine recv_double(data, count, destination)
+        use, intrinsic :: iso_fortran_env, only: real64
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        real(kind=real64), dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 1
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_dest)
+    end subroutine recv_double
+
+    subroutine recv_char(data, count, destination)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        character, dimension(*), target :: data
+        !> Pointer to the buffer to send data from
+        integer :: count
+        !> Type of data to be sent
+        integer :: destination
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 3
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = destination
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_dest)
+    end subroutine recv_char
 
     subroutine MCL_Destroy
         call CMCL_destroy
