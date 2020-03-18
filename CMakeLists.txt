@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 project(MimicCommLib)
 
-set(MimicCommLib_MAJOR_VERSION 0)
-set(MimicCommLib_MINOR_VERSION 1)
+set(MimicCommLib_MAJOR_VERSION 1)
+set(MimicCommLib_MINOR_VERSION 0)
 set(MimicCommLib_PATCH_VERSION 0)
 set(MimicCommLib_VERSION
         ${MimicCommLib_MAJOR_VERSION}.${MimicCommLib_MINOR_VERSION}.${MimicCommLib_PATCH_VERSION})
