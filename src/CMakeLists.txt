@@ -7,10 +7,14 @@ else()
     add_library(mimiccomm STATIC ${SOURCE_FILES})
 endif()
 
+target_include_directories(mimiccomm PUBLIC ${MPI_C_INCLUDE_DIRS})
+target_include_directories(mimiccomm PUBLIC ${MPI_CXX_INCLUDE_DIRS})
+
 if(BUILD_FORTRAN_API)
     set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
     list(APPEND HEADER_FILES ${CMAKE_Fortran_MODULE_DIRECTORY}/mcl_fortran.mod)
     add_library(mclfortran STATIC fortran/MCL_Interface.f90 fortran/MCL_send_recv.f90 fortran/MCL_fortran.f90)
+    target_include_directories(mclfortran PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
     install(TARGETS mclfortran DESTINATION include)
 endif()
 
