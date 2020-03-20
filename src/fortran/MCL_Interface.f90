@@ -15,7 +15,7 @@ module MCL_interface
         subroutine CMCL_init(paths, delimiter, is_server) bind(C, name="MCL_init")
             use, intrinsic :: iso_c_binding, only: c_char, c_int
             !> paths to working folders of client codes (delimited string)
-            character(kind=c_char) :: paths (*)
+            character(kind=c_char), dimension(*) :: paths
             !> delimiter for path string
             character(kind=c_char) :: delimiter
             !> 0 - indicates a client, 1 - indicates a server
