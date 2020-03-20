@@ -1,4 +1,27 @@
-set(SOURCE_FILES message/Message.h transport/Transport.h MCLf2c.h MCLf2c.cpp MessageApi.h MessageApi.cpp MCLMain.h serializer/Serializer.h message/FloatArrayData.h message/SystemData.h message/BaseMessageData.h transport/MPITransport.cpp transport/MPITransport.h transport/Endpoint.h transport/Server.cpp transport/Server.h transport/Client.cpp transport/Client.h message/ClientData.h DataTypes.h transport/MPMDTransport.cpp transport/MPMDTransport.hpp)
+set(SOURCE_FILES
+    message/Message.h
+    transport/Transport.h
+    MCLf2c.h
+    MCLf2c.cpp
+    MessageApi.h
+    MessageApi.cpp
+    MCLMain.h
+    serializer/Serializer.h
+    message/FloatArrayData.h
+    message/SystemData.h
+    message/BaseMessageData.h
+    transport/MPITransport.cpp
+    transport/MPITransport.h
+    transport/Endpoint.h
+    transport/Server.cpp
+    transport/Server.h
+    transport/Client.cpp
+    transport/Client.h
+    message/ClientData.h
+    DataTypes.h
+    transport/MPMDTransport.cpp
+    transport/MPMDTransport.hpp
+    )
 set(HEADER_FILES MessageApi.h DataTypes.h MCLMain.h MCLf2c.h)
 
 if (BUILD_SHARED)
