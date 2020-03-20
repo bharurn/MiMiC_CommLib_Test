@@ -35,18 +35,18 @@
  */
 
 /**
- * \fn int MCL_prepare(void *param)
- * Prepare function needed for some transports. SHOULD BE CALLED AFTER MPI_Init!!!
+ * \fn int MCL_init(void *param)
+ * Initialize communicator. SHOULD BE CALLED AFTER MPI_INIT!!!
  *
  * @param param parameter or null
  * @return
  */
 extern "C"
-int MCL_prepare(void *param);
+int MCL_init(void *param);
 
 /**
- * \fn int MCL_init(char *paths, char delimeter, int isServer, void *misc)
- * Customizable init function used for both server and client
+ * \fn int MCL_handshake(char *paths, char delimeter, int isServer, void *misc)
+ * Handshake function used for both server and client
  *
  * \param paths local paths of all clients (needed for addresses sharing)
  * \param delimeter character which is used to extract individual paths
@@ -56,12 +56,12 @@ int MCL_prepare(void *param);
  * \param misc misc data object that may be required or null
  */
 extern "C"
-int MCL_init(char *paths, char delimeter, int isServer);
+int MCL_handshake(char *paths, char delimeter, int isServer);
 
 /**
  * \fn int MCL_init_server(char *paths, char delimeter)
  * Customizable init function. Uses arbitrary delimeter char
- * \deprecated use MCL_init instead
+ * \deprecated use MCL_handshake instead
  *
  * \param paths local paths of all clients (needed for addresses sharing)
  * \param delimeter character which is used to extract individual paths
@@ -72,7 +72,7 @@ int MCL_init_server(char *paths, char delimeter);
 /**
  * \fn void MCL_init_client(char *path)
  * Initialize client endpoint
- * \deprecated use MCL_init instead
+ * \deprecated use MCL_handshake instead
  *
  * \param path string containing the path in the file system to this client
  */

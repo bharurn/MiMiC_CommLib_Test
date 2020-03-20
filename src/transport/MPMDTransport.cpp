@@ -1,6 +1,6 @@
 //
 //    MCL: MiMiC Communication Library
-//    Copyright (C) 2015-2017  Viacheslav Bolnykh,
+//    Copyright (C) 2015-2020  Viacheslav Bolnykh,
 //                             Jógvan Magnus Haugaard Olsen,
 //                             Simone Meloni,
 //                             Emiliano Ippoliti,

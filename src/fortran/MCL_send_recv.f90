@@ -1,3 +1,27 @@
+!
+!    MCL: MiMiC Communication Library
+!    Copyright (C) 2015-2020  Viacheslav Bolnykh,
+!                             Jógvan Magnus Haugaard Olsen,
+!                             Simone Meloni,
+!                             Emiliano Ippoliti,
+!                             Paolo Carloni
+!                             and Ursula Röthlisberger.
+!
+!    This file is part of MCL.
+!
+!    MCL is free software: you can redistribute it and/or modify
+!    it under the terms of the GNU Lesser General Public License as
+!    published by the Free Software Foundation, either version 3 of
+!    the License, or (at your option) any later version.
+!
+!    MCL is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY; without even the implied warranty of
+!    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!    GNU Lesser General Public License for more details.
+!
+!    You should have received a copy of the GNU Lesser General Public License
+!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 module MCL_send_recv
 
     use MCL_interface
@@ -8,10 +32,12 @@ module MCL_send_recv
 
     subroutine send_int(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, target :: data
+        use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
-        integer :: count
+        integer(kind=int32), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -28,10 +54,12 @@ module MCL_send_recv
 
     subroutine send_int_array1d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:), target :: data
+        use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
-        integer :: count
+        integer(kind=int32), dimension(:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -48,10 +76,12 @@ module MCL_send_recv
 
     subroutine send_int_array2d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:,:), target :: data
+        use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
-        integer :: count
+        integer(kind=int32), dimension(:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -68,10 +98,12 @@ module MCL_send_recv
 
     subroutine send_int_array3d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:,:,:), target :: data
+        use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
-        integer :: count
+        integer(kind=int32), dimension(:,:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -89,10 +121,11 @@ module MCL_send_recv
     subroutine send_float(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real32), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real32), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -110,10 +143,11 @@ module MCL_send_recv
     subroutine send_float_array1d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real32), dimension(*), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real32), dimension(:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -131,10 +165,11 @@ module MCL_send_recv
     subroutine send_float_array2d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real32), dimension(:,:), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real32), dimension(:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -152,10 +187,11 @@ module MCL_send_recv
     subroutine send_float_array3d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real32), dimension(:,:,:), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real32), dimension(:,:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -173,10 +209,11 @@ module MCL_send_recv
     subroutine send_double(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real64), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real64), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -194,10 +231,11 @@ module MCL_send_recv
     subroutine send_double_array1d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real64), dimension(:), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real64), dimension(:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -215,10 +253,11 @@ module MCL_send_recv
     subroutine send_double_array2d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real64), dimension(:,:), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real64), dimension(:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -236,10 +275,11 @@ module MCL_send_recv
     subroutine send_double_array3d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        real(kind=real64), dimension(:,:,:), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        real(kind=real64), dimension(:,:,:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -256,10 +296,11 @@ module MCL_send_recv
 
     subroutine send_char(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        character(len=*), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        character(len=*), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -276,10 +317,11 @@ module MCL_send_recv
 
     subroutine send_char_array(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        character(len=*), dimension(*), target :: data
         !> Pointer to the buffer to send data from
-        integer :: count
+        character(len=*), dimension(:), target :: data
         !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
         integer :: dest
 
         type(c_ptr) :: buffer
@@ -296,10 +338,12 @@ module MCL_send_recv
 
     subroutine recv_int(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, target :: data
-        !> Pointer to the buffer to send data from
+        use, intrinsic :: iso_fortran_env, only: int32
+        !> Pointer to the buffer to put data to
+        integer(kind=int32), target :: data
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -316,10 +360,12 @@ module MCL_send_recv
 
     subroutine recv_int_array1d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:), target :: data
-        !> Pointer to the buffer to send data from
+        use, intrinsic :: iso_fortran_env, only: int32
+        !> Pointer to the buffer to put data to
+        integer(kind=int32), dimension(:), target :: data
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -336,10 +382,12 @@ module MCL_send_recv
 
     subroutine recv_int_array2d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:,:), target :: data
-        !> Pointer to the buffer to send data from
+        use, intrinsic :: iso_fortran_env, only: int32
+        !> Pointer to the buffer to put data to
+        integer(kind=int32), dimension(:,:), target :: data
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -356,10 +404,12 @@ module MCL_send_recv
 
     subroutine recv_int_array3d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        integer, dimension(:,:,:), target :: data
-        !> Pointer to the buffer to send data from
+        use, intrinsic :: iso_fortran_env, only: int32
+        !> Pointer to the buffer to put data to
+        integer(kind=int32), dimension(:,:,:), target :: data
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -377,10 +427,11 @@ module MCL_send_recv
     subroutine recv_float(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real32), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -398,10 +449,11 @@ module MCL_send_recv
     subroutine recv_float_array1d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real32), dimension(:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -419,10 +471,11 @@ module MCL_send_recv
     subroutine recv_float_array2d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real32), dimension(:,:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -440,10 +493,11 @@ module MCL_send_recv
     subroutine recv_float_array3d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real32), dimension(:,:,:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -461,10 +515,11 @@ module MCL_send_recv
     subroutine recv_double(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real64), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -482,10 +537,11 @@ module MCL_send_recv
     subroutine recv_double_array1d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real64), dimension(:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -503,10 +559,11 @@ module MCL_send_recv
     subroutine recv_double_array2d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real64), dimension(:,:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -524,10 +581,11 @@ module MCL_send_recv
     subroutine recv_double_array3d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         real(kind=real64), dimension(:,:,:), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -544,10 +602,11 @@ module MCL_send_recv
 
     subroutine recv_char(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
+        !> Pointer to the buffer to put data to
         character(len=*), target :: data
-        !> Pointer to the buffer to send data from
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer
@@ -564,10 +623,11 @@ module MCL_send_recv
 
     subroutine recv_char_array(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
-        character(len=*), dimension(*), target :: data
-        !> Pointer to the buffer to send data from
+        !> Pointer to the buffer to put data to
+        character(len=*), dimension(:), target :: data
+        !> Type of data to be received
         integer :: count
-        !> Type of data to be sent
+        !> ID of the source of the data
         integer :: source
 
         type(c_ptr) :: buffer

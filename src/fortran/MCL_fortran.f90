@@ -1,3 +1,27 @@
+!
+!    MCL: MiMiC Communication Library
+!    Copyright (C) 2015-2020  Viacheslav Bolnykh,
+!                             Jógvan Magnus Haugaard Olsen,
+!                             Simone Meloni,
+!                             Emiliano Ippoliti,
+!                             Paolo Carloni
+!                             and Ursula Röthlisberger.
+!
+!    This file is part of MCL.
+!
+!    MCL is free software: you can redistribute it and/or modify
+!    it under the terms of the GNU Lesser General Public License as
+!    published by the Free Software Foundation, either version 3 of
+!    the License, or (at your option) any later version.
+!
+!    MCL is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY; without even the implied warranty of
+!    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!    GNU Lesser General Public License for more details.
+!
+!    You should have received a copy of the GNU Lesser General Public License
+!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 module MCL_fortran
 
     use MCL_interface
@@ -7,12 +31,13 @@ module MCL_fortran
 
     private
 
-    public :: MCL_Prepare
     public :: MCL_Init
+    public :: MCL_Handshake
     public :: MCL_Send
     public :: MCL_Receive
     public :: MCL_Destroy
 
+    !> Send data to specified client
     interface MCL_Send
         module procedure send_int, send_int_array1d, &
                 send_int_array2d, send_int_array3d, &
@@ -23,6 +48,7 @@ module MCL_fortran
                 send_char, send_char_array
     end interface MCL_Send
 
+    !> Receive data from a specified client
     interface MCL_Receive
         module procedure recv_int, recv_int_array1d, &
                 recv_int_array2d, recv_int_array3d, &
@@ -35,22 +61,24 @@ module MCL_fortran
 
     contains
 
-    subroutine MCL_Prepare(communicator)
+    !> Initialize communicator. SHOULD BE CALLED AFTER MPI_INIT!!!
+    subroutine MCL_Init(communicator)
         use, intrinsic :: iso_c_binding
         use mpi_f08
+        !> MPI communicator that is used by the host code
         integer, intent(inout), target :: communicator
-        class(*), pointer :: test
 
-        call CMCL_prepare(c_loc(communicator))
-    end subroutine MCL_Prepare
+        call CMCL_init(c_loc(communicator))
+    end subroutine MCL_Init
 
-    subroutine MCL_Init(paths, delimiter, is_server)
+    !> Handshake function used for both server and client
+    subroutine MCL_Handshake(paths, delimiter, is_server)
         use, intrinsic :: iso_c_binding
         !> paths to working folders of client codes (delimited string)
         character, intent(in) :: paths(*)
         !> delimiter for path string
         character, intent(in) :: delimiter
-        !>
+        !> flag, indicating whether the caller is a server or a client
         logical, intent(in) :: is_server
 
         integer :: n_client
@@ -75,9 +103,10 @@ module MCL_fortran
             c_flag = 0
         end if
 
-        call CMCL_init(path, c_delimiter, c_flag)
-    end subroutine MCL_Init
+        call CMCL_handshake(path, c_delimiter, c_flag)
+    end subroutine MCL_Handshake
 
+    !> Destroy the endpoint
     subroutine MCL_Destroy
         call CMCL_destroy
     end subroutine MCL_Destroy

@@ -1,15 +1,11 @@
 set(SOURCE_FILES
-    message/Message.h
-    transport/Transport.h
-    MCLf2c.h
-    MCLf2c.cpp
-    MessageApi.h
-    MessageApi.cpp
-    MCLMain.h
     serializer/Serializer.h
+    message/Message.h
     message/FloatArrayData.h
     message/SystemData.h
     message/BaseMessageData.h
+    message/ClientData.h
+    transport/Transport.h
     transport/MPITransport.cpp
     transport/MPITransport.h
     transport/Endpoint.h
@@ -17,10 +13,14 @@ set(SOURCE_FILES
     transport/Server.h
     transport/Client.cpp
     transport/Client.h
-    message/ClientData.h
-    DataTypes.h
     transport/MPMDTransport.cpp
     transport/MPMDTransport.hpp
+    MCLf2c.h
+    MCLf2c.cpp
+    MessageApi.h
+    MessageApi.cpp
+    MCLMain.h
+    DataTypes.h
     )
 set(HEADER_FILES MessageApi.h DataTypes.h MCLMain.h MCLf2c.h)
 

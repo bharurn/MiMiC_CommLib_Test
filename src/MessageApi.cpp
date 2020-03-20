@@ -35,7 +35,7 @@
  * NOTE! ALL API CALLS ARE BLOCKING!!!
  */
 
-int MCL_prepare(void *param) {
+int MCL_init(void *param) {
 #ifdef MCL_MPI
     MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
 #elif MCL_MPMD
@@ -48,7 +48,7 @@ int MCL_prepare(void *param) {
     return 0;
 }
 
-int MCL_init(char *paths, char delimeter, int isServer) {
+int MCL_handshake(char *paths, char delimeter, int isServer) {
     if (isServer) {
         MCL_init_server(paths, delimeter);
     } else {
