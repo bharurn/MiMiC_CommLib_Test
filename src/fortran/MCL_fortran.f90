@@ -39,23 +39,27 @@ module MCL_fortran
 
     !> Send data to specified client
     interface MCL_Send
-        module procedure send_int, send_int_array1d, &
-                send_int_array2d, send_int_array3d, &
-                send_float, send_float_array1d, &
-                send_float_array2d, send_float_array3d, &
-                send_double, send_double_array1d, &
-                send_double_array2d, send_double_array3d, &
+        module procedure send_int32, send_int32_array1d, &
+                send_int32_array2d, send_int32_array3d, &
+                send_int64, send_int64_array1d, &
+                send_int64_array2d, send_int64_array3d, &
+                send_float32, send_float32_array1d, &
+                send_float32_array2d, send_float32_array3d, &
+                send_float64, send_float64_array1d, &
+                send_float64_array2d, send_float64_array3d, &
                 send_char, send_char_array
     end interface MCL_Send
 
     !> Receive data from a specified client
     interface MCL_Receive
-        module procedure recv_int, recv_int_array1d, &
-                recv_int_array2d, recv_int_array3d, &
-                recv_float, recv_float_array1d, &
-                recv_float_array2d, recv_float_array3d, &
-                recv_double, recv_double_array1d, &
-                recv_double_array2d, recv_double_array3d, &
+        module procedure recv_int32, recv_int32_array1d, &
+                recv_int32_array2d, recv_int32_array3d, &
+                recv_int64, recv_int64_array1d, &
+                recv_int64_array2d, recv_int64_array3d, &
+                recv_float32, recv_float32_array1d, &
+                recv_float32_array2d, recv_float32_array3d, &
+                recv_float64, recv_float64_array1d, &
+                recv_float64_array2d, recv_float64_array3d, &
                 recv_char, recv_char_array
     end interface MCL_Receive
 

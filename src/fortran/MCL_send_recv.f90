@@ -30,7 +30,7 @@ module MCL_send_recv
 
     contains
 
-    subroutine send_int(data, count, dest)
+    subroutine send_int32(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
@@ -50,9 +50,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_int
+    end subroutine send_int32
 
-    subroutine send_int_array1d(data, count, dest)
+    subroutine send_int32_array1d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
@@ -72,9 +72,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_int_array1d
+    end subroutine send_int32_array1d
 
-    subroutine send_int_array2d(data, count, dest)
+    subroutine send_int32_array2d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
@@ -94,9 +94,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_int_array2d
+    end subroutine send_int32_array2d
 
-    subroutine send_int_array3d(data, count, dest)
+    subroutine send_int32_array3d(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to send data from
@@ -116,9 +116,97 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_int_array3d
+    end subroutine send_int32_array3d
 
-    subroutine send_float(data, count, dest)
+    subroutine send_int64(data, count, dest)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to send data from
+        integer(kind=int64), target :: data
+        !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
+        integer :: dest
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = dest
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_int64
+
+    subroutine send_int64_array1d(data, count, dest)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to send data from
+        integer(kind=int64), dimension(:), target :: data
+        !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
+        integer :: dest
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = dest
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_int64_array1d
+
+    subroutine send_int64_array2d(data, count, dest)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to send data from
+        integer(kind=int64), dimension(:,:), target :: data
+        !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
+        integer :: dest
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = dest
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_int64_array2d
+
+    subroutine send_int64_array3d(data, count, dest)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to send data from
+        integer(kind=int64), dimension(:,:,:), target :: data
+        !> Type of data to be sent
+        integer :: count
+        !> ID of the client to send data to
+        integer :: dest
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_dest
+
+        c_count = count
+        c_dest = dest
+        buffer = c_loc(data)
+
+        call CMCL_send(buffer, c_count, data_type, c_dest)
+    end subroutine send_int64_array3d
+
+    subroutine send_float32(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -138,9 +226,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_float
+    end subroutine send_float32
 
-    subroutine send_float_array1d(data, count, dest)
+    subroutine send_float32_array1d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -160,9 +248,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_float_array1d
+    end subroutine send_float32_array1d
 
-    subroutine send_float_array2d(data, count, dest)
+    subroutine send_float32_array2d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -182,9 +270,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_float_array2d
+    end subroutine send_float32_array2d
 
-    subroutine send_float_array3d(data, count, dest)
+    subroutine send_float32_array3d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -204,9 +292,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_float_array3d
+    end subroutine send_float32_array3d
 
-    subroutine send_double(data, count, dest)
+    subroutine send_float64(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -226,9 +314,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_double
+    end subroutine send_float64
 
-    subroutine send_double_array1d(data, count, dest)
+    subroutine send_float64_array1d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -248,9 +336,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_double_array1d
+    end subroutine send_float64_array1d
 
-    subroutine send_double_array2d(data, count, dest)
+    subroutine send_float64_array2d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -270,9 +358,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_double_array2d
+    end subroutine send_float64_array2d
 
-    subroutine send_double_array3d(data, count, dest)
+    subroutine send_float64_array3d(data, count, dest)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to send data from
@@ -292,7 +380,7 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_send(buffer, c_count, data_type, c_dest)
-    end subroutine send_double_array3d
+    end subroutine send_float64_array3d
 
     subroutine send_char(data, count, dest)
         use iso_c_binding, only: c_ptr, c_int, c_loc
@@ -336,7 +424,7 @@ module MCL_send_recv
         call CMCL_send(buffer, c_count, data_type, c_dest)
     end subroutine send_char_array
 
-    subroutine recv_int(data, count, source)
+    subroutine recv_int32(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to put data to
@@ -356,9 +444,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_int
+    end subroutine recv_int32
 
-    subroutine recv_int_array1d(data, count, source)
+    subroutine recv_int32_array1d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to put data to
@@ -378,9 +466,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_int_array1d
+    end subroutine recv_int32_array1d
 
-    subroutine recv_int_array2d(data, count, source)
+    subroutine recv_int32_array2d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to put data to
@@ -400,9 +488,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_int_array2d
+    end subroutine recv_int32_array2d
 
-    subroutine recv_int_array3d(data, count, source)
+    subroutine recv_int32_array3d(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc
         use, intrinsic :: iso_fortran_env, only: int32
         !> Pointer to the buffer to put data to
@@ -422,9 +510,97 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_int_array3d
+    end subroutine recv_int32_array3d
 
-    subroutine recv_float(data, count, source)
+    subroutine recv_int64(data, count, source)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to put data to
+        integer(kind=int64), target :: data
+        !> Type of data to be received
+        integer :: count
+        !> ID of the source of the data
+        integer :: source
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_source
+
+        c_count = count
+        c_source = source
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_source)
+    end subroutine recv_int64
+
+    subroutine recv_int64_array1d(data, count, source)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to put data to
+        integer(kind=int64), dimension(:), target :: data
+        !> Type of data to be received
+        integer :: count
+        !> ID of the source of the data
+        integer :: source
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_source
+
+        c_count = count
+        c_source = source
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_source)
+    end subroutine recv_int64_array1d
+
+    subroutine recv_int64_array2d(data, count, source)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to put data to
+        integer(kind=int64), dimension(:,:), target :: data
+        !> Type of data to be received
+        integer :: count
+        !> ID of the source of the data
+        integer :: source
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_source
+
+        c_count = count
+        c_source = source
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_source)
+    end subroutine recv_int64_array2d
+
+    subroutine recv_int64_array3d(data, count, source)
+        use iso_c_binding, only: c_ptr, c_int, c_loc
+        use, intrinsic :: iso_fortran_env, only: int64
+        !> Pointer to the buffer to put data to
+        integer(kind=int64), dimension(:,:,:), target :: data
+        !> Type of data to be received
+        integer :: count
+        !> ID of the source of the data
+        integer :: source
+
+        type(c_ptr) :: buffer
+        integer(kind=c_int) :: c_count
+        integer(kind=c_int), parameter :: data_type = 5
+        integer(kind=c_int) :: c_source
+
+        c_count = count
+        c_source = source
+        buffer = c_loc(data)
+
+        call CMCL_receive(buffer, c_count, data_type, c_source)
+    end subroutine recv_int64_array3d
+
+    subroutine recv_float32(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -444,9 +620,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_float
+    end subroutine recv_float32
 
-    subroutine recv_float_array1d(data, count, source)
+    subroutine recv_float32_array1d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -466,9 +642,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_float_array1d
+    end subroutine recv_float32_array1d
 
-    subroutine recv_float_array2d(data, count, source)
+    subroutine recv_float32_array2d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -488,9 +664,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_float_array2d
+    end subroutine recv_float32_array2d
 
-    subroutine recv_float_array3d(data, count, source)
+    subroutine recv_float32_array3d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real32
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -510,9 +686,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_float_array3d
+    end subroutine recv_float32_array3d
 
-    subroutine recv_double(data, count, source)
+    subroutine recv_float64(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -532,9 +708,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_double
+    end subroutine recv_float64
 
-    subroutine recv_double_array1d(data, count, source)
+    subroutine recv_float64_array1d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -554,9 +730,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_double_array1d
+    end subroutine recv_float64_array1d
 
-    subroutine recv_double_array2d(data, count, source)
+    subroutine recv_float64_array2d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -576,9 +752,9 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_double_array2d
+    end subroutine recv_float64_array2d
 
-    subroutine recv_double_array3d(data, count, source)
+    subroutine recv_float64_array3d(data, count, source)
         use, intrinsic :: iso_fortran_env, only: real64
         use iso_c_binding, only: c_ptr, c_int, c_loc
         !> Pointer to the buffer to put data to
@@ -598,7 +774,7 @@ module MCL_send_recv
         buffer = c_loc(data)
 
         call CMCL_receive(buffer, c_count, data_type, c_source)
-    end subroutine recv_double_array3d
+    end subroutine recv_float64_array3d
 
     subroutine recv_char(data, count, source)
         use iso_c_binding, only: c_ptr, c_int, c_loc

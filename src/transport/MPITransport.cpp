@@ -156,6 +156,10 @@ MPI_Datatype MPITransport::pick_mpi_type(DataType type) {
             send_type = MPI_INT;
             break;
 
+        case TYPE_LONG:
+            send_type = MPI_LONG;
+            break;
+
         case TYPE_DOUBLE:
             send_type = MPI_DOUBLE;
             break;

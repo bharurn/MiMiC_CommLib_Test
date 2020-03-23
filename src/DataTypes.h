@@ -49,6 +49,11 @@ enum DataType{
     /**
      * \var float type
      */
-    TYPE_FLOAT = 4
+    TYPE_FLOAT = 4,
+
+    /**
+     * \var long int type
+     */
+    TYPE_LONG = 5
 };
 #endif //MIMICCOMMLIB_DATATYPES_H
