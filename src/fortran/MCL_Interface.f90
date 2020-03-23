@@ -63,8 +63,8 @@ module MCL_interface
             integer(kind=c_int), value :: source
         end subroutine CMCL_receive
 
+        !> Routine to send data (analogous to MPI_Send)
         subroutine CMCL_send(buffer, count, data_type, destination) bind(C, name="MCL_send")
-            !> Routine to send data (analogica to MPI_Send)
             use iso_c_binding, only: c_ptr, c_int
             !> Pointer to the buffer to send data from
             type(c_ptr), value :: buffer
