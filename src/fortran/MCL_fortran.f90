@@ -79,35 +79,36 @@ module MCL_fortran
     subroutine MCL_Handshake(paths, delimiter, is_server)
         use, intrinsic :: iso_c_binding
         !> paths to working folders of client codes (delimited string)
-        character, intent(in) :: paths(*)
+        character(len=*), intent(in) :: paths
         !> delimiter for path string
         character, intent(in) :: delimiter
         !> flag, indicating whether the caller is a server or a client
         logical, intent(in) :: is_server
 
-        integer :: n_client
-        character(kind=c_char) :: c_delimiter
-        character(kind=c_char), allocatable :: path (:)
+        character(kind=c_char) :: c_delimiter(2)
+        character(len=1, kind=c_char), allocatable :: cpath (:)
         integer(kind=c_int) :: c_flag = 0
-        integer :: n_char, i
+        integer :: i
 
-        n_char = len(paths)
-        allocate(path(n_char + 1))
 
-        path = ""
+        allocate(cpath(len_trim(paths) + 1))
 
-        do i = 1, len(paths)
-            path(i) = paths(i)
+        cpath = ""
+
+        do i = 1, len_trim(paths)
+            cpath(i) = paths(i:i)
         end do
-        path(n_char + 1) = C_NULL_CHAR
-        c_delimiter = delimiter
+        cpath(len_trim(paths) + 1) = C_NULL_CHAR
+
+        c_delimiter = delimiter // C_NULL_CHAR
+        
         if (is_server) then
             c_flag = 1
         else
             c_flag = 0
         end if
 
-        call CMCL_handshake(path, c_delimiter, c_flag)
+        call CMCL_handshake(cpath, c_delimiter, c_flag)
     end subroutine MCL_Handshake
 
     !> Destroy the endpoint

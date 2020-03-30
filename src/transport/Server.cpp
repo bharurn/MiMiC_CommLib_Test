@@ -24,7 +24,6 @@
 
 #include "Server.h"
 #include "MPITransport.h"
-#include <cstring>
 
 int Server::init(std::vector<std::string> paths) {
     int clientsNumber = paths.size();
@@ -63,7 +62,7 @@ void Server::handshake() {
         temp = temp.substr(0, size);
 
         for (int j = 0; j < clientsNumber; j++) {
-            if (std::strcmp(client_list[i]->getPath().c_str(), temp.c_str()) == 0) {
+            if (temp.compare(client_list[i]->getPath()) == 0) {
                 int id = client_list[i]->getId();
                 protocol->sendData(&id, TYPE_INT, 1, i + 1);
                 break;

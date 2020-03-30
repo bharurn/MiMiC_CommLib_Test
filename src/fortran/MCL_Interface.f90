@@ -39,9 +39,9 @@ module MCL_interface
         subroutine CMCL_handshake(paths, delimiter, is_server) bind(C, name="MCL_handshake")
             use, intrinsic :: iso_c_binding, only: c_char, c_int
             !> paths to working folders of client codes (delimited string)
-            character(kind=c_char), dimension(*) :: paths
+            character(kind=c_char) :: paths (*)
             !> delimiter for path string
-            character(kind=c_char) :: delimiter
+            character(kind=c_char) :: delimiter(2)
             !> 0 - indicates a client, 1 - indicates a server
             integer(kind=c_int), value :: is_server
         end subroutine CMCL_handshake
