@@ -35,7 +35,7 @@ int MCL_init_wrap(int *fcomm) {
 }
 #else
 int MCL_init_wrap(void *fcomm) {
-    MCL_init(fcomm);
+    MCL_prepare(fcomm);
     return 0;
 }
 #endif

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(MimicCommLib)
+project(MiMiCCommmLib)
 
 set(MimicCommLib_MAJOR_VERSION 0)
 set(MimicCommLib_MINOR_VERSION 2)
@@ -10,7 +10,7 @@ set(MimicCommLib_VERSION
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
 option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
-option(BUILD_SHARED "Whether to build shared or static library" OFF)
+option(BUILD_SHARED_LIBS "Whether to build shared or static library" OFF)
 option(BUILD_FORTRAN_API "Whether to build Fortran API module or not" OFF)
 
 if(BUILD_FORTRAN_API)

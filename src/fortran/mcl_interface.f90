@@ -22,36 +22,36 @@
 !    You should have received a copy of the GNU Lesser General Public License
 !    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module MCL_interface
+module mcl_interface
 
     implicit none
 
     !> interface of the communication library
     interface
         !> initialize the server endpoint
-        subroutine CMCL_init(args) bind(C, name="MCL_init_wrap")
+        subroutine cmcl_init(args) bind(c, name="mcl_init_wrap")
             use, intrinsic :: iso_c_binding, only: c_ptr
             !> paths to working folders of client codes (delimited string)
             type(c_ptr), value :: args
-        end subroutine CMCL_init
+        end subroutine cmcl_init
 
         !> initialize the server endpoint
-        subroutine CMCL_handshake(paths, delimiter, is_server) bind(C, name="MCL_handshake")
+        subroutine cmcl_handshake(paths, delimiter, is_server) bind(c, name="mcl_handshake")
             use, intrinsic :: iso_c_binding, only: c_char, c_int
             !> paths to working folders of client codes (delimited string)
-            character(kind=c_char) :: paths (*)
+            character(kind=c_char), dimension(*) :: paths
             !> delimiter for path string
-            character(kind=c_char) :: delimiter(2)
+            character(kind=c_char) :: delimiter
             !> 0 - indicates a client, 1 - indicates a server
             integer(kind=c_int), value :: is_server
-        end subroutine CMCL_handshake
+        end subroutine cmcl_handshake
 
         !> deinitialize the communication layer
-        subroutine CMCL_destroy() bind(C, name="MCL_destroy")
-        end subroutine CMCL_destroy
+        subroutine cmcl_destroy() bind(c, name="mcl_destroy")
+        end subroutine cmcl_destroy
 
-        !> request data (analogous to MPI_Recv)
-        subroutine CMCL_receive(buffer, count, data_type, source) bind(C, name="MCL_receive")
+        !> request data (analogous to mpi_recv)
+        subroutine cmcl_receive(buffer, count, data_type, source) bind(c, name="mcl_receive")
             use iso_c_binding, only: c_ptr, c_int
             !> pointer to the buffer to receive data
             type(c_ptr), value :: buffer
@@ -59,22 +59,22 @@ module MCL_interface
             integer(kind=c_int), value :: count
             !> type of data to be received
             integer(kind=c_int), value :: data_type
-            !> ID of the client to receive data from
+            !> id of the client to receive data from
             integer(kind=c_int), value :: source
-        end subroutine CMCL_receive
+        end subroutine cmcl_receive
 
-        !> Routine to send data (analogous to MPI_Send)
-        subroutine CMCL_send(buffer, count, data_type, destination) bind(C, name="MCL_send")
+        !> routine to send data (analogous to mpi_send)
+        subroutine cmcl_send(buffer, count, data_type, destination) bind(c, name="mcl_send")
             use iso_c_binding, only: c_ptr, c_int
-            !> Pointer to the buffer to send data from
+            !> pointer to the buffer to send data from
             type(c_ptr), value :: buffer
-            !> Number of data entries
+            !> number of data entries
             integer(kind=c_int), value :: count
-            !> Type of data to be sent
+            !> type of data to be sent
             integer(kind=c_int), value :: data_type
-            !> ID of the client to receive data
+            !> id of the client to receive data
             integer(kind=c_int), value :: destination
-        end subroutine CMCL_send
+        end subroutine cmcl_send
     end interface
 
-end module MCL_interface
+end module mcl_interface

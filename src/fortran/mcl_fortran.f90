@@ -22,23 +22,23 @@
 !    You should have received a copy of the GNU Lesser General Public License
 !    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module MCL_fortran
+module mcl_fortran
 
-    use MCL_interface
-    use MCL_send_recv
+    use mcl_interface
+    use mcl_send_recv
 
     implicit none
 
     private
 
-    public :: MCL_Init
-    public :: MCL_Handshake
-    public :: MCL_Send
-    public :: MCL_Receive
-    public :: MCL_Destroy
+    public :: mcl_init
+    public :: mcl_handshake
+    public :: mcl_send
+    public :: mcl_receive
+    public :: mcl_destroy
 
-    !> Send data to specified client
-    interface MCL_Send
+    !> send data to specified client
+    interface mcl_send
         module procedure send_int32, send_int32_array1d, &
                 send_int32_array2d, send_int32_array3d, &
                 send_int64, send_int64_array1d, &
@@ -48,10 +48,10 @@ module MCL_fortran
                 send_float64, send_float64_array1d, &
                 send_float64_array2d, send_float64_array3d, &
                 send_char, send_char_array
-    end interface MCL_Send
+    end interface mcl_send
 
-    !> Receive data from a specified client
-    interface MCL_Receive
+    !> receive data from a specified client
+    interface mcl_receive
         module procedure recv_int32, recv_int32_array1d, &
                 recv_int32_array2d, recv_int32_array3d, &
                 recv_int64, recv_int64_array1d, &
@@ -61,59 +61,58 @@ module MCL_fortran
                 recv_float64, recv_float64_array1d, &
                 recv_float64_array2d, recv_float64_array3d, &
                 recv_char, recv_char_array
-    end interface MCL_Receive
+    end interface mcl_receive
 
     contains
 
-    !> Initialize communicator. SHOULD BE CALLED AFTER MPI_INIT!!!
-    subroutine MCL_Init(communicator)
+    !> initialize communicator. should be called after mpi_init!!!
+    subroutine mcl_init(communicator)
         use, intrinsic :: iso_c_binding
         use mpi_f08
-        !> MPI communicator that is used by the host code
+        !> mpi communicator that is used by the host code
         integer, intent(inout), target :: communicator
 
-        call CMCL_init(c_loc(communicator))
-    end subroutine MCL_Init
+        call cmcl_init(c_loc(communicator))
+    end subroutine mcl_init
 
-    !> Handshake function used for both server and client
-    subroutine MCL_Handshake(paths, delimiter, is_server)
+    !> handshake function used for both server and client
+    subroutine mcl_handshake(paths, delimiter, is_server)
         use, intrinsic :: iso_c_binding
         !> paths to working folders of client codes (delimited string)
-        character(len=*), intent(in) :: paths
+        character, intent(in) :: paths(*)
         !> delimiter for path string
         character, intent(in) :: delimiter
         !> flag, indicating whether the caller is a server or a client
         logical, intent(in) :: is_server
 
-        character(kind=c_char) :: c_delimiter(2)
-        character(len=1, kind=c_char), allocatable :: cpath (:)
+        integer :: n_client
+        character(kind=c_char) :: c_delimiter
+        character(kind=c_char), allocatable :: path (:)
         integer(kind=c_int) :: c_flag = 0
-        integer :: i
+        integer :: n_char, i
 
+        n_char = len(paths)
+        allocate(path(n_char + 1))
 
-        allocate(cpath(len_trim(paths) + 1))
+        path = ""
 
-        cpath = ""
-
-        do i = 1, len_trim(paths)
-            cpath(i) = paths(i:i)
+        do i = 1, len(paths)
+            path(i) = paths(i)
         end do
-        cpath(len_trim(paths) + 1) = C_NULL_CHAR
-
-        c_delimiter = delimiter // C_NULL_CHAR
-        
+        path(n_char + 1) = c_null_char
+        c_delimiter = delimiter
         if (is_server) then
             c_flag = 1
         else
             c_flag = 0
         end if
 
-        call CMCL_handshake(cpath, c_delimiter, c_flag)
-    end subroutine MCL_Handshake
+        call cmcl_handshake(path, c_delimiter, c_flag)
+    end subroutine mcl_handshake
 
-    !> Destroy the endpoint
-    subroutine MCL_Destroy
-        call CMCL_destroy
-    end subroutine MCL_Destroy
+    !> destroy the endpoint
+    subroutine mcl_destroy
+        call cmcl_destroy
+    end subroutine mcl_destroy
 
-end module MCL_fortran
+end module mcl_fortran
