@@ -53,7 +53,6 @@ int MCL_init(void *param);
  *        (null for clients)
  * \param isServer 1 - indicates that the calling process becomes a server;\n
  *                 0 - indicates that the calling process becomes a client
- * \param misc misc data object that may be required or null
  */
 extern "C"
 int MCL_handshake(char *paths, char delimeter, int isServer);
