@@ -24,6 +24,8 @@
 
 #include "mpi.h"
 
+#include <algorithm>
+
 #include "MessageApi.h"
 #include "MCLMain.h"
 
@@ -35,15 +37,51 @@
  * NOTE! ALL API CALLS ARE BLOCKING!!!
  */
 
+/**
+* \var string key used to retrieve communication mechanism
+* environment variable.
+*/
+static constexpr auto COMMUNICATION_KEY = "MCL_COMM";
+
+/**
+* \var switch to MPI client-server mechanism
+*/
+static constexpr auto MCL_TR_MPI = 1;
+/**
+* \var switch to MPI MPMD mechanism
+*/
+static constexpr auto MCL_TR_MPMD = 2;
+
 int MCL_init(void *param) {
-#ifdef MCL_MPI
-    MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
-#elif MCL_MPMD
-    MCLMain::getInstance().setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
-#else
-    std::err << "MCL: Communication mechanism has not been configured. "
-                 "Please recompile the library!" << std::endl;
-#endif
+    auto chars = std::getenv(COMMUNICATION_KEY);
+    bool isNumber = false;
+    std::string string = std::string(chars);
+    if (!string.empty()) {
+        isNumber = std::find_if(string.begin(),
+                                     string.end(),
+                                     [](char c) { return !std::isdigit(c); }) == string.end();
+    }
+
+    if (!isNumber) {
+        MCLMain::getInstance()
+                .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
+    } else {
+        switch (std::stoi(string)) {
+            case MCL_TR_MPI:
+                MCLMain::getInstance()
+                        .setProtocol(new MPITransport(MPI_COMM_SELF));
+                break;
+            case MCL_TR_MPMD:
+                MCLMain::getInstance()
+                        .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
+                break;
+            default:
+                std::cerr << "MCL: Unknown communication mechanism is chosen! "
+                             "MPMD Mechanism will be used instead" << std::endl;
+                MCLMain::getInstance()
+                        .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
+        }
+    }
     MCLMain::getInstance().prepare(param);
     return 0;
 }
