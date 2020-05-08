@@ -54,18 +54,8 @@ static constexpr auto MCL_TR_MPMD = 2;
 
 int MCL_init(void *param) {
     auto chars = std::getenv(COMMUNICATION_KEY);
-    bool isNumber = false;
-    std::string string = std::string(chars);
-    if (!string.empty()) {
-        isNumber = std::find_if(string.begin(),
-                                     string.end(),
-                                     [](char c) { return !std::isdigit(c); }) == string.end();
-    }
-
-    if (!isNumber) {
-        MCLMain::getInstance()
-                .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
-    } else {
+    if (chars != nullptr) {
+        std::string string = std::string(chars);
         switch (std::stoi(string)) {
             case MCL_TR_MPI:
                 MCLMain::getInstance()
@@ -81,6 +71,9 @@ int MCL_init(void *param) {
                 MCLMain::getInstance()
                         .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
         }
+    } else {
+        MCLMain::getInstance()
+                .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
     }
     MCLMain::getInstance().prepare(param);
     return 0;
