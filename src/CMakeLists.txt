@@ -70,8 +70,7 @@ install(EXPORT CommlibTargets
         DESTINATION
         cmake)
 
-install(
-        FILES
+install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfigVersion.cmake
         DESTINATION

@@ -1,29 +1,18 @@
 cmake_minimum_required(VERSION 3.12)
-project(MiMiCCommmLib)
-
-set(MimicCommLib_MAJOR_VERSION 0)
-set(MimicCommLib_MINOR_VERSION 2)
-set(MimicCommLib_PATCH_VERSION 0)
-set(MimicCommLib_VERSION
-        ${MimicCommLib_MAJOR_VERSION}.${MimicCommLib_MINOR_VERSION}.${MimicCommLib_PATCH_VERSION})
+project(MiMiCCommmLib
+        VERSION 0.2.0
+        DESCRIPTION "Communication library for the MiMiC multiscale simulation framework"
+        HOMEPAGE_URL "https://gitlab.com/MiMiC-projects/CommLib"
+        LANGUAGES CXX)
 
 option(INCLUDE_TESTS "Choose whether to build tests in this run or not" OFF)
 option(CODE_COVERAGE "Enable code coverage report" OFF)
 option(DOWNLOAD_GTEST "Whether to download GTest library" ON)
-option(BUILD_SHARED_LIBS "Whether to build shared or static library" OFF)
 option(BUILD_FORTRAN_API "Whether to build Fortran API module or not" OFF)
 
 if(BUILD_FORTRAN_API)
     enable_language(Fortran)
 endif()
-
-set(MCL_COMM "MCL_MPMD" CACHE STRING
-        "Communication mechanism used by the Commlib")
-
-set(CommunicationMechanisms
-        "MCL_MPMD;MCL_MPI")
-
-set_property(CACHE MCL_COMM PROPERTY STRINGS ${CommunicationMechanisms})
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
@@ -46,18 +35,9 @@ else()
     message(WARNING "Only Intel and GCC compiler flags have been configured")
 endif()
 
-
 find_package(MPI REQUIRED)
-include_directories("${MPI_INCLUDE_PATH}")
+include_directories("${MPI_CXX_INCLUDE_PATH}")
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
-
-if (${MCL_COMM} MATCHES "MCL_MPMD")
-    add_compile_definitions(MCL_MPMD)
-elseif(${MCL_COMM} MATCHES "MCL_MPI")
-    add_compile_definitions(MCL_MPI)
-else()
-    message(FATAL_ERROR "Unknown communication mechanism is selected")
-endif()
 
 set(COMMLIB_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/transport ${CMAKE_CURRENT_SOURCE_DIR}/src/serializer ${CMAKE_CURRENT_SOURCE_DIR}/src/message)
 include_directories(${COMMLIB_DIRS})
