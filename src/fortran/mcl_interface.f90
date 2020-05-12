@@ -29,14 +29,14 @@ module mcl_interface
     !> interface of the communication library
     interface
         !> initialize the server endpoint
-        subroutine cmcl_init(args) bind(c, name="mcl_init_wrap")
+        subroutine cmcl_init(args) bind(c, name="MCL_init_wrap")
             use, intrinsic :: iso_c_binding, only: c_ptr
             !> paths to working folders of client codes (delimited string)
             type(c_ptr), value :: args
         end subroutine cmcl_init
 
         !> initialize the server endpoint
-        subroutine cmcl_handshake(paths, delimiter, is_server) bind(c, name="mcl_handshake")
+        subroutine cmcl_handshake(paths, delimiter, is_server) bind(c, name="MCL_handshake")
             use, intrinsic :: iso_c_binding, only: c_char, c_int
             !> paths to working folders of client codes (delimited string)
             character(kind=c_char), dimension(*) :: paths
@@ -47,11 +47,11 @@ module mcl_interface
         end subroutine cmcl_handshake
 
         !> deinitialize the communication layer
-        subroutine cmcl_destroy() bind(c, name="mcl_destroy")
+        subroutine cmcl_destroy() bind(c, name="MCL_destroy")
         end subroutine cmcl_destroy
 
         !> request data (analogous to mpi_recv)
-        subroutine cmcl_receive(buffer, count, data_type, source) bind(c, name="mcl_receive")
+        subroutine cmcl_receive(buffer, count, data_type, source) bind(c, name="MCL_receive")
             use iso_c_binding, only: c_ptr, c_int
             !> pointer to the buffer to receive data
             type(c_ptr), value :: buffer
@@ -64,7 +64,7 @@ module mcl_interface
         end subroutine cmcl_receive
 
         !> routine to send data (analogous to mpi_send)
-        subroutine cmcl_send(buffer, count, data_type, destination) bind(c, name="mcl_send")
+        subroutine cmcl_send(buffer, count, data_type, destination) bind(c, name="MCL_send")
             use iso_c_binding, only: c_ptr, c_int
             !> pointer to the buffer to send data from
             type(c_ptr), value :: buffer

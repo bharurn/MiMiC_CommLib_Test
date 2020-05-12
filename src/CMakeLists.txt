@@ -37,42 +37,42 @@ if(BUILD_FORTRAN_API)
             fortran/mcl_fortran.f90)
     target_include_directories(mimiccommf PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
     install(TARGETS mimiccommf DESTINATION lib EXPORT CommlibTargets)
-    set_property(TARGET mimiccommf PROPERTY VERSION ${MimicCommLib_VERSION})
+    set_property(TARGET mimiccommf PROPERTY VERSION ${MiMiCCommLib_VERSION})
 endif()
 
-set_property(TARGET mimiccomm PROPERTY VERSION ${MimicCommLib_VERSION})
+set_property(TARGET mimiccomm PROPERTY VERSION ${MiMiCCommLib_VERSION})
 
 install(TARGETS mimiccomm DESTINATION lib EXPORT CommlibTargets)
 install(FILES ${HEADER_FILES} DESTINATION include)
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/MiMiCCommLibConfigVersion.cmake"
         VERSION ${MimicCommLib_VERSION}
         COMPATIBILITY AnyNewerVersion
 )
 
 export(EXPORT CommlibTargets
-        FILE "${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibTargets.cmake"
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/MiMiCCommLibTargets.cmake"
         NAMESPACE Upstream::
         )
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/CommlibConfig.cmake
-        "${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/MiMiCCommLibConfig.cmake"
         @ONLY
         )
 
 install(EXPORT CommlibTargets
         FILE
-        MimicCommLibTargets.cmake
+        MiMiCCommLibTargets.cmake
         NAMESPACE
         Upstream::
         DESTINATION
         cmake)
 
 install(FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/MimicCommLibConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/MiMiCCommLibConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/MiMiCCommLibConfigVersion.cmake
         DESTINATION
         cmake
         COMPONENT

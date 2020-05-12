@@ -25,12 +25,7 @@
 #ifndef MIMICCOMMLIB_MCLF2C_H
 #define MIMICCOMMLIB_MCLF2C_H
 
-#ifdef MCL_MPMD
 extern "C"
 int MCL_init_wrap(int *fcomm);
-#else
-extern "C"
-int MCL_init_wrap(void *fcomm);
-#endif
 
 #endif //MIMICCOMMLIB_MCLF2C_H
