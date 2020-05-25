@@ -28,8 +28,11 @@
 #include "Endpoint.h"
 #include "Client.h"
 #include "Server.h"
-#include <sstream>
+
+#include <cassert>
+#include <csignal>
 #include <iterator>
+#include <sstream>
 
 /**
  * Singleton main class of the MCL - mostly needed in order to simplify testing
@@ -39,6 +42,7 @@ class MCLMain {
 private:
     Endpoint* endpoint;
     Transport* protocol;
+    bool initialized = false;
 
     MCLMain() {};
     void operator=(MCLMain const&);
@@ -65,6 +69,7 @@ public:
      */
     int prepare(void *arg) {
         protocol->prepare(arg);
+        initialized = true;
         return 0;
     }
 
@@ -76,6 +81,11 @@ public:
      * \return error code - NOT IMPLEMENTED YET
      */
     int initServer(char *paths_string, char delimeter) {
+        if (!initialized) {
+            std::cerr << "MCL: It seems that MCL was not initialized properly,"
+                         "please call MCL_Init first!" << std::endl;
+            std::raise(SIGABRT);
+        }
         std::string merged_paths = std::string(paths_string);
         std::stringstream ss(merged_paths);
         std::string path;
@@ -102,6 +112,11 @@ public:
      */
 
     void initClient(char *path) {
+        if (!initialized) {
+            std::cerr << "MCL: It seems that MCL was not initialized properly,"
+                         "please call MCL_Init first!" << std::endl;
+            std::raise(SIGABRT);
+        }
         std::string client_path = std::string(path);
         std::vector<std::string> paths;
         paths.push_back(client_path);
@@ -122,6 +137,7 @@ public:
      * \param destination id of the client to receive data
      */
     void send(void *data, int count, int data_type, int destination) {
+        assert(initialized);
         int temp_type = data_type;
         auto type = static_cast<DataType>(temp_type);
         this->endpoint->send(data, count, destination, type);
@@ -136,6 +152,7 @@ public:
      * \param source id of the client which is sending data
      */
     void receive(void *buffer, int count, int data_type, int source) {
+        assert(initialized);
         int temp_type = data_type;
         auto type = static_cast<DataType>(temp_type);
         endpoint->request(buffer, count, source, type);
@@ -145,6 +162,7 @@ public:
      * Destroy the endpoint
      */
     void destroy() {
+        assert(initialized);
         endpoint->destroy();
     }
 

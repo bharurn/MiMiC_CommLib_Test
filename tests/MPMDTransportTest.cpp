@@ -95,13 +95,13 @@ int main(int argc, char** argv) {
     int numProcs;
     MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
     if (numProcs != 4) {
-        std::cout << "The test runs with 4 processes." << std::endl;
-        std::cout << "Current amount of processes " << numProcs << std::endl;
+        std::cerr << "The test runs with 4 processes." << std::endl;
+        std::cerr << "Current amount of processes " << numProcs << std::endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     ::testing::InitGoogleTest(&argc, argv);
     int result = RUN_ALL_TESTS();
 
     MPI_Finalize();
-    return 0;
+    return result;
 }

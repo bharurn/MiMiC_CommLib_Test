@@ -55,7 +55,7 @@ int MCL_init(void *param);
  *                 0 - indicates that the calling process becomes a client
  */
 extern "C"
-int MCL_handshake(char *paths, char delimeter, int isServer);
+int MCL_handshake(char *paths, char* delimeter, int isServer);
 
 /**
  * \fn int MCL_init_server(char *paths, char delimeter)

@@ -79,9 +79,9 @@ int MCL_init(void *param) {
     return 0;
 }
 
-int MCL_handshake(char *paths, char delimeter, int isServer) {
+int MCL_handshake(char *paths, char* delimeter, int isServer) {
     if (isServer) {
-        MCL_init_server(paths, delimeter);
+        MCL_init_server(paths, delimeter[0]);
     } else {
         MCL_init_client(paths);
     }
