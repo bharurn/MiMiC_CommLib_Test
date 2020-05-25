@@ -72,6 +72,7 @@ TEST(ServerInit, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     std::vector<std::string> testAddresses;
     testAddresses.emplace_back("test1/");
     testAddresses.emplace_back("test2/");
@@ -123,6 +124,7 @@ TEST(ClientInit, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     std::string testAddress = "test/";
     char* testString = (char *) "test";
 
@@ -142,6 +144,7 @@ TEST(ClientSend, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     char* testString = (char *) "test";
 
     EXPECT_CALL(protocol, initClient(_)).Times(Exactly(1));
@@ -162,6 +165,7 @@ TEST(ClientReceive, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     char* testString = (char *) "test";
 
     EXPECT_CALL(protocol, initClient(_)).Times(Exactly(1));
@@ -182,6 +186,7 @@ TEST(ServerSend, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     char *testString = (char *) "test1;test2;test3;test4";
 
     EXPECT_CALL(protocol, initServer(_)).Times(Exactly(1));
@@ -208,6 +213,7 @@ TEST(ServerReceive, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     char *testString = (char *) "test1;test2;test3;test4";
 
     EXPECT_CALL(protocol, initServer(_)).Times(Exactly(1));
@@ -234,6 +240,7 @@ TEST(DestroyServer, ProperCalls) {
     MCLMain main = MCLMain::getInstance();
     MockTransport protocol;
     main.setProtocol(&protocol);
+    main.prepare(nullptr);
     char *testString = (char *) "test1;test2;test3;test4";
 
     std::vector<std::string> testAddresses;
