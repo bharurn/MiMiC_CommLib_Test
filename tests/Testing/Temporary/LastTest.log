@@ -1,0 +1,206 @@
+Start testing: Jun 15 12:00 CEST
+----------------------------------------------------------
+1/3 Testing: api
+1/3 Test: api
+Command: "/home/mk115227/tests/CommLib/tests/tests/api"
+Directory: /home/mk115227/tests/CommLib/tests/tests
+"api" start time: Jun 15 12:00 CEST
+Output:
+----------------------------------------------------------
+[==========] Running 7 tests from 7 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from ServerInit
+[ RUN      ] ServerInit.ProperCalls
+[       OK ] ServerInit.ProperCalls (1 ms)
+[----------] 1 test from ServerInit (1 ms total)
+
+[----------] 1 test from ClientInit
+[ RUN      ] ClientInit.ProperCalls
+[       OK ] ClientInit.ProperCalls (0 ms)
+[----------] 1 test from ClientInit (0 ms total)
+
+[----------] 1 test from ClientSend
+[ RUN      ] ClientSend.ProperCalls
+[       OK ] ClientSend.ProperCalls (0 ms)
+[----------] 1 test from ClientSend (0 ms total)
+
+[----------] 1 test from ClientReceive
+[ RUN      ] ClientReceive.ProperCalls
+[       OK ] ClientReceive.ProperCalls (0 ms)
+[----------] 1 test from ClientReceive (0 ms total)
+
+[----------] 1 test from ServerSend
+[ RUN      ] ServerSend.ProperCalls
+[       OK ] ServerSend.ProperCalls (1 ms)
+[----------] 1 test from ServerSend (1 ms total)
+
+[----------] 1 test from ServerReceive
+[ RUN      ] ServerReceive.ProperCalls
+[       OK ] ServerReceive.ProperCalls (0 ms)
+[----------] 1 test from ServerReceive (0 ms total)
+
+[----------] 1 test from DestroyServer
+[ RUN      ] DestroyServer.ProperCalls
+[       OK ] DestroyServer.ProperCalls (0 ms)
+[----------] 1 test from DestroyServer (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 7 test suites ran. (2 ms total)
+[  PASSED  ] 7 tests.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"api" end time: Jun 15 12:00 CEST
+"api" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/3 Testing: endpoint
+2/3 Test: endpoint
+Command: "/home/mk115227/tests/CommLib/tests/tests/endpoint"
+Directory: /home/mk115227/tests/CommLib/tests/tests
+"endpoint" start time: Jun 15 12:00 CEST
+Output:
+----------------------------------------------------------
+[==========] Running 9 tests from 9 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from ServerInit
+[ RUN      ] ServerInit.ProperCalls
+[       OK ] ServerInit.ProperCalls (0 ms)
+[----------] 1 test from ServerInit (0 ms total)
+
+[----------] 1 test from ServerHandshake
+[ RUN      ] ServerHandshake.ProperCalls
+[       OK ] ServerHandshake.ProperCalls (1 ms)
+[----------] 1 test from ServerHandshake (1 ms total)
+
+[----------] 1 test from ServerDisconnect
+[ RUN      ] ServerDisconnect.ProperCalls
+[       OK ] ServerDisconnect.ProperCalls (0 ms)
+[----------] 1 test from ServerDisconnect (0 ms total)
+
+[----------] 1 test from ServerDestroy
+[ RUN      ] ServerDestroy.ProperCalls
+
+GMOCK WARNING:
+Uninteresting mock function call - returning directly.
+    Function call: destroy(1, "test1/")
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md#knowing-when-to-expect for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning directly.
+    Function call: destroy(2, "test2/")
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md#knowing-when-to-expect for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning directly.
+    Function call: destroy(3, "test3/")
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md#knowing-when-to-expect for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning directly.
+    Function call: destroy(4, "test4/")
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md#knowing-when-to-expect for details.
+[       OK ] ServerDestroy.ProperCalls (0 ms)
+[----------] 1 test from ServerDestroy (0 ms total)
+
+[----------] 1 test from ClientInit
+[ RUN      ] ClientInit.ProperCalls
+[       OK ] ClientInit.ProperCalls (0 ms)
+[----------] 1 test from ClientInit (0 ms total)
+
+[----------] 1 test from ClientHandshake
+[ RUN      ] ClientHandshake.ProperCalls
+[       OK ] ClientHandshake.ProperCalls (0 ms)
+[----------] 1 test from ClientHandshake (0 ms total)
+
+[----------] 1 test from ClientDisconnect
+[ RUN      ] ClientDisconnect.ProperCalls
+[       OK ] ClientDisconnect.ProperCalls (0 ms)
+[----------] 1 test from ClientDisconnect (0 ms total)
+
+[----------] 1 test from ClientDestroy
+[ RUN      ] ClientDestroy.ProperCalls
+[       OK ] ClientDestroy.ProperCalls (0 ms)
+[----------] 1 test from ClientDestroy (0 ms total)
+
+[----------] 1 test from ClientProbe
+[ RUN      ] ClientProbe.ProperCalls
+[       OK ] ClientProbe.ProperCalls (0 ms)
+[----------] 1 test from ClientProbe (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 9 tests from 9 test suites ran. (1 ms total)
+[  PASSED  ] 9 tests.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"endpoint" end time: Jun 15 12:00 CEST
+"endpoint" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/3 Testing: mpitransport
+3/3 Test: mpitransport
+Command: "/opt/MPI/bin/mpiexec" "-n" "3" "./mpitransport"
+Directory: /home/mk115227/tests/CommLib/tests/tests
+"mpitransport" start time: Jun 15 12:00 CEST
+Output:
+----------------------------------------------------------
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from MPITransport
+[ RUN      ] MPITransport.InitServer
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from MPITransport
+[ RUN      ] MPITransport.InitServer
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from MPITransport
+[ RUN      ] MPITransport.InitServer
+[       OK ] MPITransport.InitServer (25 ms)
+[ RUN      ] MPITransport.Connection
+[       OK ] MPITransport.InitServer (26 ms)
+[ RUN      ] MPITransport.Connection
+[       OK ] MPITransport.InitServer (27 ms)
+[ RUN      ] MPITransport.Connection
+[       OK ] MPITransport.Connection (19 ms)
+[ RUN      ] MPITransport.Probe
+[       OK ] MPITransport.Connection (22 ms)
+[ RUN      ] MPITransport.Probe
+[       OK ] MPITransport.Connection (24 ms)
+[ RUN      ] MPITransport.Probe
+[       OK ] MPITransport.Probe (20 ms)
+[ RUN      ] MPITransport.PingPong
+[       OK ] MPITransport.Probe (19 ms)
+[ RUN      ] MPITransport.PingPong
+[       OK ] MPITransport.Probe (19 ms)
+[ RUN      ] MPITransport.PingPong
+[       OK ] MPITransport.PingPong (18 ms)
+[----------] 4 tests from MPITransport (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (84 ms total)
+[  PASSED  ] 4 tests.
+[       OK ] MPITransport.PingPong (18 ms)
+[----------] 4 tests from MPITransport (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (84 ms total)
+[  PASSED  ] 4 tests.
+[       OK ] MPITransport.PingPong (15 ms)
+[----------] 4 tests from MPITransport (84 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (84 ms total)
+[  PASSED  ] 4 tests.
+<end of output>
+Test time =   2.50 sec
+----------------------------------------------------------
+Test Passed.
+"mpitransport" end time: Jun 15 12:00 CEST
+"mpitransport" time elapsed: 00:00:02
+----------------------------------------------------------
+
+End testing: Jun 15 12:00 CEST

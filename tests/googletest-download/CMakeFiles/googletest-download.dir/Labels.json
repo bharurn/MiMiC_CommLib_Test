@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/CMakeFiles/googletest-download"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/CMakeFiles/googletest-download.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/CMakeFiles/googletest-download-complete.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-install.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-mkdir.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-download.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-update.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-patch.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-configure.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-build.rule"
+		},
+		{
+			"file" : "/rwthfs/rz/cluster/home/mk115227/tests/CommLib/tests/googletest-download/googletest-download-prefix/src/googletest-download-stamp/googletest-download-test.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest-download"
+		],
+		"name" : "googletest-download"
+	}
+}
