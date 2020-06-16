@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libmimiccomm.a  CMakeFiles/mimiccomm.dir/MessageApi.cpp.o CMakeFiles/mimiccomm.dir/transport/MPITransport.cpp.o CMakeFiles/mimiccomm.dir/transport/Server.cpp.o CMakeFiles/mimiccomm.dir/transport/Client.cpp.o
-/usr/bin/ranlib ../lib/libmimiccomm.a
