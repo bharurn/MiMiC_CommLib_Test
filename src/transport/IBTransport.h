@@ -6,7 +6,7 @@
 #define MIMICCOMMLIB_IBTRANSPORT_H
 
 #include "Transport.h"
-#include "DataTypes.h"
+#include "../DataTypes.h"
 #include <infiniband/verbs.h>
 
 class IBTransport : public Transport {

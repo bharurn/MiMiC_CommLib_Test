@@ -50,3 +50,4 @@ if(INCLUDE_TESTS)
     set(CTEST_OUTPUT_ON_FAILURE ON)
     add_subdirectory(tests)
 endif(INCLUDE_TESTS)
+
