@@ -8,7 +8,9 @@ int main(int argc, char** argv) {
     std::cout << numProcs << '\n';
     if (numProcs != 3) {
         std::cout << "The test runs with 3 processes." << std::endl;
-	MPI_Abort(MPI_COMM_WORLD, 1);
+	//MPI_Abort(MPI_COMM_WORLD, 1);
     }
+    int* a =  new int(25);
+    std::cout << *a;
 }
 
