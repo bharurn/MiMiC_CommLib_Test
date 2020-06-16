@@ -25,9 +25,9 @@
 #ifndef MIMICCOMMLIB_MCLMAIN_H
 #define MIMICCOMMLIB_MCLMAIN_H
 
-#include "Endpoint.h"
-#include "Client.h"
-#include "Server.h"
+#include "transport/Endpoint.h"
+#include "transport/Client.h"
+#include "transport/Server.h"
 #include <sstream>
 #include <iterator>
 

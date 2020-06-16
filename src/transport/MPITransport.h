@@ -27,7 +27,7 @@
 
 
 #include "Transport.h"
-#include "DataTypes.h"
+#include "../DataTypes.h"
 
 #include <mpi.h>
 
