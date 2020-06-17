@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/libmimiccomm.a  CMakeFiles/mimiccomm.dir/MessageApi.cpp.o CMakeFiles/mimiccomm.dir/transport/MPITransport.cpp.o CMakeFiles/mimiccomm.dir/transport/Server.cpp.o CMakeFiles/mimiccomm.dir/transport/Client.cpp.o
-/usr/bin/ranlib ../lib/libmimiccomm.a
+/usr/local/software/jureca/Stages/2019a/software/binutils/2.32-GCCcore-8.3.0/bin/ar qc ../lib/libmimiccomm.a  CMakeFiles/mimiccomm.dir/MessageApi.cpp.o CMakeFiles/mimiccomm.dir/transport/MPITransport.cpp.o CMakeFiles/mimiccomm.dir/transport/Server.cpp.o CMakeFiles/mimiccomm.dir/transport/Client.cpp.o
+/usr/local/software/jureca/Stages/2019a/software/binutils/2.32-GCCcore-8.3.0/bin/ranlib ../lib/libmimiccomm.a

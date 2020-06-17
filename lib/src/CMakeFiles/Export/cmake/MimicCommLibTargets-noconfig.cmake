@@ -1,15 +1,15 @@
 #----------------------------------------------------------------
-# Generated CMake target import file for configuration "Releas".
+# Generated CMake target import file.
 #----------------------------------------------------------------
 
 # Commands may need to know the format version.
 set(CMAKE_IMPORT_FILE_VERSION 1)
 
-# Import target "Upstream::mimiccomm" for configuration "Releas"
-set_property(TARGET Upstream::mimiccomm APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEAS)
+# Import target "Upstream::mimiccomm" for configuration ""
+set_property(TARGET Upstream::mimiccomm APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(Upstream::mimiccomm PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_RELEAS "CXX"
-  IMPORTED_LOCATION_RELEAS "${_IMPORT_PREFIX}/lib/libmimiccomm.a"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
+  IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libmimiccomm.a"
   )
 
 list(APPEND _IMPORT_CHECK_TARGETS Upstream::mimiccomm )

@@ -1,4 +1,4 @@
-# Install script for directory: /home/mk115227/tests/CommLib/src
+# Install script for directory: /p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "Releas")
+    set(CMAKE_INSTALL_CONFIG_NAME "")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -38,14 +38,14 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/mk115227/tests/CommLib/lib/lib/libmimiccomm.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/lib/libmimiccomm.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES
-    "/home/mk115227/tests/CommLib/src/MessageApi.h"
-    "/home/mk115227/tests/CommLib/src/DataTypes.h"
-    "/home/mk115227/tests/CommLib/src/MCLMain.h"
+    "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/src/MessageApi.h"
+    "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/src/DataTypes.h"
+    "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/src/MCLMain.h"
     )
 endif()
 
@@ -53,7 +53,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/cmake/MimicCommLibTargets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/cmake/MimicCommLibTargets.cmake"
-         "/home/mk115227/tests/CommLib/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets.cmake")
+         "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/cmake/MimicCommLibTargets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -62,16 +62,16 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake" TYPE FILE FILES "/home/mk115227/tests/CommLib/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets.cmake")
-  if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake" TYPE FILE FILES "/home/mk115227/tests/CommLib/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets-releas.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake" TYPE FILE FILES "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets.cmake")
+  if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake" TYPE FILE FILES "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/src/CMakeFiles/Export/cmake/MimicCommLibTargets-noconfig.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xDevelx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake" TYPE FILE FILES
-    "/home/mk115227/tests/CommLib/lib/src/MimicCommLibConfig.cmake"
-    "/home/mk115227/tests/CommLib/lib/src/MimicCommLibConfigVersion.cmake"
+    "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/src/MimicCommLibConfig.cmake"
+    "/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/lib/src/MimicCommLibConfigVersion.cmake"
     )
 endif()
 

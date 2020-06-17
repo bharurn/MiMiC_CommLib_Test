@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     
     if(rank == 0){
     	std::cout << "Starting server..\n";
-        MCL_init_server("/home/mk115227/tests/CommLib/second_test", ',');
+        MCL_init_server("/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/second_test/test2", ',');
         //sleep(30);
         std::cout << "Sending...\n";
         int send_data = 25;
