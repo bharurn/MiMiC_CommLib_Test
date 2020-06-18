@@ -25,9 +25,9 @@
 #ifndef MIMICCOMMLIB_TRANSPORT_H
 #define MIMICCOMMLIB_TRANSPORT_H
 
-#include "Message.h"
-#include "Serializer.h"
-#include "DataTypes.h"
+#include "../message/Message.h"
+#include "../serializer/Serializer.h"
+#include "../DataTypes.h"
 #include <vector>
 
 /**

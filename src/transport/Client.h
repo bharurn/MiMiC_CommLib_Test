@@ -26,7 +26,7 @@
 #define MIMICCOMMLIB_CLIENT_H
 
 
-#include "Message.h"
+#include "../message/Message.h"
 #include "Endpoint.h"
 
 /**

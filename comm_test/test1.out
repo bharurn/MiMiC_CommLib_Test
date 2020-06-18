@@ -1,0 +1,17 @@
+
+Server:5:4
+
+Server:
+Server:5:1
+5:2
+
+Server:5:3
+[0] MPI startup(): I_MPI_PMI_VALUE_LENGTH_MAX environment variable is not supported.
+[0] MPI startup(): To check the list of supported variables, use the impi_info utility or refer to https://software.intel.com/en-us/mpi-library/documentation/get-started.
+
+Server:5:0
+Starting server..
+Server inti
+server init2
+0
+Sending...
