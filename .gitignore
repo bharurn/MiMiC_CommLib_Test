@@ -1,2 +1,4 @@
 .portname
 lib/
+.sh
+.a
