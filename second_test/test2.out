@@ -1,7 +1,21 @@
+[0] MPI startup(): I_MPI_PMI_VALUE_LENGTH_MAX environment variable is not supported.
 
-Client:3:0
+Client:2:1
+[0] MPI startup(): To check the list of supported variables, use the impi_info utility or refer to https://software.intel.com/en-us/mpi-library/documentation/get-started.
+
+Client:2:0
 Starting client..
+client init
+client init2
 
-Client:3:1
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 0 PID 9825 RUNNING AT jrl09.jureca
+=   KILLED BY SIGNAL: 11 (Segmentation fault)
+===================================================================================
 
-Client:3:2
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 1 PID 9826 RUNNING AT jrl09.jureca
+=   KILLED BY SIGNAL: 9 (Killed)
+===================================================================================

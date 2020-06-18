@@ -22,11 +22,13 @@ int main(int argc, char** argv) {
 
     if(rank == 0){
 	std::cout << "Starting client..\n";
-    	MCL_init_client("/home/mk115227/tests/CommLib/second_test");
+    	MCL_init_client("/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/second_test/test2/");
         std::cout << "Recieveing..\n";
         int a;
     	MCL_receive(&a, 1, DataType::TYPE_INT, 0);
     	std::cout << a << '\n';
-    }  
+	MCL_destroy();
+    } 
+    MPI_Finalize(); 
 }
 

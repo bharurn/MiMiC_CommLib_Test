@@ -1,7 +1,22 @@
 
-Server:
-Server:
-Server:33:0
+Server:2:1
+[0] MPI startup(): I_MPI_PMI_VALUE_LENGTH_MAX environment variable is not supported.
+[0] MPI startup(): To check the list of supported variables, use the impi_info utility or refer to https://software.intel.com/en-us/mpi-library/documentation/get-started.
+
+Server:2:0
 Starting server..
-3:1
-:2
+Server inti
+server init2
+0
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 0 PID 9916 RUNNING AT jrl09.jureca
+=   KILLED BY SIGNAL: 6 (Aborted)
+===================================================================================
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 1 PID 9917 RUNNING AT jrl09.jureca
+=   KILLED BY SIGNAL: 9 (Killed)
+===================================================================================

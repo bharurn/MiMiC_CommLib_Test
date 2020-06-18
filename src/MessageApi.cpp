@@ -25,6 +25,7 @@
 #include "MessageApi.h"
 #include "transport/MPITransport.h"
 #include "MCLMain.h"
+#include <iostream>
 
 /**
  * External API of the library
@@ -32,13 +33,18 @@
  */
 
 int MCL_init_server(char *paths_string, char delimeter) {
+    std::cout << "Server inti\n";
     MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
+    std::cout << "server init2\n";
     return MCLMain::getInstance().initServer(paths_string, delimeter);
 }
 
 void MCL_init_client(char *path) {
+    std::cout << "client init\n";
     MCLMain::getInstance().setProtocol(new MPITransport(MPI_COMM_SELF));
+    std::cout << "client init2\n";
     MCLMain::getInstance().initClient(path);
+    std::cout << "client init3\n";
 }
 
 void MCL_send(void *data, int count, int data_type, int destination) {

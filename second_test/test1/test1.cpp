@@ -16,11 +16,13 @@ int main(int argc, char** argv) {
     
     if(rank == 0){
     	std::cout << "Starting server..\n";
-        MCL_init_server("/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/second_test/test2", ',');
+        MCL_init_server("/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/second_test/test2/", ',');
         //sleep(30);
         std::cout << "Sending...\n";
         int send_data = 25;
     	MCL_send(&send_data, 1, DataType::TYPE_INT, 1); 
-    }  
+	MCL_destroy();
+    }
+    MPI_Finalize();  
 }
 

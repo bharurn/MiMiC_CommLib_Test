@@ -30,6 +30,7 @@
 #include "transport/Server.h"
 #include <sstream>
 #include <iterator>
+#include <iostream>
 
 /**
  * Singleton main class of the MCL - mostly needed in order to simplify testing
@@ -80,7 +81,9 @@ public:
         this->endpoint = server;
 
         server->init(client_paths);
+	//std::cout << "mclcmain 1\n";
         server->handshake();
+	//std::cout << "mcl main 2\n";
         return 0;
     }
 
@@ -99,7 +102,9 @@ public:
         this->endpoint = client;
 
         client->init(paths);
+	//std::cout << "mclmain 1\n";
         client->handshake();
+	//std::cout << "mclmain 2\n";
     }
 
     /**
