@@ -25,6 +25,7 @@
 #include "Server.h"
 #include "MPITransport.h"
 #include <cstring>
+#include <iostream>
 
 int Server::init(std::vector<std::string> paths) {
     int clientsNumber = paths.size();
@@ -54,8 +55,10 @@ void Server::destroy() {
 }
 
 void Server::handshake() {
+    std::cout << "Starting handshake..\n";
     for (int i = 0; i < clientsNumber; ++i) {
-        protocol->acceptConnection(i + 1);
+        std::cout << i << '\n';
+	protocol->acceptConnection(i + 1);
         int size = probe(i + 1, TYPE_CHAR);
         char *path = new char[size];
         protocol->receiveData(path, TYPE_CHAR, size, i + 1);
@@ -70,6 +73,7 @@ void Server::handshake() {
             }
         }
     }
+    std::cout << "Done handshake..\n";
 }
 
 int Server::send(void *data, int count, int destination, DataType type) {

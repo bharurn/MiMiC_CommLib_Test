@@ -5,4 +5,4 @@ CXX = mpicxx
 CXXFLAGS = -std=c++11 -Wno-write-strings -I$(COMM_LIB)
 
 test1: test1.cpp ../../lib/lib/libmimiccomm.a
-	$(CXX) $(CXXFLAGS) $(SOURCES) $(LDFLAGS) -o test1
+	$(CXX) $(CXXFLAGS) $(SOURCES) $(LDFLAGS) -o test1.a

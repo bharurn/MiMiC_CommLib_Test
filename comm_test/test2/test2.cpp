@@ -19,10 +19,20 @@ int main(int argc, char** argv) {
     //MCL_init_client("/home/mk115227/tests/CommLib/second_test");
     
     //sleep(10);
-
+    
     if(rank == 0){
-	std::cout << "Starting client..\n";
-    	MCL_init_client("/p/home/jusers/raghavan1/jureca/MiMiC_CommLib_Test/second_test/test2/");
+	char* mcl_comm = std::getenv("MCL_COMM");
+        if (std::stoi(mcl_comm)==1){
+                std::cout << "Using old communication mechanism\n";
+                MCL_init(nullptr);
+        }else{
+                std::cout << "Using MPMD\n";
+                MPI_Comm comm = MPI_COMM_WORLD;
+                MCL_init(&comm);
+        }
+
+        std::cout << "Starting client..\n";
+    	MCL_init_client("/p/home/jusers/raghavan1/jureca/CommLib/comm_test/test2");
         std::cout << "Recieveing..\n";
         int a;
     	MCL_receive(&a, 1, DataType::TYPE_INT, 0);
