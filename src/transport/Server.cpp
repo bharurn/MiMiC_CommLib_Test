@@ -55,7 +55,7 @@ void Server::destroy() {
 }
 
 void Server::handshake() {
-    std::cout << "Starting handshake..\n";
+    std::cout << "Starting server::handshake..\n";
     for (int i = 0; i < clientsNumber; ++i) {
         std::cout << i << '\n';
 	protocol->acceptConnection(i + 1);
@@ -73,7 +73,7 @@ void Server::handshake() {
             }
         }
     }
-    std::cout << "Done handshake..\n";
+    std::cout << "Done server::handshake..\n";
 }
 
 int Server::send(void *data, int count, int destination, DataType type) {

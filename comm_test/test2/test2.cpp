@@ -8,37 +8,27 @@ int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
     int numProcs;
     MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
-    
+     
+	MPI_Comm comm = MPI_COMM_WORLD;
+    MCL_init(&comm);
     int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::cout << "\nClient:" << numProcs << ':' << rank << '\n';
-    
-    //sleep(30);
+    MPI_Comm_rank(comm, &rank);
 
-    //std::cout << "Starting client..\n";
-    //MCL_init_client("/home/mk115227/tests/CommLib/second_test");
-    
-    //sleep(10);
+	std::cout << "\nClient:" << numProcs << ':' << rank << '\n';
     
     if(rank == 0){
-	char* mcl_comm = std::getenv("MCL_COMM");
-        if (std::stoi(mcl_comm)==1){
-                std::cout << "Using old communication mechanism\n";
-                MCL_init(nullptr);
-        }else{
-                std::cout << "Using MPMD\n";
-                MPI_Comm comm = MPI_COMM_WORLD;
-                MCL_init(&comm);
-        }
 
         std::cout << "Starting client..\n";
-    	MCL_init_client("/p/home/jusers/raghavan1/jureca/CommLib/comm_test/test2");
-        std::cout << "Recieveing..\n";
+    	MCL_handshake("/p/home/jusers/raghavan1/jureca/CommLib/comm_test/test2", ",", 0);
+        std::cout << "Receiving..\n";
         int a;
-    	MCL_receive(&a, 1, DataType::TYPE_INT, 0);
+    	
+		MCL_receive(&a, 1, DataType::TYPE_INT, 0);
     	std::cout << a << '\n';
-	MCL_destroy();
+		MCL_destroy();
+		
     } 
+	
     MPI_Finalize(); 
 }
 

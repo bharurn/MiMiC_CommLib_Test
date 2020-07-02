@@ -56,11 +56,10 @@ static constexpr auto MCL_TR_MPMD = 2;
 
 int MCL_init(void *param) {
     auto chars = std::getenv(COMMUNICATION_KEY);
-    std::cout << "hi " << chars << '\n';
+    std::cout << "Starting MCL_init\n";
     if (chars != nullptr) {
         std::string string = std::string(chars);
-   	std::cout << std::stoi(string) << '\n';
-        switch (std::stoi(string)) {
+   	switch (std::stoi(string)) {
             case MCL_TR_MPI:
                 MCLMain::getInstance()
                         .setProtocol(new MPITransport(MPI_COMM_SELF));
@@ -80,7 +79,7 @@ int MCL_init(void *param) {
                 .setProtocol(new MPMDTransport(*static_cast<MPI_Comm *>(param)));
     }
     MCLMain::getInstance().prepare(param);
-    std::cout << "init done\n";
+    std::cout << "MCL_init done\n";
     return 0;
 }
 

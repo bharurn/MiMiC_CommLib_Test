@@ -58,7 +58,8 @@ public:
     }
 
     void setProtocol(Transport* protocol) {
-        this->protocol = protocol;
+        std::cout << "Setting procotl..\n";
+	this->protocol = protocol;
     }
 
     /**
@@ -68,7 +69,9 @@ public:
      * @return
      */
     int prepare(void *arg) {
-        protocol->prepare(arg);
+        std::cout << "Preparing..\n";
+	protocol->prepare(arg);
+	std::cout << "Preparing done..\n";
         initialized = true;
         return 0;
     }
